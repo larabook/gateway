@@ -13,7 +13,7 @@
         "psr-4": { "Larabook\\PoolPort\\": "src/" }
     },
     "require": {
-        "PoolPort/PoolPort" : "*"
+        "PoolPort/PoolPort" : "3.0.0"
     },
     "minimum-stability": "dev"
 }
