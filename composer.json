@@ -1,0 +1,19 @@
+{
+    "name": "larabook/laravel-gateways",
+    "homepage": "https://github.com/larabook/laravelgateways",
+    "description": "A Laravel package for connecting to all Iraninan payments gateways",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Hamed Pakdaman",
+            "email": "pakdaman.it@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": { "Larabook\\PoolPort\\": "src/" }
+    },
+    "require": {
+        "PoolPort/PoolPort" : "*"
+    },
+    "minimum-stability": "dev"
+}
