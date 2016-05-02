@@ -10,7 +10,7 @@
         }
     ],
     "autoload": {
-        "psr-4": { "Larabook\\PoolPort\\": "src/" }
+        "psr-4": { "Larabookir\\Gateway\\": "src/" }
     },
     "require": {
         "PoolPort/PoolPort" : "3.0.*"
