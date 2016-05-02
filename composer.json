@@ -1,6 +1,6 @@
 {
-    "name": "larabook/laravel-gateways",
-    "homepage": "https://github.com/larabook/laravelgateways",
+    "name": "larabook/gateway",
+    "homepage": "https://github.com/larabook/gateway",
     "description": "A Laravel package for connecting to all Iraninan payments gateways",
     "license": "MIT",
     "authors": [
