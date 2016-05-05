@@ -83,7 +83,7 @@ class Payline extends PortAbstract implements PortInterface
 		$fields = array(
 			'api' => $this->config->get('gateway.payline.api'),
 			'amount' => $this->amount,
-			'redirect' => urlencode($this->buildQuery($this->config->get('gateway.payline.callback-url'), array('transaction_id' => $this->transactionId))),
+			'redirect' => urlencode($this->makeCallBack($this->config->get('gateway.payline.callback-url'), array('transaction_id' => $this->transactionId))),
 		);
 
 		$ch = curl_init();

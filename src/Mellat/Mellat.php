@@ -82,9 +82,11 @@ class Mellat extends PortAbstract implements PortInterface
 			'localDate' => $dateTime->format('Ymd'),
 			'localTime' => $dateTime->format('His'),
 			'additionalData' => '',
-			'callBackUrl' => $this->buildQuery($this->config->get('gateway.mellat.callback-url'), array('transaction_id' => $this->transactionId)),
+			'callBackUrl' => $this->makeCallBack($this->config->get('gateway.mellat.callback-url'), array('transaction_id' => $this->transactionId)),
 			'payerId' => 0,
 		);
+		
+		dd($fields);
 
 		try {
 			$soap = new SoapClient($this->serverUrl);

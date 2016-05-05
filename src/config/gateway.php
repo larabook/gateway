@@ -1,6 +1,7 @@
 <?php
 
 return [
+
     //-------------------------------
     // Timezone for insert dates in database
     // If you want Gateway not set timezone, just leave it empty
@@ -13,7 +14,7 @@ return [
     'zarinpal' => [
         'merchant-id'  => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         'type'         => 'zarin-gate',             // Types: [zarin-gate || normal]
-        'callback-url' => 'http://',
+        'callback-url' => '/',
         'server'       => 'germany',                // Servers: [germany || iran]
         'email'        => 'email@gmail.com',
         'mobile'       => '09xxxxxxxxx',
@@ -24,10 +25,10 @@ return [
     // Mellat gateway
     //--------------------------------
     'mellat' => [
-        'username'     => 'payment18',
-        'password'     => '53255911',
-        'terminalId'   => 1773870,
-        'callback-url' => 'http://h.starsoheil'
+        'username'     => '',
+        'password'     => '',
+        'terminalId'   => 0000000,
+        'callback-url' => '/'
     ],
 
     //--------------------------------
@@ -35,7 +36,7 @@ return [
     //--------------------------------
     'payline' => [
         'api' => 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
 
     //--------------------------------
@@ -45,7 +46,7 @@ return [
         'merchant'      => '',
         'transactionKey'=> '',
         'terminalId'    => 000000000,
-        'callback-url'  => 'http://'
+        'callback-url'  => '/'
     ],
 
     //--------------------------------
@@ -53,7 +54,7 @@ return [
     //--------------------------------
     'jahanpay' => [
         'api' => 'xxxxxxxxxxx',
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
 
     //--------------------------------
@@ -61,7 +62,7 @@ return [
     //--------------------------------
     'parsian' => [
         'pin'          => 'xxxxxxxxxxxxxxxxxxxx',
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
 
     //-------------------------------

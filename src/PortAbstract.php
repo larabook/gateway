@@ -173,7 +173,7 @@ abstract class PortAbstract
      */
     protected function newTransaction()
     {
-        $this->transactionId=$this->getTable()->insert([
+        $this->transactionId=$this->getTable()->insertGetId([
             'port'=>$this->port,
             'price'=>$this->amount,
             'status'=>self::TRANSACTION_INIT,
@@ -252,15 +252,33 @@ abstract class PortAbstract
      * @param array $query
      * @return string
      */
-    protected function buildQuery($url, array $query)
+    protected function makeCallBack($url, array $query)
     {
-        $query = http_build_query($query);
+        return $this->url_modify(array_merge($query, ['_token' => csrf_token()]), url($url));
+    }
 
-        $questionMark = strpos($url, '?');
-        if (!$questionMark)
-            return "$url?$query";
+    /**
+     * manipulate the Current/Given URL with the given parameters
+     * @param $changes
+     * @param  $url
+     * @return string
+     */
+    protected function url_modify($changes, $url)
+    {
+        // Parse the url into pieces
+        $url_array = parse_url($url);
+
+        // The original URL had a query string, modify it.
+        if (!empty($url_array['query'])) {
+            parse_str($url_array['query'], $query_array);
+            $query_array = array_merge($query_array, $changes);
+        } // The original URL didn't have a query string, add it.
         else {
-            return substr($url, 0, $questionMark + 1).$query."&".substr($url, $questionMark + 1);
+            $query_array = $changes;
         }
+
+        return (!empty($url_array['scheme']) ? $url_array['scheme'] . '://' : null) .
+        (!empty($url_array['host']) ? $url_array['host'] : null) .
+        $url_array['path'] . '?' . http_build_query($query_array);
     }
 }

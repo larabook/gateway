@@ -79,7 +79,7 @@ class JahanPay extends PortAbstract implements PortInterface
             $response = $soap->requestpayment(
                 $this->config->get('gateway.jahanpay.api'),
                 $this->amount,
-                $this->buildQuery($this->config->get('gateway.jahanpay.callback-url'), array('transaction_id' => $this->transactionId())),
+                $this->makeCallBack($this->config->get('gateway.jahanpay.callback-url'), array('transaction_id' => $this->transactionId())),
                 $this->transactionId(),
                 ''
             );

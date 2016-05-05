@@ -78,7 +78,7 @@ class Parsian extends PortAbstract implements PortInterface
 			'pin' => $this->config->get('gateway.parsian.pin'),
 			'amount' => $this->amount,
 			'orderId' => $this->transactionId(),
-			'callbackUrl' => $this->buildQuery($this->config->get('gateway.parsian.callback-url'), array('transaction_id' => $this->transactionId())),
+			'callbackUrl' => $this->makeCallBack($this->config->get('gateway.parsian.callback-url'), array('transaction_id' => $this->transactionId())),
 			'authority' => 0,
 			'status' => 1
 		);

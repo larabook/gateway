@@ -115,7 +115,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		$fields = array(
 			'MerchantID' => $this->config->get('gateway.zarinpal.merchant-id'),
 			'Amount' => $this->amount,
-			'CallbackURL' => $this->buildQuery($this->config->get('gateway.zarinpal.callback-url'), array('transaction_id' => $this->transactionId)),
+			'CallbackURL' => $this->makeCallBack($this->config->get('gateway.zarinpal.callback-url'), array('transaction_id' => $this->transactionId)),
 			'Description' => $this->config->get('gateway.zarinpal.description', ''),
 			'Email' => $this->config->get('gateway.zarinpal.email', ''),
 			'Mobile' => $this->config->get('gateway.zarinpal.mobile', ''),
