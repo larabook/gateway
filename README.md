@@ -1,4 +1,4 @@
-**this package is on developing stage , and it not stabled yet .**
+**this package is on developing stage , and it's not stabled yet .**
 
 package's home : [larabook.ir](http://larabook.ir) 
 
