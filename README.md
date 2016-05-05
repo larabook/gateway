@@ -70,8 +70,9 @@ and in your callback :
     }  
 
 If you are intrested to developing this package you can help us by these ways :
-1- Improving documents .
-2- Reporting issue or bugs .
-3- Collaboration in writing codes and other banks modules.
+
+ 1. Improving documents.
+ 2. Reporting issue or bugs.
+ 3. Collaboration in writing codes and other banks modules.
 
 This package is extended from PoolPort  but we've changed some functionality and improved it .
