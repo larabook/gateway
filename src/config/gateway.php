@@ -2,14 +2,6 @@
 
 return [
     //-------------------------------
-    // Tables names
-    //--------------------------------
-    'db_tables' => [
-        'transactions' => 'gateway_transactions',
-        'logs' => 'gateway_status_log',
-    ],
-
-    //-------------------------------
     // Timezone for insert dates in database
     // If you want Gateway not set timezone, just leave it empty
     //--------------------------------
@@ -32,10 +24,10 @@ return [
     // Mellat gateway
     //--------------------------------
     'mellat' => [
-        'username'     => '',
-        'password'     => '',
-        'terminalId'   => 0000000,
-        'callback-url' => 'http://'
+        'username'     => 'payment18',
+        'password'     => '53255911',
+        'terminalId'   => 1773870,
+        'callback-url' => 'http://h.starsoheil'
     ],
 
     //--------------------------------
@@ -70,5 +62,13 @@ return [
     'parsian' => [
         'pin'          => 'xxxxxxxxxxxxxxxxxxxx',
         'callback-url' => 'http://'
+    ],
+
+    //-------------------------------
+    // Tables names
+    //--------------------------------
+    'db_tables' => [
+        'transactions' => 'gateway_transactions',
+        'logs' => 'gateway_status_log',
     ],
 ];
