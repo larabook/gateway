@@ -32,6 +32,7 @@ class CreateGatewayTransactionsTable extends Migration
                 Gateway::ZARINPAL,
             ]);
             $table->decimal('price', 15, 2);
+            $table->string('ref_id', 100);
             $table->string('tracking_code',50)->nullable();
             $table->string('card_number',50)->nullable();
             $table->enum('status',[
