@@ -29,7 +29,7 @@ STEP 1 :
 
 Step 2:  
 
-    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider
+    php artisan vendor:publish --provider="Larabookir\Gateway\GatewayServiceProvider"
 
 Step 3: 
 
