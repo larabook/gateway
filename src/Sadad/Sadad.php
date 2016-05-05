@@ -50,7 +50,7 @@ class Sadad extends PortAbstract implements PortInterface
 	{
 		$form = $this->form;
 
-		include __DIR__ . '/submitForm.php';
+		return view('gateway::sadad-redirector')->with(compact('form'));
 	}
 
 	/**
@@ -63,6 +63,28 @@ class Sadad extends PortAbstract implements PortInterface
 		$this->verifyPayment();
 
 		return $this;
+	}
+
+	/**
+	 * Sets callback url
+	 * @param $url
+	 */
+	function setCallback($url)
+	{
+		$this->callbackUrl = $url;
+		return $this;
+	}
+
+	/**
+	 * Gets callback url
+	 * @return string
+	 */
+	function getCallback()
+	{
+		if (!$this->callbackUrl)
+			$this->callbackUrl = $this->config->get('gateway.sadad.callback-url');
+
+		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 	}
 
 	/**
@@ -87,7 +109,7 @@ class Sadad extends PortAbstract implements PortInterface
 				$this->transactionId(),
 				$this->config->get('gateway.sadad.transactionKey'),
 				$this->config->get('gateway.sadad.terminalId'),
-				$this->makeCallBack($this->config->get('gateway.sadad.callback-url'), array('transaction_id' => $this->transactionId()))
+				$this->getCallback(),
 			);
 
 		} catch (\SoapFault $e) {

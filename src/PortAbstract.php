@@ -1,284 +1,298 @@
 <?php
-
 namespace Larabookir\Gateway;
+
+use Larabookir\Gateway\Enum;
 
 abstract class PortAbstract
 {
-    /**
-     * Status code for status field in poolport_transactions table
-     */
-    const TRANSACTION_INIT = 'INIT';
-    const TRANSACTION_INIT_TEXT = 'تراکنش ایجاد شد.';
+	/**
+	 * Transaction id
+	 *
+	 * @var null|int
+	 */
+	protected $transactionId = null;
 
-    /**
-     * Status code for status field in poolport_transactions table
-     */
-    const TRANSACTION_SUCCEED = 'SUCCEED';
-    const TRANSACTION_SUCCEED_TEXT = 'پرداخت با موفقیت انجام شد.';
+	/**
+	 * Transaction row in database
+	 */
+	protected $transaction = null;
 
-    /**
-     * Status code for status field in poolport_transactions table
-     */
-    const TRANSACTION_FAILED = 'FAILED';
-    const TRANSACTION_FAILED_TEXT = 'عملیات پرداخت با خطا مواجه شد.';
+	/**
+	 * Customer card number
+	 *
+	 * @var string
+	 */
+	protected $cardNumber = '';
 
-    /**
-     * Transaction id
-     *
-     * @var null|int
-     */
-    protected $transactionId = null;
+	/**
+	 * @var Config
+	 */
+	protected $config;
 
-    /**
-     * Transaction row in database
-     */
-    protected $transaction = null;
+	/**
+	 * Port id
+	 *
+	 * @var int
+	 */
+	protected $portName;
 
-    /**
-     * Customer card number
-     *
-     * @var string
-     */
-    protected $cardNumber = '';
+	/**
+	 * Reference id
+	 *
+	 * @var string
+	 */
+	protected $refId;
 
-    /**
-     * @var Config
-     */
-    protected $config;
+	/**
+	 * Amount in Rial
+	 *
+	 * @var int
+	 */
+	protected $amount;
 
-    /**
-     * Port id
-     *
-     * @var int
-     */
-    protected $port;
+	/**
+	 * callback URL
+	 *
+	 * @var url
+	 */
+	protected $callbackUrl;
 
-    /**
-     * Reference id
-     *
-     * @var string
-     */
-    protected $refId;
+	/**
+	 * Tracking code payment
+	 *
+	 * @var string
+	 */
+	protected $trackingCode;
 
-    /**
-     * Amount in Rial
-     *
-     * @var int
-     */
-    protected $amount;
+	/**
+	 * Initialize of class
+	 *
+	 * @param Config $config
+	 * @param DataBaseManager $db
+	 * @param int $port
+	 */
+	function __construct()
+	{
+		$this->db = app('db');
+	}
 
-    /**
-     * Tracking code payment
-     *
-     * @var string
-     */
-    protected $trackingCode;
+	function setConfig($config)
+	{
+		$this->config = $config;
+	}
 
-    /**
-     * Initialize of class
-     *
-     * @param Config $config
-     * @param DataBaseManager $db
-     * @param int $port
-     */
-    public function __construct($config, $port)
-    {
-        $this->config = $config;
-        $this->port = $port;
-        $this->db = app('db');
-    }
+	/**
+	 * @return mixed
+	 */
+	function getTable()
+	{
+		return $this->db->table($this->config->get('gateway.db_tables.transactions'));
+	}
 
-    /**
-     * @return mixed
-     */
-    function getTable(){
-        return $this->db->table(config('gateway.db_tables.transactions'));
-    }
+	/**
+	 * @return mixed
+	 */
+	function getLogTable()
+	{
+		return $this->db->table($this->config->get('gateway.db_tables.logs'));
+	}
 
-    /**
-     * @return mixed
-     */
-    function getLogTable(){
-        return $this->db->table(config('gateway.db_tables.logs'));
-    }
+	/**
+	 * Get port id, $this->port
+	 *
+	 * @return int
+	 */
+	function getPortName()
+	{
+		return $this->portName;
+	}
 
-    /**
-     * Get port id, $this->port
-     *
-     * @return int
-     */
-    function getPort()
-    {
-        return $this->port;
-    }
+	/**
+	 * Get port id, $this->port
+	 *
+	 * @return int
+	 */
+	function setPortName($name)
+	{
+		$this->portName=$name;
+	}
 
-    /**
-     * Return card number
-     *
-     * @return string
-     */
-    function cardNumber()
-    {
-        return $this->cardNumber;
-    }
+	/**
+	 * Return card number
+	 *
+	 * @return string
+	 */
+	function cardNumber()
+	{
+		return $this->cardNumber;
+	}
 
-    /**
-     * Return tracking code
-     */
-    function trackingCode()
-    {
-        return $this->trackingCode;
-    }
+	/**
+	 * Return tracking code
+	 */
+	function trackingCode()
+	{
+		return $this->trackingCode;
+	}
 
-    /**
-     * Get transaction id
-     *
-     * @return int|null
-     */
-    function transactionId()
-    {
-        return $this->transactionId;
-    }
+	/**
+	 * Get transaction id
+	 *
+	 * @return int|null
+	 */
+	function transactionId()
+	{
+		return $this->transactionId;
+	}
 
-    /**
-     * Return reference id
-     */
-    function refId()
-    {
-        return $this->refId;
-    }
+	/**
+	 * Return reference id
+	 */
+	function refId()
+	{
+		return $this->refId;
+	}
 
-    /**
-     * Return result of payment
-     * If result is done, return true, otherwise throws an related exception
-     *
-     * This method must be implements in child class
-     *
-     * @param object $transaction row of transaction in database
-     *
-     * @return $this
-     */
-    function verify($transaction)
-    {
-        $this->transaction = $transaction;
-        $this->transactionId = intval($transaction->id);
-        $this->amount = intval($transaction->price);
-        $this->refId = $transaction->ref_id;
-    }
+	/**
+	 * Sets price
+	 * @param $price
+	 * @return mixed
+	 */
+	function price($price){
+		return $this->set($price);
+	}
 
-    /**
-     * Insert new transaction to poolport_transactions table
-     *
-     * @return int last inserted id
-     */
-    protected function newTransaction()
-    {
-        $this->transactionId=$this->getTable()->insertGetId([
-            'port'=>$this->port,
-            'price'=>$this->amount,
-            'status'=>self::TRANSACTION_INIT,
-            'created_at'=>time(),
-            'updated_at'=>time(),
-        ]);
+	/**
+	 * Return result of payment
+	 * If result is done, return true, otherwise throws an related exception
+	 *
+	 * This method must be implements in child class
+	 *
+	 * @param object $transaction row of transaction in database
+	 *
+	 * @return $this
+	 */
+	function verify($transaction)
+	{
+		$this->transaction = $transaction;
+		$this->transactionId = intval($transaction->id);
+		$this->amount = intval($transaction->price);
+		$this->refId = $transaction->ref_id;
+	}
 
-        return $this->transactionId;
-    }
+	/**
+	 * Insert new transaction to poolport_transactions table
+	 *
+	 * @return int last inserted id
+	 */
+	protected function newTransaction()
+	{
+		$this->transactionId = $this->getTable()->insertGetId([
+			'port' => $this->getPortName(),
+			'price' => $this->amount,
+			'status' => Enum::TRANSACTION_INIT,
+			'created_at' => time(),
+			'updated_at' => time(),
+		]);
 
-    /**
-     * Commit transaction
-     * Set status field to success status
-     *
-     * @return bool
-     */
-    protected function transactionSucceed()
-    {
-        return $this->getTable()->whereId($this->transactionId)->update([
-            'status' => self::TRANSACTION_SUCCEED,
-            'tracking_code' => $this->trackingCode,
-            'card_number' => $this->cardNumber,
-            'payment_date' => time(),
-            'updated_at'=>time(),
-        ]);
-    }
+		return $this->transactionId;
+	}
 
-    /**
-     * Failed transaction
-     * Set status field to error status
-     *
-     * @return bool
-     */
-    protected function transactionFailed()
-    {
-        return   $this->getTable()->whereId($this->transactionId)->update([
-            'status'=>self::TRANSACTION_FAILED,
-            'updated_at'=>time(),
-        ]);
-    }
+	/**
+	 * Commit transaction
+	 * Set status field to success status
+	 *
+	 * @return bool
+	 */
+	protected function transactionSucceed()
+	{
+		return $this->getTable()->whereId($this->transactionId)->update([
+			'status' => Enum::TRANSACTION_SUCCEED,
+			'tracking_code' => $this->trackingCode,
+			'card_number' => $this->cardNumber,
+			'payment_date' => time(),
+			'updated_at' => time(),
+		]);
+	}
 
-    /**
-     * Update transaction refId
-     *
-     * @return void
-     */
-    protected function transactionSetRefId()
-    {
-        return   $this->getTable()->whereId($this->transactionId)->update([
-            'ref_id'=>$this->refId,
-            'updated_at'=>time(),
-        ]);
+	/**
+	 * Failed transaction
+	 * Set status field to error status
+	 *
+	 * @return bool
+	 */
+	protected function transactionFailed()
+	{
+		return $this->getTable()->whereId($this->transactionId)->update([
+			'status' => Enum::TRANSACTION_FAILED,
+			'updated_at' => time(),
+		]);
+	}
 
-    }
+	/**
+	 * Update transaction refId
+	 *
+	 * @return void
+	 */
+	protected function transactionSetRefId()
+	{
+		return $this->getTable()->whereId($this->transactionId)->update([
+			'ref_id' => $this->refId,
+			'updated_at' => time(),
+		]);
 
-    /**
-     * New log
-     *
-     * @param string|int $statusCode
-     * @param string $statusMessage
-     */
-    protected function newLog($statusCode, $statusMessage)
-    {
-        return   $this->getLogTable()->insert([
-            'transaction_id'=>$this->transactionId,
-            'result_code'=>$statusCode,
-            'result_message'=>$statusMessage,
-            'log_date'=>time(),
-        ]);
-    }
+	}
 
-    /**
-     * Add query string to a url
-     *
-     * @param string $url
-     * @param array $query
-     * @return string
-     */
-    protected function makeCallBack($url, array $query)
-    {
-        return $this->url_modify(array_merge($query, ['_token' => csrf_token()]), url($url));
-    }
+	/**
+	 * New log
+	 *
+	 * @param string|int $statusCode
+	 * @param string $statusMessage
+	 */
+	protected function newLog($statusCode, $statusMessage)
+	{
+		return $this->getLogTable()->insert([
+			'transaction_id' => $this->transactionId,
+			'result_code' => $statusCode,
+			'result_message' => $statusMessage,
+			'log_date' => time(),
+		]);
+	}
 
-    /**
-     * manipulate the Current/Given URL with the given parameters
-     * @param $changes
-     * @param  $url
-     * @return string
-     */
-    protected function url_modify($changes, $url)
-    {
-        // Parse the url into pieces
-        $url_array = parse_url($url);
+	/**
+	 * Add query string to a url
+	 *
+	 * @param string $url
+	 * @param array $query
+	 * @return string
+	 */
+	protected function makeCallback($url, array $query)
+	{
+		return $this->url_modify(array_merge($query, ['_token' => csrf_token()]), url($url));
+	}
 
-        // The original URL had a query string, modify it.
-        if (!empty($url_array['query'])) {
-            parse_str($url_array['query'], $query_array);
-            $query_array = array_merge($query_array, $changes);
-        } // The original URL didn't have a query string, add it.
-        else {
-            $query_array = $changes;
-        }
+	/**
+	 * manipulate the Current/Given URL with the given parameters
+	 * @param $changes
+	 * @param  $url
+	 * @return string
+	 */
+	protected function url_modify($changes, $url)
+	{
+		// Parse the url into pieces
+		$url_array = parse_url($url);
 
-        return (!empty($url_array['scheme']) ? $url_array['scheme'] . '://' : null) .
-        (!empty($url_array['host']) ? $url_array['host'] : null) .
-        $url_array['path'] . '?' . http_build_query($query_array);
-    }
+		// The original URL had a query string, modify it.
+		if (!empty($url_array['query'])) {
+			parse_str($url_array['query'], $query_array);
+			$query_array = array_merge($query_array, $changes);
+		} // The original URL didn't have a query string, add it.
+		else {
+			$query_array = $changes;
+		}
+
+		return (!empty($url_array['scheme']) ? $url_array['scheme'] . '://' : null) .
+		(!empty($url_array['host']) ? $url_array['host'] : null) .
+		$url_array['path'] . '?' . http_build_query($query_array);
+	}
 }

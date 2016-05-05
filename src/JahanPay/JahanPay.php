@@ -2,6 +2,7 @@
 
 namespace Larabookir\Gateway\JahanPay;
 
+use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -47,7 +48,7 @@ class JahanPay extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-        return header('Location: '.$this->gateUrl.$this->refId());
+        return redirect()->to($this->gateUrl.$this->refId());
     }
 
     /**
@@ -61,6 +62,28 @@ class JahanPay extends PortAbstract implements PortInterface
         $this->verifyPayment();
 
         return $this;
+    }
+
+    /**
+     * Sets callback url
+     * @param $url
+     */
+    function setCallback($url)
+    {
+        $this->callbackUrl = $url;
+        return $this;
+    }
+
+    /**
+     * Gets callback url
+     * @return string
+     */
+    function getCallback()
+    {
+        if (!$this->callbackUrl)
+            $this->callbackUrl = $this->config->get('gateway.jahanpay.callback-url');
+
+        return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
 
     /**
@@ -79,7 +102,7 @@ class JahanPay extends PortAbstract implements PortInterface
             $response = $soap->requestpayment(
                 $this->config->get('gateway.jahanpay.api'),
                 $this->amount,
-                $this->makeCallBack($this->config->get('gateway.jahanpay.callback-url'), array('transaction_id' => $this->transactionId())),
+                $this->getCallback(),
                 $this->transactionId(),
                 ''
             );
@@ -92,7 +115,7 @@ class JahanPay extends PortAbstract implements PortInterface
 
         if (intval($response) >= 0) {
             $this->refId = $response;
-            $this->transactionSetRefId($this->transactionId);
+            $this->transactionSetRefId();
             return true;
         }
 
@@ -146,7 +169,7 @@ class JahanPay extends PortAbstract implements PortInterface
 
         if (intval($response) == 1) {
             $this->transactionSucceed();
-            $this->newLog($response, self::TRANSACTION_SUCCEED_TEXT);
+            $this->newLog($response, Enum::TRANSACTION_SUCCEED_TEXT);
             return true;
         }
 

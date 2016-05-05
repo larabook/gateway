@@ -23,6 +23,12 @@ class GatewayServiceProvider extends ServiceProvider
             __DIR__.'/migrations/' => database_path('/migrations')
         ],'migrations');
 
+        $this->loadViewsFrom(__DIR__.'/views', 'gateway');
+
+        // php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=views
+        $this->publishes([
+            __DIR__.'/views/' => base_path('resources/views/vendor/gateway'),
+        ],'views');
     }
 
     /**
@@ -33,7 +39,7 @@ class GatewayServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('gateway',function()  {
-            return new Gateway();
+            return new GatewayResolver();
         });
 
     }

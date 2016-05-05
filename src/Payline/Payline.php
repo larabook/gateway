@@ -2,6 +2,7 @@
 
 namespace Larabookir\Gateway\Payline;
 
+use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
 
@@ -53,7 +54,7 @@ class Payline extends PortAbstract implements PortInterface
 	 */
 	public function redirect()
 	{
-		header('Location: ' . $this->gateUrl . $this->refId);
+		return redirect()->to($this->gateUrl . $this->refId);
 	}
 
 	/**
@@ -70,6 +71,28 @@ class Payline extends PortAbstract implements PortInterface
 	}
 
 	/**
+	 * Sets callback url
+	 * @param $url
+	 */
+	function setCallback($url)
+	{
+		$this->callbackUrl = $url;
+		return $this;
+	}
+
+	/**
+	 * Gets callback url
+	 * @return string
+	 */
+	function getCallback()
+	{
+		if (!$this->callbackUrl)
+			$this->callbackUrl = $this->config->get('gateway.payline.callback-url');
+
+		return urlencode($this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]));
+	}
+
+	/**
 	 * Send pay request to server
 	 *
 	 * @return void
@@ -83,7 +106,7 @@ class Payline extends PortAbstract implements PortInterface
 		$fields = array(
 			'api' => $this->config->get('gateway.payline.api'),
 			'amount' => $this->amount,
-			'redirect' => urlencode($this->makeCallBack($this->config->get('gateway.payline.callback-url'), array('transaction_id' => $this->transactionId))),
+			'redirect' => $this->getCallback(),
 		);
 
 		$ch = curl_init();
@@ -157,7 +180,7 @@ class Payline extends PortAbstract implements PortInterface
 
 		if ($response == 1) {
 			$this->transactionSucceed();
-			$this->newLog($response, self::TRANSACTION_SUCCEED_TEXT);
+			$this->newLog($response, Enum::TRANSACTION_SUCCEED_TEXT);
 
 			return true;
 		}

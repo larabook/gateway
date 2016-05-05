@@ -3,6 +3,7 @@
 namespace Larabookir\Gateway\Mellat;
 
 use DateTime;
+use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -43,7 +44,7 @@ class Mellat extends PortAbstract implements PortInterface
 	{
 		$refId = $this->refId;
 
-		require 'MellatRedirector.php';
+		return view('gateway::mellat-redirector')->with(compact('refId'));
 	}
 
 	/**
@@ -58,6 +59,28 @@ class Mellat extends PortAbstract implements PortInterface
 		$this->settleRequest();
 
 		return $this;
+	}
+
+	/**
+	 * Sets callback url
+	 * @param $url
+	 */
+	function setCallback($url)
+	{
+		$this->callbackUrl = $url;
+		return $this;
+	}
+
+	/**
+	 * Gets callback url
+	 * @return string
+	 */
+	function getCallback()
+	{
+		if (!$this->callbackUrl)
+			$this->callbackUrl = $this->config->get('gateway.mellat.callback-url');
+
+		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 	}
 
 	/**
@@ -82,11 +105,9 @@ class Mellat extends PortAbstract implements PortInterface
 			'localDate' => $dateTime->format('Ymd'),
 			'localTime' => $dateTime->format('His'),
 			'additionalData' => '',
-			'callBackUrl' => $this->makeCallBack($this->config->get('gateway.mellat.callback-url'), array('transaction_id' => $this->transactionId)),
+			'callBackUrl' => $this->getCallback(),
 			'payerId' => 0,
 		);
-		
-		dd($fields);
 
 		try {
 			$soap = new SoapClient($this->serverUrl);
@@ -106,7 +127,7 @@ class Mellat extends PortAbstract implements PortInterface
 			throw new MellatException($response[0]);
 		}
 		$this->refId = $response[1];
-		$this->transactionSetRefId($this->transactionId);
+		$this->transactionSetRefId();
 	}
 
 	/**
@@ -201,7 +222,7 @@ class Mellat extends PortAbstract implements PortInterface
 
 		if ($response->return == '0' || $response->return == '45') {
 			$this->transactionSucceed();
-			$this->newLog($response->return, self::TRANSACTION_SUCCEED_TEXT);
+			$this->newLog($response->return, Enum::TRANSACTION_SUCCEED_TEXT);
 			return true;
 		}
 

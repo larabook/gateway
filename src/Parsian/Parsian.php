@@ -48,7 +48,7 @@ class Parsian extends PortAbstract implements PortInterface
 	{
 		$url = $this->gateUrl . $this->refId();
 
-		include __DIR__ . '/submitForm.php';
+		return view('gateway::parsian-redirector')->with(compact('url'));
 	}
 
 	/**
@@ -61,6 +61,28 @@ class Parsian extends PortAbstract implements PortInterface
 		$this->verifyPayment();
 
 		return $this;
+	}
+
+	/**
+	 * Sets callback url
+	 * @param $url
+	 */
+	function setCallback($url)
+	{
+		$this->callbackUrl = $url;
+		return $this;
+	}
+
+	/**
+	 * Gets callback url
+	 * @return string
+	 */
+	function getCallback()
+	{
+		if (!$this->callbackUrl)
+			$this->callbackUrl = $this->config->get('gateway.parsian.callback-url');
+
+		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 	}
 
 	/**
@@ -78,7 +100,7 @@ class Parsian extends PortAbstract implements PortInterface
 			'pin' => $this->config->get('gateway.parsian.pin'),
 			'amount' => $this->amount,
 			'orderId' => $this->transactionId(),
-			'callbackUrl' => $this->makeCallBack($this->config->get('gateway.parsian.callback-url'), array('transaction_id' => $this->transactionId())),
+			'callbackUrl' => $this->getCallback(),
 			'authority' => 0,
 			'status' => 1
 		);
