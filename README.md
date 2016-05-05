@@ -56,6 +56,12 @@ You can make connection to bank by several way (Facade , Service container):
     	echo $e->getMessage();
     }
 
+you can call the gateway by these ways :
+ 1. Gateway::make(new Mellat());
+ 1. Gateway::mellat()
+ 2. app('gateway')->make(new Mellat());
+ 3. app('gateway')->mellat();
+
 Instead of MELLAT you can enter other banks Name as we introduced above .
 
 In `set` method you should enter the price in IRR (RIAL) 
