@@ -43,15 +43,17 @@ Configuration file is placed in config/gateway.php , open it and enter your bank
 You can make connection to bank by several way (Facade , Service container):
 
     try {
-    $gateway=app('gateway');
-    $refId = $gateway->make(Gateway::MELLAT)->set(1000)->ready()->refId();
+    $gateway = Gateway::make(new Mellat());
+    // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
+    $gate->price(1000)->ready();
+    $refId =  $gate->refId();
+    $transID = $gate->transactionId();
 
     // Your code here
 
     $gateway->redirect();
-    
     } catch (Exception $e) {
-	echo $e->getMessage();
+    	echo $e->getMessage();
     }
 
 Instead of MELLAT you can enter other banks Name as we introduced above .
@@ -61,8 +63,8 @@ In `set` method you should enter the price in IRR (RIAL)
 and in your callback :
 
     try { 
-    $gateway=app('gateway');
-    $trackingCode = $gateway->verify()->trackingCode();
+    $gateway = Gateway::verify();
+    $trackingCode = $gateway->trackingCode();
     $refId = $gateway->refId();
     $cardNumber = $gateway->cardNumber();
 
