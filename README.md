@@ -59,9 +59,9 @@ You can make connection to bank by several way (Facade , Service container):
        
        $gateway = Gateway::make(new Mellat());
        // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
-       $gate->price(1000)->ready();
-       $refId =  $gate->refId();
-       $transID = $gate->transactionId();
+       $gateway->price(1000)->ready();
+       $refId =  $gateway->refId();
+       $transID = $gateway->transactionId();
 
        // Your code here
 
