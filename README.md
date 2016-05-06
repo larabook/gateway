@@ -56,17 +56,20 @@ Configuration file is placed in config/gateway.php , open it and enter your bank
 You can make connection to bank by several way (Facade , Service container):
 
     try {
-    $gateway = Gateway::make(new Mellat());
-    // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
-    $gate->price(1000)->ready();
-    $refId =  $gate->refId();
-    $transID = $gate->transactionId();
+       
+       $gateway = Gateway::make(new Mellat());
+       // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
+       $gate->price(1000)->ready();
+       $refId =  $gate->refId();
+       $transID = $gate->transactionId();
 
-    // Your code here
+       // Your code here
 
-    $gateway->redirect();
+       $gateway->redirect();
+       
     } catch (Exception $e) {
-    	echo $e->getMessage();
+       
+       	echo $e->getMessage();
     }
 
 you can call the gateway by these ways :
@@ -82,14 +85,17 @@ In `set` method you should enter the price in IRR (RIAL)
 and in your callback :
 
     try { 
-    $gateway = Gateway::verify();
-    $trackingCode = $gateway->trackingCode();
-    $refId = $gateway->refId();
-    $cardNumber = $gateway->cardNumber();
-
-    // Your code here
+       
+       $gateway = Gateway::verify();
+       $trackingCode = $gateway->trackingCode();
+       $refId = $gateway->refId();
+       $cardNumber = $gateway->cardNumber();
+       
+       // Your code here
+       
     } catch (Exception $e) {
-    echo $e->getMessage();
+       
+       echo $e->getMessage();
     }  
 
 If you are intrested to developing this package you can help us by these ways :
