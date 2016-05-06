@@ -2,6 +2,7 @@
 
 namespace Larabookir\Gateway\Parsian;
 
+use Illuminate\Support\Facades\Input;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -144,11 +145,11 @@ class Parsian extends PortAbstract implements PortInterface
 	 */
 	protected function verifyPayment()
 	{
-		if (!isset($_REQUEST['au']) && !isset($_REQUEST['rs']))
+		if (!isset(Input::get('au')) && !isset(Input::get('rs')))
 			throw new ParsianErrorException('درخواست غیر معتبر', -1);
 
-		$authority = $_REQUEST['au'];
-		$status = $_REQUEST['rs'];
+		$authority = Input::get('au');
+		$status = Input::get('rs');
 
 		if ($status != 0) {
 			$errorMessage = ParsianResult::errorMessage($status);

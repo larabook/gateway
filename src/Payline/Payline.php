@@ -2,6 +2,7 @@
 
 namespace Larabookir\Gateway\Payline;
 
+use Illuminate\Support\Facades\Input;
 use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -140,8 +141,8 @@ class Payline extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->refIf = @$_POST['id_get'];
-		$trackingCode = @$_POST['trans_id'];
+		$this->refIf = Input::get('id_get');
+		$trackingCode = Input::get('trans_id');
 
 		if (is_numeric($trackingCode) && $trackingCode > 0) {
 			$this->trackingCode = $trackingCode;

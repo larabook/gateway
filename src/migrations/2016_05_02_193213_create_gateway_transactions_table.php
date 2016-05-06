@@ -8,11 +8,9 @@ use Larabookir\Gateway\Enum;
 
 class CreateGatewayTransactionsTable extends Migration
 {
-	private $table = 'gateway_transactions';
-
 	function getTable()
 	{
-		return config('gateway.db_tables.transactions', $this->table);
+		return config('gateway.table', 'gateway_transactions');
 	}
 
 	/**
@@ -42,8 +40,8 @@ class CreateGatewayTransactionsTable extends Migration
 				Enum::TRANSACTION_SUCCEED,
 				Enum::TRANSACTION_FAILED,
 			])->default(Enum::TRANSACTION_INIT);
+			$table->string('ip', 20)->nullable();
 			$table->timestamp('payment_date')->nullable();
-
 			$table->timestamps();
 		});
 	}

@@ -3,6 +3,7 @@
 namespace Larabookir\Gateway\Zarinpal;
 
 use DateTime;
+use Illuminate\Support\Facades\Input;
 use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
@@ -173,8 +174,8 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->authority = @$_GET['Authority'];
-		$status = @$_GET['Status'];
+		$this->authority = Input::get('Authority');
+		$status = Input::get('Status');
 
 		if ($status == 'OK') {
 			return true;

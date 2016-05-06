@@ -68,8 +68,5 @@ return [
     //-------------------------------
     // Tables names
     //--------------------------------
-    'db_tables' => [
-        'transactions' => 'gateway_transactions',
-        'logs' => 'gateway_status_log',
-    ],
+    'table'=>=> 'gateway_transactions',
 ];

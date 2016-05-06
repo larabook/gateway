@@ -79,7 +79,7 @@ class GatewayResolver
 	 */
 	function getTable()
 	{
-		return DB::table($this->config->get('gateway.db_tables.transactions'));
+		return DB::table($this->config->get('gateway.table'));
 	}
 
 	/**

@@ -5,11 +5,10 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateGatewayStatusLogTable extends Migration
 {
-    private $table = 'gateway_status_log';
 
     function getTable()
     {
-        return config('gateway.db_tables.logs',$this->table);
+        return config('gateway.table','gateway_transactions').'_logs';
     }
     /**
      * Run the migrations.

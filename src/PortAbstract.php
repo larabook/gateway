@@ -1,7 +1,9 @@
 <?php
 namespace Larabookir\Gateway;
 
+use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
+use Carbon\Carbon;
 
 abstract class PortAbstract
 {
@@ -86,7 +88,7 @@ abstract class PortAbstract
 	 */
 	function getTable()
 	{
-		return $this->db->table($this->config->get('gateway.db_tables.transactions'));
+		return $this->db->table($this->config->get('gateway.table'));
 	}
 
 	/**
@@ -94,7 +96,7 @@ abstract class PortAbstract
 	 */
 	function getLogTable()
 	{
-		return $this->db->table($this->config->get('gateway.db_tables.logs'));
+		return $this->db->table($this->config->get('gateway.table') . '_logs');
 	}
 
 	/**
@@ -114,7 +116,7 @@ abstract class PortAbstract
 	 */
 	function setPortName($name)
 	{
-		$this->portName=$name;
+		$this->portName = $name;
 	}
 
 	/**
@@ -158,7 +160,8 @@ abstract class PortAbstract
 	 * @param $price
 	 * @return mixed
 	 */
-	function price($price){
+	function price($price)
+	{
 		return $this->set($price);
 	}
 
@@ -191,8 +194,9 @@ abstract class PortAbstract
 			'port' => $this->getPortName(),
 			'price' => $this->amount,
 			'status' => Enum::TRANSACTION_INIT,
-			'created_at' => time(),
-			'updated_at' => time(),
+			'ip' => Request::getClientIp(),
+			'created_at' => Carbon::now(),
+			'updated_at' => Carbon::now(),
 		]);
 
 		return $this->transactionId;
@@ -210,8 +214,8 @@ abstract class PortAbstract
 			'status' => Enum::TRANSACTION_SUCCEED,
 			'tracking_code' => $this->trackingCode,
 			'card_number' => $this->cardNumber,
-			'payment_date' => time(),
-			'updated_at' => time(),
+			'payment_date' => Carbon::now(),
+			'updated_at' => Carbon::now(),
 		]);
 	}
 
@@ -225,7 +229,7 @@ abstract class PortAbstract
 	{
 		return $this->getTable()->whereId($this->transactionId)->update([
 			'status' => Enum::TRANSACTION_FAILED,
-			'updated_at' => time(),
+			'updated_at' => Carbon::now(),
 		]);
 	}
 
@@ -238,7 +242,7 @@ abstract class PortAbstract
 	{
 		return $this->getTable()->whereId($this->transactionId)->update([
 			'ref_id' => $this->refId,
-			'updated_at' => time(),
+			'updated_at' => Carbon::now(),
 		]);
 
 	}
@@ -255,7 +259,7 @@ abstract class PortAbstract
 			'transaction_id' => $this->transactionId,
 			'result_code' => $statusCode,
 			'result_message' => $statusMessage,
-			'log_date' => time(),
+			'log_date' => Carbon::now(),
 		]);
 	}
 
