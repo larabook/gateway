@@ -28,12 +28,25 @@ Run below statements on your terminal :
 STEP 1 : 
 
     composer require poolport/poolport:~v3
+    
+STEP 2 : Add `provider` and `facade` in config/app.php
 
-Step 2:  
+    'providers' => [
+      ...
+      Larabookir\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
+    ],
+    ...
+    ...
+    'aliases' => [
+      ...
+      'Gateway' => \Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
+    ]
+
+Step 3:  
 
     php artisan vendor:publish --provider="Larabookir\Gateway\GatewayServiceProvider"
 
-Step 3: 
+Step 4: 
 
     php artisan migrate
 
