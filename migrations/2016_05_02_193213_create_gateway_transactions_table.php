@@ -43,6 +43,7 @@ class CreateGatewayTransactionsTable extends Migration
 			$table->string('ip', 20)->nullable();
 			$table->timestamp('payment_date')->nullable();
 			$table->timestamps();
+			$table->softDeletes();
 		});
 	}
 
