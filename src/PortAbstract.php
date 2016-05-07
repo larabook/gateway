@@ -183,6 +183,14 @@ abstract class PortAbstract
 		$this->refId = $transaction->ref_id;
 	}
 
+	function getTimeId()
+	{
+		$uid = time();
+		while ($this->getTable()->whereId($uid)->first())
+			$uid = time();
+		return $uid;
+	}
+
 	/**
 	 * Insert new transaction to poolport_transactions table
 	 *
@@ -190,14 +198,16 @@ abstract class PortAbstract
 	 */
 	protected function newTransaction()
 	{
-		$this->transactionId = $this->getTable()->insertGetId([
+		$uid = $this->getTimeId();
+		$this->transactionId = $this->getTable()->insert([
+			'id' => $uid,
 			'port' => $this->getPortName(),
 			'price' => $this->amount,
 			'status' => Enum::TRANSACTION_INIT,
 			'ip' => Request::getClientIp(),
 			'created_at' => Carbon::now(),
 			'updated_at' => Carbon::now(),
-		]);
+		]) ? $uid : null;
 
 		return $this->transactionId;
 	}
