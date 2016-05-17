@@ -68,5 +68,5 @@ return [
     //-------------------------------
     // Tables names
     //--------------------------------
-    'table'=>=> 'gateway_transactions',
+    'table'=> 'gateway_transactions',
 ];
