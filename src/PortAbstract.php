@@ -78,6 +78,11 @@ abstract class PortAbstract
 		$this->db = app('db');
 	}
 
+	/** bootstraper */
+	function boot(){
+
+	}
+
 	function setConfig($config)
 	{
 		$this->config = $config;
