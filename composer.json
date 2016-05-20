@@ -10,6 +10,9 @@
             "email": "pakdaman.it@gmail.com"
         }
     ],
+    "require": {
+        "nesbot/carbon": "~1.20"
+    },    
     "autoload": {
         "psr-4": {
             "Larabookir\\Gateway\\": "src/",
