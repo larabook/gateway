@@ -3,6 +3,8 @@
 namespace Larabookir\Gateway\Zarinpal;
 
 use DateTime;
+use Illuminate\Support\Facades\Input;
+use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -44,10 +46,8 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 */
 	protected $zarinGateUrl = 'https://www.zarinpal.com/pg/StartPay/$Authority/ZarinGate';
 
-	public function __construct($config, $port)
+	public function boot()
 	{
-		parent::__construct($config, $port);
-
 		$this->setServer();
 	}
 
@@ -78,12 +78,12 @@ class Zarinpal extends PortAbstract implements PortInterface
 	{
 		switch ($this->config->get('gateway.zarinpal.type')) {
 			case 'zarin-gate':
-				Header('Location: ' . str_replace('$Authority', $this->refId, $this->zarinGateUrl));
+				return redirect()->to(str_replace('$Authority', $this->refId, $this->zarinGateUrl));
 				break;
 
 			case 'normal':
 			default:
-				Header('Location: ' . $this->gateUrl . $this->refId);
+				return redirect()->to($this->gateUrl . $this->refId);
 				break;
 		}
 	}
@@ -102,6 +102,28 @@ class Zarinpal extends PortAbstract implements PortInterface
 	}
 
 	/**
+	 * Sets callback url
+	 * @param $url
+	 */
+	function setCallback($url)
+	{
+		$this->callbackUrl = $url;
+		return $this;
+	}
+
+	/**
+	 * Gets callback url
+	 * @return string
+	 */
+	function getCallback()
+	{
+		if (!$this->callbackUrl)
+			$this->callbackUrl = $this->config->get('gateway.zarinpal.callback-url');
+
+		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
+	}
+
+	/**
 	 * Send pay request to server
 	 *
 	 * @return void
@@ -115,7 +137,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		$fields = array(
 			'MerchantID' => $this->config->get('gateway.zarinpal.merchant-id'),
 			'Amount' => $this->amount,
-			'CallbackURL' => $this->buildQuery($this->config->get('gateway.zarinpal.callback-url'), array('transaction_id' => $this->transactionId)),
+			'CallbackURL' => $this->getCallback(),
 			'Description' => $this->config->get('gateway.zarinpal.description', ''),
 			'Email' => $this->config->get('gateway.zarinpal.email', ''),
 			'Mobile' => $this->config->get('gateway.zarinpal.mobile', ''),
@@ -138,7 +160,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		}
 
 		$this->refId = $response->Authority;
-		$this->transactionSetRefId($this->transactionId);
+		$this->transactionSetRefId();
 	}
 
 	/**
@@ -150,8 +172,8 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->authority = @$_GET['Authority'];
-		$status = @$_GET['Status'];
+		$this->authority = Input::get('Authority');
+		$status = Input::get('Status');
 
 		if ($status == 'OK') {
 			return true;
@@ -196,7 +218,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 
 		$this->trackingCode = $response->RefID;
 		$this->transactionSucceed();
-		$this->newLog($response->Status, self::TRANSACTION_SUCCEED_TEXT);
+		$this->newLog($response->Status, Enum::TRANSACTION_SUCCEED_TEXT);
 		return true;
 	}
 

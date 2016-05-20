@@ -40,7 +40,7 @@ interface PortInterface
      *
      * @return int
      */
-    public function getPort();
+    public function getPortName();
 
     /**
      * Get transaction id
@@ -55,6 +55,20 @@ interface PortInterface
      * @return string
      */
     public function cardNumber();
+
+    /**
+     * Sets callback url
+     *
+     * @return string
+     */
+    public function setCallback($url);
+
+    /**
+     * Gets callback url
+     *
+     * @return string
+     */
+    public function getCallback();
 
     /**
      * This method use for redirect to port

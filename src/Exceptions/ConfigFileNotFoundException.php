@@ -2,4 +2,7 @@
 
 namespace Larabookir\Gateway\Exceptions;
 
-class ConfigFileNotFoundException extends \Exception {}
+class ConfigFileNotFoundException extends \Exception {
+
+	protected $message='فایل تنظیمات یافت نشد.';
+}

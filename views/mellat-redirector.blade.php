@@ -8,7 +8,7 @@
 
             var hiddenField = document.createElement("input");
         	hiddenField.setAttribute("name", "RefId");
-        	hiddenField.setAttribute("value", "<?php echo $refId ?>");
+        	hiddenField.setAttribute("value", "{{$refId}}");
 
             form.appendChild(hiddenField);
 

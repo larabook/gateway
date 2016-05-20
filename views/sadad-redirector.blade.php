@@ -1,6 +1,6 @@
 <html>
     <body>
-        <?php echo $form ?>
+        {!! $form !!}
         <br />
         <script type="text/javascript">
             document.getElementById('paymentUTLfrm').submit();

@@ -1,13 +1,6 @@
 <?php
 
 return [
-    //-------------------------------
-    // Tables names
-    //--------------------------------
-    'db_tables' => [
-        'transactions' => 'gateway_transactions',
-        'logs' => 'gateway_status_log',
-    ],
 
     //-------------------------------
     // Timezone for insert dates in database
@@ -21,7 +14,7 @@ return [
     'zarinpal' => [
         'merchant-id'  => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         'type'         => 'zarin-gate',             // Types: [zarin-gate || normal]
-        'callback-url' => 'http://',
+        'callback-url' => '/',
         'server'       => 'germany',                // Servers: [germany || iran]
         'email'        => 'email@gmail.com',
         'mobile'       => '09xxxxxxxxx',
@@ -35,7 +28,7 @@ return [
         'username'     => '',
         'password'     => '',
         'terminalId'   => 0000000,
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
 
     //--------------------------------
@@ -43,7 +36,7 @@ return [
     //--------------------------------
     'payline' => [
         'api' => 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
 
     //--------------------------------
@@ -53,7 +46,7 @@ return [
         'merchant'      => '',
         'transactionKey'=> '',
         'terminalId'    => 000000000,
-        'callback-url'  => 'http://'
+        'callback-url'  => '/'
     ],
 
     //--------------------------------
@@ -61,7 +54,7 @@ return [
     //--------------------------------
     'jahanpay' => [
         'api' => 'xxxxxxxxxxx',
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
 
     //--------------------------------
@@ -69,6 +62,11 @@ return [
     //--------------------------------
     'parsian' => [
         'pin'          => 'xxxxxxxxxxxxxxxxxxxx',
-        'callback-url' => 'http://'
+        'callback-url' => '/'
     ],
+
+    //-------------------------------
+    // Tables names
+    //--------------------------------
+    'table'=> 'gateway_transactions',
 ];

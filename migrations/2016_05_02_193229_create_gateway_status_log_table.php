@@ -5,11 +5,15 @@ use Illuminate\Database\Migrations\Migration;
 
 class CreateGatewayStatusLogTable extends Migration
 {
-    private $table = 'gateway_status_log';
 
     function getTable()
     {
-        return config('gateway.db_tables.logs',$this->table);
+        return config('gateway.table','gateway_transactions');
+    }
+
+    function getLogTable()
+    {
+        return $this->getTable().'_logs';
     }
     /**
      * Run the migrations.
@@ -18,7 +22,7 @@ class CreateGatewayStatusLogTable extends Migration
      */
     public function up()
     {
-        Schema::create($this->getTable(), function (Blueprint $table) {
+        Schema::create($this->getLogTable(), function (Blueprint $table) {
             $table->engine="innoDB";
             $table->increments('id');
             $table->unsignedInteger('transaction_id');
@@ -29,7 +33,7 @@ class CreateGatewayStatusLogTable extends Migration
             $table
                 ->foreign('transaction_id')
                 ->references('id')
-                ->on('gateway_transactions')
+                ->on($this->getTable())
                 ->onDelete('cascade');
         });
     }
@@ -41,6 +45,6 @@ class CreateGatewayStatusLogTable extends Migration
      */
     public function down()
     {
-        Schema::drop($this->getTable());
+        Schema::drop($this->getLogTable());
     }
 }
