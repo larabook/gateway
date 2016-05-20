@@ -64,7 +64,7 @@ You can make connection to bank by several way (Facade , Service container):
 
        // Your code here
 
-       $gateway->redirect();
+       return $gateway->redirect();
        
     } catch (Exception $e) {
        

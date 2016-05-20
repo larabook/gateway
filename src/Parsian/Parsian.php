@@ -145,7 +145,7 @@ class Parsian extends PortAbstract implements PortInterface
 	 */
 	protected function verifyPayment()
 	{
-		if (!isset(Input::get('au')) && !isset(Input::get('rs')))
+		if (!Input::has('au') && !Input::has('rs'))
 			throw new ParsianErrorException('درخواست غیر معتبر', -1);
 
 		$authority = Input::get('au');
