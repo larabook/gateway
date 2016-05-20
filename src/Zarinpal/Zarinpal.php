@@ -46,10 +46,8 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 */
 	protected $zarinGateUrl = 'https://www.zarinpal.com/pg/StartPay/$Authority/ZarinGate';
 
-	public function __construct($config, $port)
+	public function boot()
 	{
-		parent::__construct($config, $port);
-
 		$this->setServer();
 	}
 
