@@ -27,7 +27,7 @@ class GatewayResolver
 	/**
 	 * Keep current port driver
 	 *
-	 * @var Mellat|Sadad|Zarinpal|Payline|JahanPay
+	 * @var Mellat|Sadad|Zarinpal|Payline|JahanPay|Parsian
 	 */
 	protected $port;
 
@@ -54,7 +54,7 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY];
+		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN];
 	}
 
 	/**

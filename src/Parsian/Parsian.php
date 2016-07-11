@@ -186,5 +186,6 @@ class Parsian extends PortAbstract implements PortInterface
 
 		$this->trackingCode = $authority;
 		$this->transactionSucceed();
+		$this->newLog($result->status, ParsianResult::errorMessage($result->status));
 	}
 }
