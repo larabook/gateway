@@ -30,7 +30,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 *
 	 * @var string
 	 */
-	protected $iranServer = 'https://sandbox.zarinpal.com/pg/services/WebGate/wsdl';
+	protected $sandboxServer = 'https://sandbox.zarinpal.com/pg/services/WebGate/wsdl';
 
 	/**
 	 * Address of main SOAP server
@@ -51,7 +51,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 *
 	 * @var string
 	 */
-	protected $gateUrl = 'https://sandbox.zarinpal.com/pg/StartPay/';
+	protected $sandboxGateUrl = 'https://sandbox.zarinpal.com/pg/StartPay/';
 
 	/**
 	 * Address of zarin gate for redirect
