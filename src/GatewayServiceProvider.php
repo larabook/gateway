@@ -31,7 +31,7 @@ class GatewayServiceProvider extends ServiceProvider
 
 		// php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=migrations
 		$this->publishes([
-			$migrations => database_path('/migrations')
+			$migrations => base_path('database/migrations')
 		], 'migrations');
 
 
