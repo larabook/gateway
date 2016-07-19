@@ -249,7 +249,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 				$this->serverUrl = $this->iranServer;
 				break;
                 
-            case 'test':
+			case 'test':
 				$this->serverUrl = $this->sandboxServer;
 				$this->gateUrl = $this->sandboxGateUrl;
 				break;
