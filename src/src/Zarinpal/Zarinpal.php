@@ -224,7 +224,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 			throw $e;
 		}
 
-		if ($response->Status != 100) {
+		if ($response->Status != 100 && $response->Status != 100) {
 			$this->transactionFailed();
 			$this->newLog($response->Status, ZarinpalException::$errors[$response->Status]);
 			throw new ZarinpalException($response->Status);
