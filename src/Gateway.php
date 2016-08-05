@@ -4,6 +4,9 @@ namespace Larabookir\Gateway;
 
 use Illuminate\Support\Facades\Facade;
 
+/**
+ * @see \Larabookir\Gateway\GatewayResolver
+ */
 class Gateway extends Facade
 {
 	/**

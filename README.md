@@ -38,7 +38,7 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
     'aliases' => [
       ...
-      'Gateway' => \Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
+      'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
     ]
 
 Step 3:  
@@ -56,7 +56,7 @@ You can make connection to bank by several way (Facade , Service container):
 
     try {
        
-       $gateway = Gateway::make(new Mellat());
+       $gateway = \Gateway::make(new \Mellat());
        // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
        $gateway->price(1000)->ready();
        $refId =  $gateway->refId();
@@ -85,7 +85,7 @@ and in your callback :
 
     try { 
        
-       $gateway = Gateway::verify();
+       $gateway = \Gateway::verify();
        $trackingCode = $gateway->trackingCode();
        $refId = $gateway->refId();
        $cardNumber = $gateway->cardNumber();
