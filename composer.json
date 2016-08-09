@@ -1,5 +1,5 @@
 {
-    "name": "mammutgroup/gateway",
+    "name": "larabook/gateway",
     "homepage": "https://github.com/mammutgroup/gateway",
     "description": "A Laravel package for connecting to all Iraninan payments gateways",
     "keywords": ["laravel","iran","payment", "gateway", "port", "bank", "pay", "mellat", "saman", "pasargad", "parsian", "sadad", "meli", "payline", "jahanpay", "zarinpal", "iranian-banks", "persian-banks", "pardakht","dargah","shaparak","poolport","ipay"],
