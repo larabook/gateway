@@ -64,7 +64,15 @@ return [
         'pin'          => 'xxxxxxxxxxxxxxxxxxxx',
         'callback-url' => '/'
     ],
-
+    //--------------------------------
+    // Pasargad gateway
+    //--------------------------------
+    'pasargad' => [
+        'terminalId'    => 000000,
+        'merchantId'    => 000000,
+        'certificate-path'    => storage_path('gateway/pasargad/certificate.xml'),
+        'callback-url' => '/gateway/callback/pasargad'
+    ],
     //-------------------------------
     // Tables names
     //--------------------------------
