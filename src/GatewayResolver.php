@@ -54,7 +54,7 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN];
+		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN, Enum::PASARGAD];
 	}
 
 	/**
