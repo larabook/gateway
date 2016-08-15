@@ -9,9 +9,10 @@ Available Banks:
  1. MELLAT
  2. SADAD
  3. PARSIAN
- 4. ZARINPAL
- 5. JAHANPAY
- 6. PAYLINE
+ 4. PASARGAD
+ 5. ZARINPAL
+ 6. JAHANPAY
+ 7. PAYLINE
 
 SAMAN bank will be added asap.
  

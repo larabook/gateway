@@ -6,6 +6,7 @@ use Larabookir\Gateway\Parsian\Parsian;
 use Larabookir\Gateway\Sadad\Sadad;
 use Larabookir\Gateway\Mellat\Mellat;
 use Larabookir\Gateway\Payline\Payline;
+use Larabookir\Gateway\Pasargad\Pasargad;
 use Larabookir\Gateway\Zarinpal\Zarinpal;
 use Larabookir\Gateway\JahanPay\JahanPay;
 use Larabookir\Gateway\Exceptions\RetryException;
@@ -54,7 +55,7 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN];
+		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN, Enum::PASARGAD];
 	}
 
 	/**
