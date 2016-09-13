@@ -109,7 +109,7 @@ class Sadad extends PortAbstract implements PortInterface
 				$this->transactionId(),
 				$this->config->get('gateway.sadad.transactionKey'),
 				$this->config->get('gateway.sadad.terminalId'),
-				$this->getCallback(),
+				$this->getCallback()
 			);
 
 		} catch (\SoapFault $e) {
