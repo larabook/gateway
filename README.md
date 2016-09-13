@@ -80,7 +80,7 @@ you can call the gateway by these ways :
 
 Instead of MELLAT you can enter other banks Name as we introduced above .
 
-In `set` method you should enter the price in IRR (RIAL) 
+In `price` method you should enter the price in IRR (RIAL) 
 
 and in your callback :
 
