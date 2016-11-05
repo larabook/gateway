@@ -40,6 +40,27 @@ class Zarinpal extends PortAbstract implements PortInterface
 	protected $serverUrl;
 
 	/**
+	 * Payment Description
+	 *
+	 * @var string
+	 */
+	protected $description;
+
+	/**
+	 * Payer Email Address
+	 *
+	 * @var string
+	 */
+	protected $email;
+
+	/**
+	 * Payer Mobile Number
+	 *
+	 * @var string
+	 */
+	protected $mobileNumber;
+
+	/**
 	 * Address of gate for redirect
 	 *
 	 * @var string
@@ -152,9 +173,9 @@ class Zarinpal extends PortAbstract implements PortInterface
 			'MerchantID' => $this->config->get('gateway.zarinpal.merchant-id'),
 			'Amount' => $this->amount,
 			'CallbackURL' => $this->getCallback(),
-			'Description' => $this->config->get('gateway.zarinpal.description', ''),
-			'Email' => $this->config->get('gateway.zarinpal.email', ''),
-			'Mobile' => $this->config->get('gateway.zarinpal.mobile', ''),
+			'Description' => $this->description ? $this->description : $this->config->get('gateway.zarinpal.description', ''),
+			'Email' => $this->email ? $this->email :$this->config->get('gateway.zarinpal.email', ''),
+			'Mobile' => $this->mobileNumber ? $this->mobileNumber : $this->config->get('gateway.zarinpal.mobile', ''),
 		);
 
 		try {
@@ -259,5 +280,39 @@ class Zarinpal extends PortAbstract implements PortInterface
 				$this->serverUrl = $this->germanyServer;
 				break;
 		}
+	}
+
+
+	/**
+	 * Set Description
+	 *
+	 * @param $description
+	 * @return void
+	 */
+	public function setDescription($description)
+	{
+		$this->description = $description;
+	}
+
+	/**
+	 * Set Payer Email Address
+	 *
+	 * @param $email
+	 * @return void
+	 */
+	public function setEmail($email)
+	{
+		$this->email = $email;
+	}
+
+	/**
+	 * Set Payer Mobile Number
+	 *
+	 * @param $number
+	 * @return void
+	 */
+	public function setMobileNumber($number)
+	{
+		$this->mobileNumber = $number;
 	}
 }
