@@ -2,7 +2,9 @@
 
 namespace Larabookir\Gateway\Zarinpal;
 
-class ZarinpalException extends \Exception
+use Larabookir\Gateway\Exceptions\BankException;
+
+class ZarinpalException extends BankException
 {
     public static $errors = array(
         -1 => 'اطلاعات ارسال شده ناقص است.',

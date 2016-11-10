@@ -2,7 +2,9 @@
 
 namespace Larabookir\Gateway\JahanPay;
 
-class JahanPayException extends \Exception
+use Larabookir\Gateway\Exceptions\BankException;
+
+class JahanPayException extends BankException
 {
     public static $errors = array(
         -32 => 'تراکنش انجام شده اما مبلغ مطابقت ندارد',

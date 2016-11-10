@@ -3,4 +3,6 @@
 namespace Larabookir\Gateway\Sadad;
 
 
-class SadadException extends \Exception {}
+use Larabookir\Gateway\Exceptions\BankException;
+
+class SadadException extends BankException {}

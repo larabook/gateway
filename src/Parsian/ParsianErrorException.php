@@ -2,4 +2,6 @@
 
 namespace Larabookir\Gateway\Parsian;
 
-class ParsianErrorException extends \Exception {}
+use Larabookir\Gateway\Exceptions\BankException;
+
+class ParsianErrorException extends BankException {}
