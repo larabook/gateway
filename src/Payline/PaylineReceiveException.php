@@ -2,7 +2,9 @@
 
 namespace Larabookir\Gateway\Payline;
 
-class PaylineReceiveException extends \Exception
+use Larabookir\Gateway\Exceptions\BankException;
+
+class PaylineReceiveException extends BankException
 {
     public static $errors = array(
         -1 => 'api ارسالی با نوع api تعریف شده در payline سازگار نیست.',

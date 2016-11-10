@@ -2,4 +2,6 @@
 
 namespace Larabookir\Gateway\Pasargad;
 
-class PasargadErrorException extends \Exception {}
+use Larabookir\Gateway\Exceptions\BankException;
+
+class PasargadErrorException extends BankException {}

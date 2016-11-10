@@ -2,7 +2,9 @@
 
 namespace Larabookir\Gateway\Mellat;
 
-class MellatException extends \Exception
+use Larabookir\Gateway\Exceptions\BankException;
+
+class MellatException extends BankException
 {
     public static $errors = array(
         11 => 'شماره کارت نامعتبر است',
