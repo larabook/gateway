@@ -103,7 +103,7 @@ class Pasargad extends PortAbstract implements PortInterface
 		if (!$this->callbackUrl)
 			$this->callbackUrl = $this->config->get('gateway.pasargad.callback-url');
 
-		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
+		return $this->callbackUrl;
 	}
 
 	/**
@@ -126,7 +126,7 @@ class Pasargad extends PortAbstract implements PortInterface
 	protected function verifyPayment()
 	{
         $fields = array(
-            'invoiceUID' => $_GET['tref']
+            'invoiceUID' => Input::get('tref'),
         );
 
         $result = Parser::post2https($fields, $this->checkTransactionUrl);
