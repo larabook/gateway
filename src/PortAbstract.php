@@ -190,9 +190,12 @@ abstract class PortAbstract
 
 	function getTimeId()
 	{
-		$uid = time();
-		while ($this->getTable()->whereId($uid)->first())
-			$uid = time();
+		$genuid = function(){
+			return substr(str_pad(str_replace('.','', microtime(true)),12,0),0,12);
+		};
+		$uid=$genuid();
+		while (static::find($uid))
+			$uid = $genuid();
 		return $uid;
 	}
 
