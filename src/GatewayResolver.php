@@ -138,7 +138,7 @@ class GatewayResolver
 			$name = Enum::ZARINPAL;
 		} elseif ($port InstanceOf JahanPay) {
 			$name = Enum::JAHANPAY;
-		} elseif ($port InstanceOf SADAD) {
+		} elseif ($port InstanceOf Sadad) {
 			$name = Enum::SADAD;
 		} elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
