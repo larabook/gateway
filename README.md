@@ -41,7 +41,7 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 Step 3:  
 
-    php artisan vendor:publish --provider="Larabookir\Gateway\GatewayServiceProvider"
+    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider
 
 Step 4: 
 
