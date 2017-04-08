@@ -194,7 +194,7 @@ abstract class PortAbstract
 			return substr(str_pad(str_replace('.','', microtime(true)),12,0),0,12);
 		};
 		$uid=$genuid();
-		while (static::find($uid))
+		while ($this->getTable()->whereId($uid)->first())
 			$uid = $genuid();
 		return $uid;
 	}
