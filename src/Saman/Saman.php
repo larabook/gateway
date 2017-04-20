@@ -49,6 +49,19 @@ class Saman extends PortAbstract implements PortInterface
             'callBackUrl' => $this->getCallback()
         ]);
     }
+    
+    /**
+     * {@inheritdoc}
+     */
+    public function redirectParameters()
+    {
+        return [
+            'amount' => $this->amount,
+            'merchant' => $this->config->get('gateway.saman.merchant'),
+            'resNum' => $this->transactionId(),
+            'callBackUrl' => $this->getCallback()
+        ];
+    }
 
     /**
      * {@inheritdoc}
