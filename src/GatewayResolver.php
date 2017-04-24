@@ -99,9 +99,9 @@ class GatewayResolver
 		if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
 			throw new InvalidRequestException;
 		if ($this->request->has('transaction_id')) {
-			$id = intval($this->request->get('transaction_id'));
+			$id = $this->request->get('transaction_id');
 		}else {
-			$id = intval($this->request->get('iN'));
+			$id = $this->request->get('iN');
 		}
 
 		$transaction = $this->getTable()->whereId($id)->first();
