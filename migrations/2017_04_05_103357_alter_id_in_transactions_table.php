@@ -29,6 +29,11 @@ class AlterIdInTransactionsTable extends Migration
 		try {
 			DB::statement("ALTER TABLE  `" . $this->getLogTable() . "` drop foreign key transactions_logs_transaction_id_foreign;");
 			DB::statement("ALTER TABLE  `" . $this->getLogTable() . "` DROP INDEX transactions_logs_transaction_id_foreign;");
+		} catch (Exception $e) {
+			
+		}	
+		
+		try {		
 			DB::statement("update `" . $this->getTable() . "` set `payment_date`=null WHERE  `payment_date`=0;");
 			DB::statement("ALTER TABLE `" . $this->getTable() . "` CHANGE `id` `id` BIGINT UNSIGNED NOT NULL;");
 			DB::statement("ALTER TABLE `" . $this->getLogTable() . "` CHANGE `transaction_id` `transaction_id` BIGINT UNSIGNED NOT NULL;");
