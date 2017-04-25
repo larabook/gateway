@@ -183,7 +183,7 @@ abstract class PortAbstract
 	function verify($transaction)
 	{
 		$this->transaction = $transaction;
-		$this->transactionId = intval($transaction->id);
+		$this->transactionId = $transaction->id;
 		$this->amount = intval($transaction->price);
 		$this->refId = $transaction->ref_id;
 	}
