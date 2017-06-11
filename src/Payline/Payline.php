@@ -14,21 +14,21 @@ class Payline extends PortAbstract implements PortInterface
 	 *
 	 * @var string
 	 */
-	protected $serverUrl = 'http://payline.ir/payment/gateway-send';
+	protected $serverUrl = 'https://pay.ir/payment/send';
 
 	/**
 	 * Address of CURL server for verify payment
 	 *
 	 * @var string
 	 */
-	protected $serverVerifyUrl = 'http://payline.ir/payment/gateway-result-second';
+	protected $serverVerifyUrl = 'https://pay.ir/payment/verify';
 
 	/**
 	 * Address of gate for redirect
 	 *
 	 * @var string
 	 */
-	protected $gateUrl = 'http://payline.ir/payment/gateway-';
+	protected $gateUrl = 'https://pay.ir/payment/gateway/';
 
 	/**
 	 * {@inheritdoc}
