@@ -183,16 +183,19 @@ abstract class PortAbstract
 	function verify($transaction)
 	{
 		$this->transaction = $transaction;
-		$this->transactionId = intval($transaction->id);
+		$this->transactionId = $transaction->id;
 		$this->amount = intval($transaction->price);
 		$this->refId = $transaction->ref_id;
 	}
 
 	function getTimeId()
 	{
-		$uid = time();
+		$genuid = function(){
+			return substr(str_pad(str_replace('.','', microtime(true)),12,0),0,12);
+		};
+		$uid=$genuid();
 		while ($this->getTable()->whereId($uid)->first())
-			$uid = time();
+			$uid = $genuid();
 		return $uid;
 	}
 

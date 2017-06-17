@@ -2,6 +2,7 @@
 
 namespace Larabookir\Gateway;
 
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
 class GatewayServiceProvider extends ServiceProvider
@@ -33,6 +34,15 @@ class GatewayServiceProvider extends ServiceProvider
 		$this->publishes([
 			$migrations => base_path('database/migrations')
 		], 'migrations');
+
+		
+		
+		if (
+			File::glob(base_path('/database/migrations/*create_gateway_status_log_table\.php'))
+			&& !File::exists(base_path('/database/migrations/2017_04_05_103357_alter_id_in_transactions_table.php'))
+		) {
+			@File::copy($migrations.'/2017_04_05_103357_alter_id_in_transactions_table.php',base_path('database/migrations/2017_04_05_103357_alter_id_in_transactions_table.php'));
+		}
 
 
 		$this->loadViewsFrom($views, 'gateway');

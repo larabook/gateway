@@ -7,16 +7,13 @@ Please inform us once you've encountered [bug](https://github.com/larabook/gatew
 
 Available Banks:
  1. MELLAT
- 2. SADAD
+ 2. SADAD (MELLI)
+ 3. SAMAN
  3. PARSIAN
  4. PASARGAD
  5. ZARINPAL
  6. JAHANPAY
  7. PAYLINE
-
-SAMAN bank will be added asap.
- 
-
 
 ----------
 
@@ -44,7 +41,7 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 Step 3:  
 
-    php artisan vendor:publish --provider="Larabookir\Gateway\GatewayServiceProvider"
+    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider
 
 Step 4: 
 
