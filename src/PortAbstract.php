@@ -91,7 +91,7 @@ abstract class PortAbstract
 	/**
 	 * @return mixed
 	 */
-	function getTable()
+	function getTable() 
 	{
 		return $this->db->table($this->config->get('gateway.table'));
 	}
@@ -171,6 +171,14 @@ abstract class PortAbstract
 	}
 
 	/**
+	 * get price
+	 */
+	function getPrice()
+	{
+		return $this->amount;
+	}
+
+	/**
 	 * Return result of payment
 	 * If result is done, return true, otherwise throws an related exception
 	 *
@@ -207,6 +215,7 @@ abstract class PortAbstract
 	protected function newTransaction()
 	{
 		$uid = $this->getTimeId();
+
 		$this->transactionId = $this->getTable()->insert([
 			'id' => $uid,
 			'port' => $this->getPortName(),
