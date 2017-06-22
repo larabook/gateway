@@ -12,8 +12,8 @@ Available Banks:
  3. PARSIAN
  4. PASARGAD
  5. ZARINPAL
- 6. JAHANPAY
- 7. PAYLINE
+ 6. ~~JAHANPAY~~ (Disabled)
+ 7. ~~PAYLINE~~ (Disabled)
 
 ----------
 
