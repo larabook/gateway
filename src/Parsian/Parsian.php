@@ -3,6 +3,9 @@
 namespace Larabookir\Gateway\Parsian;
 
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
+use Larabookir\Gateway\Enum;
+use Carbon\Carbon;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -63,6 +66,26 @@ class Parsian extends PortAbstract implements PortInterface
 
 		return $this;
 	}
+
+    protected function newTransaction()
+    {
+
+        try {
+            $this->transactionId = $this->getTable()->insertGetId([
+                'id' => round(microtime(true)),
+                'port' => $this->getPortName(),
+                'price' => $this->amount,
+                'status' => Enum::TRANSACTION_INIT,
+                'ip' => Request::getClientIp(),
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ]);
+        } catch( \Exception $ex) {
+            sleep(1);
+            $this->newTransaction();
+        }
+
+    }
 
 	/**
 	 * Sets callback url
