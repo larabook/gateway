@@ -143,6 +143,32 @@ class Pasargad extends PortAbstract implements PortInterface
         $this->transactionSetRefId();
 
 		$this->trackingCode = $array['traceNumber'];
+		if($this->config->get('gateway.pasargad.isTwoStep')){
+			$processor = new RSAProcessor($this->config->get('gateway.pasargad.certificate-path'), RSAKeyType::XMLFile);
+
+			$fields = [
+				'MerchantCode'  => $array["merchantCode"],
+				'TerminalCode'  => $array["terminalCode"],
+				'InvoiceNumber' => $array["invoiceNumber"],
+				'InvoiceDate'   => $array["invoiceDate"],
+				'amount'        => $array["amount"],
+				'TimeStamp'     => date("Y/m/d H:i:s"),
+				'sign'          => ''
+			];
+
+			$data           = "#" . $fields['MerchantCode'] . "#" . $fields['TerminalCode'] . "#" . $fields['InvoiceNumber'] . "#" . $fields['InvoiceDate'] . "#" . $fields['amount'] . "#" . $fields['TimeStamp'] . "#";
+			$data           = sha1($data, true);
+			$data           = $processor->sign($data);
+			$fields['sign'] = base64_encode($data); // base64_encode
+
+			$verifyresult = Parser::post2https($fields, 'https://pep.shaparak.ir/VerifyPayment.aspx');
+			$array        = Parser::makeXMLTree($verifyresult, 'actionResult');
+			if ($array["result"] != "True") {
+				$this->newLog(-1, Enum::TRANSACTION_FAILED_TEXT);
+				$this->transactionFailed();
+				throw new PasargadErrorException(Enum::TRANSACTION_FAILED_TEXT, -1);
+			}
+		}
 		$this->transactionSucceed();
 		$this->newLog($array['result'], Enum::TRANSACTION_SUCCEED_TEXT);
 	}

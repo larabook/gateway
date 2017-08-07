@@ -11,7 +11,7 @@ class Parser
      * @param $data
      * @return array
      */
-    public static function makeXMLTree($data)
+    public static function makeXMLTree($data,$resultTag = 'resultObj')
     {
         $ret = [];
         $parser = xml_parser_create();
@@ -45,7 +45,7 @@ class Parser
             }
         }
 
-        return $ret['resultObj'];
+        return $ret[$resultTag];
     }
 
 
