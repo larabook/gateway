@@ -65,7 +65,7 @@ class Payline extends PortAbstract implements PortInterface
 	{
 		parent::verify($transaction);
 
-		$this->userPayment();
+		//$this->userPayment();
 		$this->verifyPayment();
 
 		return $this;
@@ -120,15 +120,16 @@ class Payline extends PortAbstract implements PortInterface
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-		if (is_numeric($response) && $response > 0) {
-			$this->refId = $response;
+		$response = json_decode($response);
+
+		if (is_numeric($response->status) && $response->status == 1) {
+			$this->refId = $response->transId;
 			$this->transactionSetRefId();
 
 			return true;
 		}
-
 		$this->transactionFailed();
-		$this->newLog($response, PaylineSendException::$errors[$response]);
+		$this->newLog($response, PaylineSendException::$errors[$response->status]);
 		throw new PaylineSendException($response);
 	}
 
@@ -165,8 +166,7 @@ class Payline extends PortAbstract implements PortInterface
 	{
 		$fields = array(
 			'api' => $this->config->get('gateway.payline.api'),
-			'id_get' => $this->refId(),
-			'trans_id' => $this->trackingCode()
+			'transId' => $this->refId()
 		);
 
 		$ch = curl_init();
@@ -179,15 +179,23 @@ class Payline extends PortAbstract implements PortInterface
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-		if ($response == 1) {
-			$this->transactionSucceed();
-			$this->newLog($response, Enum::TRANSACTION_SUCCEED_TEXT);
+		$response = json_decode($response);
 
-			return true;
+		if ($response->status == 1) {
+			if( $response->amount == $this->amount ){
+				$this->transactionSucceed();
+				$this->newLog(json_encode($response), Enum::TRANSACTION_SUCCEED_TEXT);
+
+				return true;
+			} else {
+				$this->transactionFailed();
+				$this->newLog(json_encode($response), PaylineReceiveException::$errors[-4]);
+			}
+
 		}
 
 		$this->transactionFailed();
-		$this->newLog($response, PaylineReceiveException::$errors[$response]);
-		throw new PaylineReceiveException($response);
+		$this->newLog(json_encode($response), PaylineReceiveException::$errors[$response->status]);
+		throw new PaylineReceiveException($response->errorMessage);
 	}
 }
