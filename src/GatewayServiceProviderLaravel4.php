@@ -23,11 +23,13 @@ class GatewayServiceProviderLaravel4 extends ServiceProvider
 	{
 		$config = __DIR__ . '/../config/gateway.php';
 		$migrations = __DIR__ . '/../migrations/';
-		$views = __DIR__ . '/../views/';
+        $views = __DIR__ . '/../views/';
 
 
-		// for laravel 4.2
-        $this->package('larabook/gateway','gateway',__DIR__.'/../');
+
+
+        // for laravel 4.2
+        $this->package('larabook/gateway',null,__DIR__.'/../');
 		
 		
 		if (

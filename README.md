@@ -3,7 +3,7 @@ package's home : [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک
 
 by this  package we are able to connect to all Iranian bank with one unique API.
 
-( This Package is now compatible with both 4.* and 5.* versions of Laravel )
+( This Package is now compatible with both **4.\* and 5.\* versions of Laravel** )
 
 Please inform us once you've encountered [bug](https://github.com/larabook/gateway/issues) or [issue](https://github.com/larabook/gateway/issues)  .
 
@@ -61,7 +61,8 @@ You can make connection to bank by several way (Facade , Service container):
        // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
        $gateway
             ->price(1000)
-            // setShipmentPrice(10) // just for paypal
+            // setShipmentPrice(10) // optional - just for paypal
+            // setProductName("My Product") // optional - just for paypal
             ->ready();
        $refId =  $gateway->refId();
        $transID = $gateway->transactionId();
