@@ -20,7 +20,8 @@
         }
     ],
     "require": {
-        "nesbot/carbon": "~1.20"
+        "nesbot/carbon": "~1.20",
+        "paypal/rest-api-sdk-php": "*"
     },    
     "autoload": {
         "psr-4": {
