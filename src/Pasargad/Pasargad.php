@@ -69,7 +69,7 @@ class Pasargad extends PortAbstract implements PortInterface
         $data =  $processor->sign($data); // امضاي ديجيتال
         $sign =  base64_encode($data); // base64_encode
 
-		return view('gateway::pasargad-redirector')->with(compact('url','redirectUrl','invoiceNumber','invoiceDate','amount','terminalCode','merchantCode','timeStamp','action','sign'));
+		return \View::make('gateway::pasargad-redirector')->with(compact('url','redirectUrl','invoiceNumber','invoiceDate','amount','terminalCode','merchantCode','timeStamp','action','sign'));
 	}
 
 	/**

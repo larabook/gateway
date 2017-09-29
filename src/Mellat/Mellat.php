@@ -45,7 +45,7 @@ class Mellat extends PortAbstract implements PortInterface
 	{
 		$refId = $this->refId;
 
-		return view('gateway::mellat-redirector')->with(compact('refId'));
+        return \View::make('gateway::mellat-redirector')->with(compact('refId'));
 	}
 
 	/**
@@ -111,8 +111,8 @@ class Mellat extends PortAbstract implements PortInterface
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
-			$response = $soap->bpPayRequest($fields);
+			$soap = new \SoapClient($this->serverUrl);
+            $response = $soap->bpPayRequest($fields);
 
 		} catch (\SoapFault $e) {
 			$this->transactionFailed();

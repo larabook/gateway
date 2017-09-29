@@ -49,7 +49,7 @@ class Parsian extends PortAbstract implements PortInterface
 	{
 		$url = $this->gateUrl . $this->refId();
 
-		return view('gateway::parsian-redirector')->with(compact('url'));
+		return \View::make('gateway::parsian-redirector')->with(compact('url'));
 	}
 
 	/**
