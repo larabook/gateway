@@ -13,7 +13,7 @@
             "name": "MohammadReza Honarkhah",
             "email": "m.honar@gmail.com"
         },
-        
+
         {
             "name": "Amir Khorsandi",
             "email": "Khorsandi@me.com"
@@ -21,12 +21,22 @@
     ],
     "require": {
         "nesbot/carbon": "~1.20"
-    },    
+    },
     "autoload": {
         "psr-4": {
             "Larabookir\\Gateway\\": "src/",
             "Larabookir\\Gateway\\Tests\\": "tests/"
         }
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "extra": {
+    "laravel": {
+        "providers": [
+            "Larabookir\\Gateway\\GatewayServiceProvider"
+        ],
+        "aliases": {
+            "Gateway": "Larabookir\\Gateway\\Gateway"
+        }
+    }
+},
 }
