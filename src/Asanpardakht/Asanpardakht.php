@@ -88,7 +88,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
      *
      * @return void
      *
-     * @throws AsanPardakhtException
+     * @throws AsanpardakhtException
      */
     protected function sendPayRequest()
     {
@@ -124,8 +124,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
         $responseCode = explode(",", $response)[0];
         if ($responseCode != '0') {
             $this->transactionFailed();
-            $this->newLog($response, AsanPardakhtException::getMessageByCode($response));
-            throw new AsanPardakhtException($response);
+            $this->newLog($response, AsanpardakhtException::getMessageByCode($response));
+            throw new AsanpardakhtException($response);
         }
         $this->refId = substr($response, 2);
         $this->transactionSetRefId();
@@ -137,7 +137,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
      *
      * @return bool
      *
-     * @throws AsanPardakhtException
+     * @throws AsanpardakhtException
      */
     protected function userPayment()
     {
@@ -165,8 +165,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog($ResCode, $ResMessage . " - " . AsanPardakhtException::getMessageByCode($ResCode));
-        throw new AsanPardakhtException($ResCode);
+        $this->newLog($ResCode, $ResMessage . " - " . AsanpardakhtException::getMessageByCode($ResCode));
+        throw new AsanpardakhtException($ResCode);
     }
 
 
@@ -175,7 +175,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
      *
      * @return bool
      *
-     * @throws AsanPardakhtException
+     * @throws AsanpardakhtException
      * @throws SoapFault
      */
     protected function verifyAndSettlePayment()
@@ -205,8 +205,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
         if ($response != '500') {
             $this->transactionFailed();
-            $this->newLog($response, AsanPardakhtException::getMessageByCode($response));
-            throw new AsanPardakhtException($response);
+            $this->newLog($response, AsanpardakhtException::getMessageByCode($response));
+            throw new AsanpardakhtException($response);
         }
 
 
@@ -216,7 +216,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
             $response = $response->RequestReconciliationResult;
 
             if ($response != '600')
-                $this->newLog($response, AsanPardakhtException::getMessageByCode($response));
+                $this->newLog($response, AsanpardakhtException::getMessageByCode($response));
 
         } catch (\SoapFault $e) {
             //If fail, shaparak automatically do it in next 12 houres.
@@ -228,37 +228,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
         return true;
     }
 
-
-    /**
-     * @param string $string
-     * @param int $blocksize
-     * @return string
-     */
-    private function addpadding($string, $blocksize = 32)
-    {
-        $len = strlen($string);
-        $pad = $blocksize - ($len % $blocksize);
-        $string .= str_repeat(chr($pad), $pad);
-        return $string;
-    }
-
-
-    /**
-     * @param string $string
-     * @return string|boolean
-     */
-    private function strippadding($string)
-    {
-        $slast = ord(substr($string, -1));
-        $slastc = chr($slast);
-        $pcheck = substr($string, -$slast);
-        if (preg_match("/$slastc{" . $slast . "}/", $string)) {
-            $string = substr($string, 0, strlen($string) - $slast);
-            return $string;
-        } else {
-            return false;
-        }
-    }
 
 
     /**
