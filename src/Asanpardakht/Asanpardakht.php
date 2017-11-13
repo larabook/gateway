@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway\AsanPardakht;
+namespace Larabookir\Gateway\Asanpardakht;
 
 use Illuminate\Support\Facades\Input;
 use SoapClient;
