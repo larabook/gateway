@@ -179,7 +179,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
+			$soap = new SoapClient($this->serverUrl, ['encoding' => 'UTF-8']);
 			$response = $soap->PaymentRequest($fields);
 
 		} catch (\SoapFault $e) {
@@ -236,7 +236,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
+			$soap = new SoapClient($this->serverUrl, ['encoding' => 'UTF-8']);
 			$response = $soap->PaymentVerification($fields);
 
 		} catch (\SoapFault $e) {
