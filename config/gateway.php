@@ -82,6 +82,20 @@ return [
         'certificate-path'    => storage_path('gateway/pasargad/certificate.xml'),
         'callback-url' => '/gateway/callback/pasargad'
     ],
+
+    //--------------------------------
+    // Asan Pardakht gateway
+    //--------------------------------
+    'asanpardakht' => [
+        'merchantId'     => '',
+        'merchantConfigId'     => '',
+        'username' => '',
+        'password' => '',
+        'key' => '',
+        'iv' => '',
+        'callback-url'   => '/',
+    ],
+
     //--------------------------------
     // Paypal gateway
     //--------------------------------

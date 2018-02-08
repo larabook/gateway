@@ -9,6 +9,7 @@ use Larabookir\Gateway\Mellat\Mellat;
 use Larabookir\Gateway\Payline\Payline;
 use Larabookir\Gateway\Pasargad\Pasargad;
 use Larabookir\Gateway\Saman\Saman;
+use Larabookir\Gateway\Asanpardakht\Asanpardakht;
 use Larabookir\Gateway\Zarinpal\Zarinpal;
 use Larabookir\Gateway\JahanPay\JahanPay;
 use Larabookir\Gateway\Exceptions\RetryException;
@@ -58,7 +59,7 @@ class GatewayResolver
 	public function getSupportedPorts()
 	{
 		return [
-		    Enum::MELLAT,
+            Enum::MELLAT,
             Enum::SADAD,
             Enum::ZARINPAL,
             Enum::PAYLINE,
@@ -67,6 +68,7 @@ class GatewayResolver
             Enum::PASARGAD,
             Enum::SAMAN,
             Enum::PAYPAL,
+            Enum::ASANPARDAKHT
         ];
 	}
 
@@ -151,6 +153,8 @@ class GatewayResolver
 			$name = Enum::JAHANPAY;
 		} elseif ($port InstanceOf Sadad) {
 			$name = Enum::SADAD;
+		} elseif ($port InstanceOf Asanpardakht) {
+            $name = Enum::ASANPARDAKHT;
 		} elseif ($port InstanceOf Paypal) {
 			$name = Enum::PAYPAL;
 		} elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
