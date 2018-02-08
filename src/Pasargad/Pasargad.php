@@ -161,4 +161,5 @@ class Pasargad extends PortAbstract implements PortInterface
             $this->transactionFailed();
             throw new PasargadErrorException(Enum::TRANSACTION_FAILED_TEXT, -1);
         }
+	}
 }

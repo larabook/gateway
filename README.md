@@ -58,12 +58,14 @@ You can make connection to bank by several way (Facade , Service container):
     try {
        
        $gateway = \Gateway::make(new \Mellat());
-       // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
+
+       // $gateway->setCallback(url('/path/to/callback/route')); You can also change the callback
        $gateway
             ->price(1000)
             // setShipmentPrice(10) // optional - just for paypal
             // setProductName("My Product") // optional - just for paypal
             ->ready();
+
        $refId =  $gateway->refId();
        $transID = $gateway->transactionId();
 
@@ -71,7 +73,7 @@ You can make connection to bank by several way (Facade , Service container):
 
        return $gateway->redirect();
        
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
        
        	echo $e->getMessage();
     }
@@ -97,7 +99,7 @@ and in your callback :
        
        // Your code here
        
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
        
        echo $e->getMessage();
     }  

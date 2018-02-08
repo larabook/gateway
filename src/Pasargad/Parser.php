@@ -45,7 +45,7 @@ class Parser
             }
         }
 
-        return $ret['resultObj'];
+        return $ret ;
     }
 
 
