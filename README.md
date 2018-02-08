@@ -17,7 +17,7 @@ Available Banks:
  6. ~~JAHANPAY~~ (Disabled)
  7. ~~PAYLINE~~ (Disabled)
  8. PayPal (**New**)
-
+ 9. AsanPardakht (**New**)
 ----------
 
 
