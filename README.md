@@ -64,12 +64,14 @@ You can make connection to bank by several way (Facade , Service container):
             // setProductName("My Product") // optional - just for paypal
             ->ready();
 
-       $refId =  $gateway->refId();
-       $transID = $gateway->transactionId();
+       $refId =  $gateway->refId(); // شماره ارجاع بانک
+       $transID = $gateway->transactionId(); // شماره تراکنش
 
-      // در این مرحله شماره سند تولید شده را قبل از ارجاع کاربر به بانک
-      // در بانک اطلاعات ذخیره میکنیم
-
+      // در اینجا
+      //  شماره تراکنش  باک را با توجه به نوع ساختار دیتابیس تان 
+      //  در جداول مورد نیاز و بسته به نیاز سیستم تان
+      // ذخیر کنید .
+      
        return $gateway->redirect();
        
     } catch (\Exception $e) {
