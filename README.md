@@ -14,8 +14,8 @@ Available Banks:
  4. PARSIAN
  5. PASARGAD
  6. ZARINPAL
- 7. PayPal (**New**)
- 8. AsanPardakht (**New**)
+ 7. PAYPAL (**New**)
+ 8. ASAN PARDAKHT (**New**)
 ----------
 
 
