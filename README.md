@@ -68,7 +68,7 @@ You can make connection to bank by several way (Facade , Service container):
        $transID = $gateway->transactionId(); // شماره تراکنش
 
       // در اینجا
-      //  شماره تراکنش  باک را با توجه به نوع ساختار دیتابیس تان 
+      //  شماره تراکنش  بانک را با توجه به نوع ساختار دیتابیس تان 
       //  در جداول مورد نیاز و بسته به نیاز سیستم تان
       // ذخیر کنید .
       
