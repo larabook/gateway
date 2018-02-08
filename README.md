@@ -67,7 +67,8 @@ You can make connection to bank by several way (Facade , Service container):
        $refId =  $gateway->refId();
        $transID = $gateway->transactionId();
 
-       // Your code here
+      // در این مرحله شماره سند تولید شده را قبل از ارجاع کاربر به بانک
+      // در بانک اطلاعات ذخیره میکنیم
 
        return $gateway->redirect();
        
@@ -95,11 +96,21 @@ and in your callback :
        $refId = $gateway->refId();
        $cardNumber = $gateway->cardNumber();
        
-       // Your code here
-       
+        // تراکنش با موفقیت سمت بانک تایید گردید
+        // در این مرحله عملیات خرید کاربر را تکمیل میکنیم
+    
+    } catch (\Larabookir\Gateway\Exceptions\RetryException $e) {
+    
+        // تراکنش قبلا سمت بانک تاییده شده است و
+        // کاربر احتمالا صفحه را مجددا رفرش کرده است
+        // لذا تنها فاکتور خرید قبل را مجدد به کاربر نمایش میدهیم
+        
+        echo $e->getMessage() . "<br>";
+        
     } catch (\Exception $e) {
        
-       echo $e->getMessage();
+        // نمایش خطای بانک
+        echo $e->getMessage();
     }  
 
 If you are intrested to developing this package you can help us by these ways :
