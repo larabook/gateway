@@ -11,13 +11,11 @@ Available Banks:
  1. MELLAT
  2. SADAD (MELLI)
  3. SAMAN
- 3. PARSIAN
- 4. PASARGAD
- 5. ZARINPAL
- 6. ~~JAHANPAY~~ (Disabled)
- 7. ~~PAYLINE~~ (Disabled)
- 8. PayPal (**New**)
- 9. AsanPardakht (**New**)
+ 4. PARSIAN
+ 5. PASARGAD
+ 6. ZARINPAL
+ 7. PayPal (**New**)
+ 8. AsanPardakht (**New**)
 ----------
 
 
