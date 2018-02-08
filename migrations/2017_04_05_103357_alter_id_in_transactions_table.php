@@ -50,6 +50,13 @@ class AlterIdInTransactionsTable extends Migration
 	 */
 	public function down()
 	{
+		// Don't check for foreign key constraints when executing below query in current session
+		DB::statement('set foreign_key_checks=0');
+
 		DB::statement("ALTER TABLE `" . $this->getTable() . "` CHANGE `id` `id` INT(10) UNSIGNED NOT NULL;");
+		
+		// Ok! now DBMS can check for foregin key constraints
+		DB::statement('set foreign_key_checks=1');
+
 	}
 }
