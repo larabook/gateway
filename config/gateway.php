@@ -41,10 +41,10 @@ return [
     ],
 
     //--------------------------------
-    // Payline gateway
+    // PayIr gateway
     //--------------------------------
-    'payline' => [
-        'api' => 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'payir'    => [
+        'api'          => 'xxxxxxxxxxxxxxxxxxxx',
         'callback-url' => '/'
     ],
 
@@ -57,15 +57,7 @@ return [
         'terminalId'    => 000000000,
         'callback-url'  => '/'
     ],
-
-    //--------------------------------
-    // JahanPay gateway
-    //--------------------------------
-    'jahanpay' => [
-        'api' => 'xxxxxxxxxxx',
-        'callback-url' => '/'
-    ],
-
+    
     //--------------------------------
     // Parsian gateway
     //--------------------------------
@@ -81,6 +73,14 @@ return [
         'merchantId'    => 000000,
         'certificate-path'    => storage_path('gateway/pasargad/certificate.xml'),
         'callback-url' => '/gateway/callback/pasargad'
+    ],
+
+    //--------------------------------
+    // PayIr gateway
+    //--------------------------------
+    'payir'    => [
+        'api'          => 'bea043bc09aa6ed606ba7a8bb482537f',
+        'callback-url' => '/'
     ],
 
     //--------------------------------
