@@ -3,6 +3,7 @@
 namespace Larabookir\Gateway;
 
 use Larabookir\Gateway\Parsian\Parsian;
+use Larabookir\Gateway\Paypal\Paypal;
 use Larabookir\Gateway\Sadad\Sadad;
 use Larabookir\Gateway\Mellat\Mellat;
 use Larabookir\Gateway\Payline\Payline;
@@ -57,7 +58,18 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN, Enum::PASARGAD, Enum::SAMAN, Enum::ASANPARDAKHT];
+		return [
+            Enum::MELLAT,
+            Enum::SADAD,
+            Enum::ZARINPAL,
+            Enum::PAYLINE,
+            Enum::JAHANPAY,
+            Enum::PARSIAN,
+            Enum::PASARGAD,
+            Enum::SAMAN,
+            Enum::PAYPAL,
+            Enum::ASANPARDAKHT
+        ];
 	}
 
 	/**
@@ -143,7 +155,9 @@ class GatewayResolver
 			$name = Enum::SADAD;
 		} elseif ($port InstanceOf Asanpardakht) {
             $name = Enum::ASANPARDAKHT;
-        }elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
+		} elseif ($port InstanceOf Paypal) {
+			$name = Enum::PAYPAL;
+		} elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
 			$name=strtoupper($port);
 			$class=__NAMESPACE__.'\\'.$port.'\\'.$port;
