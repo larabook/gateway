@@ -12,8 +12,8 @@ Available Banks:
  3. PARSIAN
  4. PASARGAD
  5. ZARINPAL
- 6. JAHANPAY
- 7. PAYLINE
+ 6. ~~JAHANPAY~~ (Disabled)
+ 7. ~~PAYLINE~~ (Disabled)
 
 ----------
 
@@ -64,7 +64,7 @@ You can make connection to bank by several way (Facade , Service container):
 
        return $gateway->redirect();
        
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
        
        	echo $e->getMessage();
     }
@@ -90,7 +90,7 @@ and in your callback :
        
        // Your code here
        
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
        
        echo $e->getMessage();
     }  
