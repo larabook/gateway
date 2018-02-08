@@ -50,7 +50,7 @@ class Sadad extends PortAbstract implements PortInterface
 	{
 		$form = $this->form;
 
-		return view('gateway::sadad-redirector')->with(compact('form'));
+		return \View::make('gateway::sadad-redirector')->with(compact('form'));
 	}
 
 	/**

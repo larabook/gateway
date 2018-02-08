@@ -3,6 +3,8 @@ package's home : [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک
 
 by this  package we are able to connect to all Iranian bank with one unique API.
 
+( This Package is now compatible with both **4.\* and 5.\* versions of Laravel** )
+
 Please inform us once you've encountered [bug](https://github.com/larabook/gateway/issues) or [issue](https://github.com/larabook/gateway/issues)  .
 
 Available Banks:
@@ -14,6 +16,7 @@ Available Banks:
  5. ZARINPAL
  6. ~~JAHANPAY~~ (Disabled)
  7. ~~PAYLINE~~ (Disabled)
+ 8. PayPal (**New**)
 
 ----------
 
@@ -55,8 +58,14 @@ You can make connection to bank by several way (Facade , Service container):
     try {
        
        $gateway = \Gateway::make(new \Mellat());
-       // $gateway->setCallback(url('/path/to/calback/route')); You can also change the callback
-       $gateway->price(1000)->ready();
+
+       // $gateway->setCallback(url('/path/to/callback/route')); You can also change the callback
+       $gateway
+            ->price(1000)
+            // setShipmentPrice(10) // optional - just for paypal
+            // setProductName("My Product") // optional - just for paypal
+            ->ready();
+
        $refId =  $gateway->refId();
        $transID = $gateway->transactionId();
 
@@ -64,7 +73,7 @@ You can make connection to bank by several way (Facade , Service container):
 
        return $gateway->redirect();
        
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
        
        	echo $e->getMessage();
     }
@@ -90,7 +99,7 @@ and in your callback :
        
        // Your code here
        
-    } catch (Exception $e) {
+    } catch (\Exception $e) {
        
        echo $e->getMessage();
     }  

@@ -42,7 +42,7 @@ class Saman extends PortAbstract implements PortInterface
     public function redirect()
     {
 
-        return view('gateway::saman-redirector')->with([
+        return \View::make('gateway::saman-redirector')->with([
             'amount' => $this->amount,
             'merchant' => $this->config->get('gateway.saman.merchant'),
             'resNum' => $this->transactionId(),
