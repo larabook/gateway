@@ -141,31 +141,31 @@ class Saman extends PortAbstract implements PortInterface
 
         $response = intval($response);
 
-        if ($response != $this->amount) {
-
-            //Reverse Transaction
-            if($response>0){
-                try {
-                    $soap = new SoapClient($this->serverUrl);
-                    $response = $soap->ReverseTransaction($fields["RefNum"], $fields["merchantID"], $fields["password"], $response);
-
-                } catch (\SoapFault $e) {
-                    $this->transactionFailed();
-                    $this->newLog('SoapFault', $e->getMessage());
-                    throw $e;
-                }
-            }
-
-            //
-            $this->transactionFailed();
-            $this->newLog($response, SamanException::$errors[$response]);
-            throw new SamanException($response);
+        if ($response == $this->amount) {
+            $this->transactionSucceed();
+            return true;
         }
 
+        //Reverse Transaction
+        if($response>0){
+            try {
+                $soap = new SoapClient($this->serverUrl);
+                $response = $soap->ReverseTransaction($fields["RefNum"], $fields["merchantID"], $fields["password"], $response);
 
-        $this->transactionSucceed();
+            } catch (\SoapFault $e) {
+                $this->transactionFailed();
+                $this->newLog('SoapFault', $e->getMessage());
+                throw $e;
+            }
+        }
 
-        return true;
+        //
+        $this->transactionFailed();
+        $this->newLog($response, SamanException::$errors[$response]);
+        throw new SamanException($response);
+        
+
+
     }
 
 
