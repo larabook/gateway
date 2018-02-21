@@ -188,15 +188,17 @@ class Sadad extends PortAbstract implements PortInterface
 	private function getMessage($code, $message)
 	{
 		$result = SadadResult::codeResponse($code, $message);
-		if (!$result) {
-			$result = array(
-				'code' => SadadResult::UNKNOWN_CODE,
-				'message' => SadadResult::UNKNOWN_MESSAGE,
-				'fa' => 'خطای ناشناخته',
-				'en' => 'Unknown Error',
-				'retry' => false
-			);
+		if ($result) {
+			return $result;
 		}
+		$result = array(
+			'code' => SadadResult::UNKNOWN_CODE,
+			'message' => SadadResult::UNKNOWN_MESSAGE,
+			'fa' => 'خطای ناشناخته',
+			'en' => 'Unknown Error',
+			'retry' => false
+		);
+		
 
 		return $result;
 	}
