@@ -130,7 +130,7 @@ class Pasargad extends PortAbstract implements PortInterface
 		$result = Parser::post2https($fields,'https://pep.shaparak.ir/CheckTransactionResult.aspx');
 		$check_array = Parser::makeXMLTree($result);
 
-		if ($check_array['resultObj']['result'] !== "True") {
+		if ($check_array['resultObj']['result'] != "True") {
 		    $this->newLog(-1, Enum::TRANSACTION_FAILED_TEXT);
 		    $this->transactionFailed();
 		    throw new PasargadErrorException(Enum::TRANSACTION_FAILED_TEXT, -1);
