@@ -165,14 +165,13 @@ class Sadad extends PortAbstract implements PortInterface
 
 		$this->newLog($statusResult, $message['fa']);
 
-		if ($statusResult == 0 && $appStatus === 'commit') {
-			$this->trackingCode = $result->TraceNo;
-			$this->cardNumber = $result->CustomerCardNumber;
-			$this->transactionSucceed();
-		} else {
+		if ($statusResult != 0 || $appStatus !== 'commit') {
 			$this->transactionFailed();
 			throw new SadadException($message['fa'], $statusResult);
 		}
+		$this->trackingCode = $result->TraceNo;
+		$this->cardNumber = $result->CustomerCardNumber;
+		$this->transactionSucceed();
 	}
 
 	/**
