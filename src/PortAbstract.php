@@ -324,6 +324,7 @@ abstract class PortAbstract
 
 		return (!empty($url_array['scheme']) ? $url_array['scheme'] . '://' : null) .
 		(!empty($url_array['host']) ? $url_array['host'] : null) .
+		(!empty($url_array['port']) ? ':' . $url_array['port'] : null) .
 		$url_array['path'] . '?' . http_build_query($query_array);
 	}
 }
