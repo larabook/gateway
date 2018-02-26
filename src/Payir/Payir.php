@@ -112,7 +112,7 @@ class Payir extends PortAbstract implements PortInterface
      */
     protected function sendPayRequest()
     {
-        $this->updTransaction();
+        $this->newTransaction();
         $fields = [
             'api'      => $this->config->get('gateway.payir.api'),
             'amount'   => $this->amount,
