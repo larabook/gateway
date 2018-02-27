@@ -32,7 +32,7 @@ class CreateGatewayTransactionsTable extends Migration
 				Enum::SADAD,
 				Enum::ZARINPAL,
 				Enum::SAMAN,
-				Enum::ASANPARDAKHT
+				Enum::ASANPARDAKHT,
 				Enum::PAYPAL,
 			]);
 			$table->decimal('price', 15, 2);
