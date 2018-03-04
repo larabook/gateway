@@ -53,6 +53,13 @@ abstract class PortAbstract
 	protected $amount;
 
 	/**
+	 * Description of transaction
+	 *
+	 * @var string
+	 */
+	protected $description;
+
+	/**
 	 * callback URL
 	 *
 	 * @var url
@@ -122,6 +129,28 @@ abstract class PortAbstract
 	function setPortName($name)
 	{
 		$this->portName = $name;
+	}
+
+	/**
+	 * Set custom description on current transaction
+	 *
+	 * @param string $description
+	 *
+	 * @return void
+	 */
+	function setCustomDesc ($description)
+	{
+		$this->description = $description;
+	}
+
+	/**
+	 * Get custom description of current transaction
+	 *
+	 * @return string | null
+	 */
+	function getCustomDesc ()
+	{
+		return $this->description;
 	}
 
 	/**
@@ -217,13 +246,14 @@ abstract class PortAbstract
 		$uid = $this->getTimeId();
 
 		$this->transactionId = $this->getTable()->insert([
-			'id' => $uid,
-			'port' => $this->getPortName(),
-			'price' => $this->amount,
-			'status' => Enum::TRANSACTION_INIT,
-			'ip' => Request::getClientIp(),
-			'created_at' => Carbon::now(),
-			'updated_at' => Carbon::now(),
+			'id' 			=> $uid,
+			'port' 			=> $this->getPortName(),
+			'price' 		=> $this->amount,
+			'status' 		=> Enum::TRANSACTION_INIT,
+			'ip' 			=> Request::getClientIp(),
+			'description'	=> $this->description,
+			'created_at' 	=> Carbon::now(),
+			'updated_at' 	=> Carbon::now(),
 		]) ? $uid : null;
 
 		return $this->transactionId;
