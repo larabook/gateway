@@ -16,7 +16,7 @@ Available Banks:
  6. ZARINPAL
  7. PAYPAL (**New**)
  8. ASAN PARDAKHT (**New**)
- 9. PAY.IR (**New**) (to use : \Gateway::make(new \Payir()))
+ 9. PAY.IR (**New**) (to use : new \Payir())
 ----------
 
 
