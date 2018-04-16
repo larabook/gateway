@@ -10,6 +10,14 @@ use Larabookir\Gateway\PortInterface;
 class Saman extends PortAbstract implements PortInterface
 {
     /**
+     *
+     * @var Array $optional_data An array of optional data
+     *  that will be sent with the payment request
+     *
+     */
+    protected $optional_data = [];
+
+    /**
      * Address of main SOAP server
      *
      * @var string
@@ -37,17 +45,33 @@ class Saman extends PortAbstract implements PortInterface
     }
 
     /**
+     *
+     * Add optional data to the request
+     *
+     * @param Array $data an array of data
+     *
+     */
+    function setOptionalData (Array $data)
+    {
+        $this->optional_data = $data;
+    }
+    
+
+    /**
      * {@inheritdoc}
      */
     public function redirect()
     {
+        $main_data = [
+            'amount'        => $this->amount,
+            'merchant'      => $this->config->get('gateway.saman.merchant'),
+            'resNum'        => $this->transactionId(),
+            'callBackUrl'   => $this->getCallback()
+        ];
 
-        return \View::make('gateway::saman-redirector')->with([
-            'amount' => $this->amount,
-            'merchant' => $this->config->get('gateway.saman.merchant'),
-            'resNum' => $this->transactionId(),
-            'callBackUrl' => $this->getCallback()
-        ]);
+        $data = array_merge($main_data, $this->optional_data);
+        
+        return \View::make('gateway::saman-redirector')->with($data);
     }
 
     /**
