@@ -17,7 +17,7 @@ Available Banks:
  7.  PAYPAL (**New**)
  8.  ASAN PARDAKHT (**New**)
  9.  PAY.IR (**New**) (to use : new \Payir())
- 10. IRANKISH
+ 10. IRANKISH (**New**)
 ----------
 
 
