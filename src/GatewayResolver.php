@@ -120,6 +120,9 @@ class GatewayResolver
 		if (!$transaction)
 			throw new NotFoundTransactionException;
 
+		// added by SKings
+        $transaction = json_decode(json_encode((object) $transaction), FALSE);
+
 		if (in_array($transaction->status, [Enum::TRANSACTION_SUCCEED, Enum::TRANSACTION_FAILED]))
 			throw new RetryException;
 
