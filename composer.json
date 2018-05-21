@@ -1,12 +1,13 @@
 {
-  "name": "larabook/gateway",
-  "homepage": "https://github.com/larabook/gateway",
+  "name": "skings/gateway",
+  "homepage": "https://github.com/SamanFekri/gateway",
   "description": "A Laravel package for connecting to all Iraninan payment  gateways",
   "keywords": [
     "laravel",
     "iran",
     "payment",
     "gateway",
+    "mongodb",
     "port",
     "bank",
     "pay",
@@ -32,6 +33,10 @@
   ],
   "license": "MIT",
   "authors": [
+    {
+      "name": "Saman Fekri",
+      "email": "samanf74@gmail.com"
+    },
     {
       "name": "Hamed Pakdaman",
       "email": "pakdaman.it@gmail.com"
