@@ -98,7 +98,8 @@ class Saman extends PortAbstract implements PortInterface
     protected function userPayment()
     {
         $this->refId = Input::get('RefNum');
-        $this->trackingCode = Input::get('ResNum');
+        $this->trackingCode = Input::get('‫‪TRACENO‬‬');
+        $this->cardNumber = Input::get('‫‪SecurePan‬‬');
         $payRequestRes = Input::get('State');
         $payRequestResCode = Input::get('StateCode');
 
