@@ -13,7 +13,7 @@ return [
     //--------------------------------
     'zarinpal' => [
         'merchant-id'  => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
-        'type'         => 'zarin-gate',             // Types: [zarin-gate || normal]
+        'type'         => 'zarin-gate',             // Types: [zarin-gate || normal || zarin-gate-sad || zarin-gate-sep]
         'callback-url' => '/',
         'server'       => 'germany',                // Servers: [germany || iran || test]
         'email'        => 'email@gmail.com',
