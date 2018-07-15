@@ -87,6 +87,20 @@ class Zarinpal extends PortAbstract implements PortInterface
 	}
 
 	/**
+         * Send pay request to server
+         *
+         * @return void
+         *
+         * @throws ZarinpalException
+         */
+        public function setType($type)
+        {
+               $this->type = $type;
+
+              return $this;
+        }
+	
+	/**
 	 * {@inheritdoc}
 	 */
 	public function set($amount)
