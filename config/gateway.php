@@ -14,6 +14,7 @@ return [
     'zarinpal' => [
         'merchant-id'  => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
         'type'         => 'zarin-gate',             // Types: [zarin-gate || normal || zarin-gate-sad || zarin-gate-sep]
+                                                    // Zarinpal adding two new type for special zarin-gate
         'callback-url' => '/',
         'server'       => 'germany',                // Servers: [germany || iran || test]
         'email'        => 'email@gmail.com',
