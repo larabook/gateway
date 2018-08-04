@@ -71,7 +71,7 @@ You can make connection to bank by several way (Facade , Service container):
       // در اینجا
       //  شماره تراکنش  بانک را با توجه به نوع ساختار دیتابیس تان 
       //  در جداول مورد نیاز و بسته به نیاز سیستم تان
-      // ذخیر کنید .
+      // ذخیره کنید .
       
        return $gateway->redirect();
        
