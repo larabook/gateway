@@ -131,7 +131,9 @@ class Pasargad extends PortAbstract implements PortInterface
 
         $result = Parser::post2https($fields, $this->checkTransactionUrl);
         $array = Parser::makeXMLTree($result);
-        $array = $this->callVerifyPayment($array);
+        $verifyResult = $this->callVerifyPayment($array);
+        $array['result'] = $verifyResult['result'] ?? false;
+
 
         if ($array['result'] != "True") {
             $this->newLog(-1, Enum::TRANSACTION_FAILED_TEXT);
