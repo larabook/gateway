@@ -16,7 +16,7 @@ Available Banks:
  6. ZARINPAL
  7. PAYPAL (**New**)
  8. ASAN PARDAKHT (**New**)
- 9. PAY.IR (**New**)
+ 9. PAY.IR (**New**) (to use : new \Payir())
 ----------
 
 
@@ -71,7 +71,7 @@ You can make connection to bank by several way (Facade , Service container):
       // در اینجا
       //  شماره تراکنش  بانک را با توجه به نوع ساختار دیتابیس تان 
       //  در جداول مورد نیاز و بسته به نیاز سیستم تان
-      // ذخیر کنید .
+      // ذخیره کنید .
       
        return $gateway->redirect();
        
