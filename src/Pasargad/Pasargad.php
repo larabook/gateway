@@ -127,7 +127,7 @@ class Pasargad extends PortAbstract implements PortInterface
 	{
 		$processor = new RSAProcessor($this->config->get('gateway.pasargad.certificate-path'),RSAKeyType::XMLFile);
 		$fields = array('invoiceUID' => Input::get('tref'));
-		$result = Parser::post2https($fields,'https://pep.shaparak.ir/CheckTransactionResult.aspx');
+		$result = Parser::post2https($fields,$this->checkTransactionUrl);
 		$check_array = Parser::makeXMLTree($result);
 
 		if ($check_array['resultObj']['result'] != "True") {
@@ -150,7 +150,7 @@ class Pasargad extends PortAbstract implements PortInterface
 		$data = sha1($data, true);
 		$data = $processor->sign($data);
 		$fields['sign'] = base64_encode($data);
-		$result = Parser::post2https($fields,"https://pep.shaparak.ir/VerifyPayment.aspx");
+		$result = Parser::post2https($fields,$this->verifyUrl);
 		$array = Parser::makeXMLTree($result);
 		if ($array['actionResult']['result'] != "True") {
 			$this->newLog(-1, Enum::TRANSACTION_FAILED_TEXT);
