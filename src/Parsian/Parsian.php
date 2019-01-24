@@ -130,8 +130,6 @@ class Parsian extends PortAbstract implements PortInterface
 			$this->newLog($response->SalePaymentRequestResult->Status, $errorMessage);
 			throw new ParsianErrorException($errorMessage, $response->SalePaymentRequestResult->Status);
 		}
-		var_dump($params);
-		var_dump($response);
 		if ($response !== false) {
 			$authority = $response->SalePaymentRequestResult->Token;
 			$status = $response->SalePaymentRequestResult->Status;
