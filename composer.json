@@ -2,6 +2,7 @@
   "name": "larabook/gateway",
   "homepage": "https://github.com/larabook/gateway",
   "description": "A Laravel package for connecting to all Iranian's payment  gateways",
+  "version": "3.3.5",
   "keywords": [
     "laravel",
     "iran",
