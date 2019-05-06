@@ -1,7 +1,7 @@
 {
   "name": "larabook/gateway",
   "homepage": "https://github.com/larabook/gateway",
-  "description": "A Laravel package for connecting to all Iraninan payment  gateways",
+  "description": "A Laravel package for connecting to all Iranian's payment  gateways",
   "keywords": [
     "laravel",
     "iran",
@@ -46,7 +46,7 @@
     }
   ],
   "require": {
-    "nesbot/carbon": "~1.20",
+    "nesbot/carbon": "^1.26.3 || ^2.0",
     "paypal/rest-api-sdk-php": "*"
   },
   "autoload": {
