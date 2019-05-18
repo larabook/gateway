@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Larautility\Gateway;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -54,9 +54,9 @@ class GatewayServiceProvider extends ServiceProvider
     private function getProvider()
     {
         if (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '<')) {
-            $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel4';
+            $provider = 'Larautility\Gateway\GatewayServiceProviderLaravel4';
         } else {
-            $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel5';
+            $provider = 'Larautility\Gateway\GatewayServiceProviderLaravel5';
         }
 
         return new $provider($this->app);

@@ -1,11 +1,11 @@
 <?php
 
-namespace Larabookir\Gateway\Payline;
+namespace Larautility\Gateway\Payline;
 
 use Illuminate\Support\Facades\Input;
-use Larabookir\Gateway\Enum;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Larautility\Gateway\Enum;
+use Larautility\Gateway\PortAbstract;
+use Larautility\Gateway\PortInterface;
 
 class Payline extends PortAbstract implements PortInterface
 {

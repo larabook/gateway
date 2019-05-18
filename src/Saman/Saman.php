@@ -1,11 +1,11 @@
 <?php
 
-namespace Larabookir\Gateway\Saman;
+namespace Larautility\Gateway\Saman;
 
 use Illuminate\Support\Facades\Input;
 use SoapClient;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Larautility\Gateway\PortAbstract;
+use Larautility\Gateway\PortInterface;
 
 class Saman extends PortAbstract implements PortInterface
 {

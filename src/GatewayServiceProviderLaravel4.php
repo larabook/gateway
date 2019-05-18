@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Larautility\Gateway;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -29,7 +29,7 @@ class GatewayServiceProviderLaravel4 extends ServiceProvider
 
 
         // for laravel 4.2
-        $this->package('larabook/gateway',null,__DIR__.'/../');
+        $this->package('larautility/gateway',null,__DIR__.'/../');
 		
 		
 		if (

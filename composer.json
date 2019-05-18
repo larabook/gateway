@@ -1,8 +1,8 @@
 {
-  "name": "larabook/gateway",
-  "homepage": "https://github.com/larabook/gateway",
+  "name": "larautility/gateway",
+  "homepage": "https://github.com/larautility/gateway",
   "description": "A Laravel package for connecting to all Iranian's payment  gateways",
-  "version": "3.3.5",
+  "version": "3.3.6",
   "keywords": [
     "laravel",
     "iran",
@@ -52,18 +52,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Larabookir\\Gateway\\": "src/",
-      "Larabookir\\Gateway\\Tests\\": "tests/"
+      "Larautility\\Gateway\\": "src/",
+      "Larautility\\Gateway\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
   "extra": {
     "laravel": {
       "providers": [
-        "Larabookir\\Gateway\\GatewayServiceProvider"
+        "Larautility\\Gateway\\GatewayServiceProvider"
       ],
       "aliases": {
-        "Gateway": "Larabookir\\Gateway\\Gateway"
+        "Gateway": "Larautility\\Gateway\\Gateway"
       }
     }
   }

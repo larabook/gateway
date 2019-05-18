@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway\Exceptions;
+namespace Larautility\Gateway\Exceptions;
 
 class ConfigFileNotFoundException extends GatewayException {
 	protected $code=-105;

@@ -1,11 +1,11 @@
 
-package's home : [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
+package's home : [larautility.ir](http://larautility.ir/اتصال-درگاه-بانک-لاراول/) 
 
 by this  package we are able to connect to all Iranian bank with one unique API.
 
 ( This Package is now compatible with both **4.\* and 5.\* versions of Laravel** )
 
-Please inform us once you've encountered [bug](https://github.com/larabook/gateway/issues) or [issue](https://github.com/larabook/gateway/issues)  .
+Please inform us once you've encountered [bug](https://github.com/larautility/gateway/issues) or [issue](https://github.com/larautility/gateway/issues)  .
 
 Available Banks:
  1. MELLAT
@@ -26,24 +26,24 @@ Run below statements on your terminal :
 
 STEP 1 : 
 
-    composer require larabook/gateway
+    composer require larautility/gateway
     
 STEP 2 : Add `provider` and `facade` in config/app.php
 
     'providers' => [
       ...
-      Larabookir\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
+      Larautility\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
     ],
 
 
     'aliases' => [
       ...
-      'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
+      'Gateway' => Larautility\Gateway\Gateway::class, // <-- add this line at the end of aliases array
     ]
 
 Step 3:  
 
-    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider
+    php artisan vendor:publish --provider=Larautility\Gateway\GatewayServiceProvider
 
 Step 4: 
 
@@ -102,7 +102,7 @@ and in your callback :
         // تراکنش با موفقیت سمت بانک تایید گردید
         // در این مرحله عملیات خرید کاربر را تکمیل میکنیم
     
-    } catch (\Larabookir\Gateway\Exceptions\RetryException $e) {
+    } catch (\Larautility\Gateway\Exceptions\RetryException $e) {
     
         // تراکنش قبلا سمت بانک تاییده شده است و
         // کاربر احتمالا صفحه را مجددا رفرش کرده است
