@@ -60,6 +60,8 @@
       "Hosseinizadeh\\Gateway\\Tests\\": "tests/"
     }
   },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
   "extra": {
     "laravel": {
       "providers": [
