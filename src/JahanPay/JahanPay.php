@@ -1,12 +1,12 @@
 <?php
 
-namespace Larabookir\Gateway\JahanPay;
+namespace Hosseinizadeh\Gateway\JahanPay;
 
 use Illuminate\Support\Facades\Input;
-use Larabookir\Gateway\Enum;
+use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Hosseinizadeh\Gateway\PortAbstract;
+use Hosseinizadeh\Gateway\PortInterface;
 
 class JahanPay extends PortAbstract implements PortInterface
 {
@@ -49,7 +49,7 @@ class JahanPay extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-        return redirect()->to($this->gateUrl.$this->refId());
+        return \Redirect::to($this->gateUrl.$this->refId());
     }
 
     /**

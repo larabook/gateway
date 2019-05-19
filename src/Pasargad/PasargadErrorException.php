@@ -1,7 +1,7 @@
 <?php
 
-namespace Larabookir\Gateway\Pasargad;
+namespace Hosseinizadeh\Gateway\Pasargad;
 
-use Larabookir\Gateway\Exceptions\BankException;
+use Hosseinizadeh\Gateway\Exceptions\BankException;
 
 class PasargadErrorException extends BankException {}

@@ -1,8 +1,8 @@
 <?php
 
-namespace Larabookir\Gateway\Mellat;
+namespace Hosseinizadeh\Gateway\Mellat;
 
-use Larabookir\Gateway\Exceptions\BankException;
+use Hosseinizadeh\Gateway\Exceptions\BankException;
 
 class MellatException extends BankException
 {
@@ -41,7 +41,7 @@ class MellatException extends BankException
         412 => 'شناسه قبض نادرست است',
         413 => 'شناسه پرداخت نادرست است',
         414=> 'سازمان صادر کننده قبض نامعتبر است',
-        415 => 'زمان جلسه کاری به پایان رسیده است',
+        415 => 'مدت زمان مجاز برای انجام تراکنش به پایان رسیده است',
         416 => 'خطا در ثبت اطلاعات',
         417 => 'شناسه پرداخت کننده نامعتبر است',
         418 => 'اشکال در تعریف اطلاعات مشتری',

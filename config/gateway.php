@@ -32,10 +32,19 @@ return [
     ],
 
     //--------------------------------
-    // Payline gateway
+    // Saman gateway
     //--------------------------------
-    'payline' => [
-        'api' => 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+    'saman' => [
+        'merchant'     => '',
+        'password'     => '',
+        'callback-url'   => '/',
+    ],
+
+    //--------------------------------
+    // PayIr gateway
+    //--------------------------------
+    'payir'    => [
+        'api'          => 'xxxxxxxxxxxxxxxxxxxx',
         'callback-url' => '/'
     ],
 
@@ -48,15 +57,7 @@ return [
         'terminalId'    => 000000000,
         'callback-url'  => '/'
     ],
-
-    //--------------------------------
-    // JahanPay gateway
-    //--------------------------------
-    'jahanpay' => [
-        'api' => 'xxxxxxxxxxx',
-        'callback-url' => '/'
-    ],
-
+    
     //--------------------------------
     // Parsian gateway
     //--------------------------------
@@ -73,8 +74,48 @@ return [
         'certificate-path'    => storage_path('gateway/pasargad/certificate.xml'),
         'callback-url' => '/gateway/callback/pasargad'
     ],
+
+    //--------------------------------
+    // Asan Pardakht gateway
+    //--------------------------------
+    'asanpardakht' => [
+        'merchantId'     => '',
+        'merchantConfigId'     => '',
+        'username' => '',
+        'password' => '',
+        'key' => '',
+        'iv' => '',
+        'callback-url'   => '/',
+    ],
+
+    //--------------------------------
+    // Paypal gateway
+    //--------------------------------
+    'paypal'   => [
+        // Default product name that appear on paypal payment items
+        'default_product_name' => 'My Product',
+        'default_shipment_price' => 0,
+        // set your paypal credential
+        'client_id' => 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx-xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        'secret'    => 'xxxxxxxxxx_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        'settings'  => [
+            'mode'                   => 'sandbox', //'sandbox' or 'live'
+            'http.ConnectionTimeOut' => 30,
+            'log.LogEnabled'         => true,
+            'log.FileName'           => storage_path() . '/logs/paypal.log',
+            /**
+             * Available option 'FINE', 'INFO', 'WARN' or 'ERROR'
+             *
+             * Logging is most verbose in the 'FINE' level and decreases as you
+             * proceed towards ERROR
+             */
+            'call_back_url'          => '/gateway/callback/paypal',
+            'log.LogLevel'           => 'FINE'
+
+        ]
+    ],
     //-------------------------------
     // Tables names
     //--------------------------------
-    'table'=> 'gateway_transactions',
+    'table'    => 'gateway_transactions',
 ];

@@ -1,18 +1,20 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Hosseinizadeh\Gateway;
 
-use Larabookir\Gateway\Parsian\Parsian;
-use Larabookir\Gateway\Sadad\Sadad;
-use Larabookir\Gateway\Mellat\Mellat;
-use Larabookir\Gateway\Payline\Payline;
-use Larabookir\Gateway\Pasargad\Pasargad;
-use Larabookir\Gateway\Zarinpal\Zarinpal;
-use Larabookir\Gateway\JahanPay\JahanPay;
-use Larabookir\Gateway\Exceptions\RetryException;
-use Larabookir\Gateway\Exceptions\PortNotFoundException;
-use Larabookir\Gateway\Exceptions\InvalidRequestException;
-use Larabookir\Gateway\Exceptions\NotFoundTransactionException;
+use Hosseinizadeh\Gateway\Parsian\Parsian;
+use Hosseinizadeh\Gateway\Paypal\Paypal;
+use Hosseinizadeh\Gateway\Sadad\Sadad;
+use Hosseinizadeh\Gateway\Mellat\Mellat;
+use Hosseinizadeh\Gateway\Pasargad\Pasargad;
+use Hosseinizadeh\Gateway\Saman\Saman;
+use Hosseinizadeh\Gateway\Asanpardakht\Asanpardakht;
+use Hosseinizadeh\Gateway\Zarinpal\Zarinpal;
+use Hosseinizadeh\Gateway\Payir\Payir;
+use Hosseinizadeh\Gateway\Exceptions\RetryException;
+use Hosseinizadeh\Gateway\Exceptions\PortNotFoundException;
+use Hosseinizadeh\Gateway\Exceptions\InvalidRequestException;
+use Hosseinizadeh\Gateway\Exceptions\NotFoundTransactionException;
 use Illuminate\Support\Facades\DB;
 
 class GatewayResolver
@@ -28,7 +30,7 @@ class GatewayResolver
 	/**
 	 * Keep current port driver
 	 *
-	 * @var Mellat|Sadad|Zarinpal|Payline|JahanPay|Parsian
+	 * @var Mellat|Saman|Sadad|Zarinpal|Payir|Parsian
 	 */
 	protected $port;
 
@@ -55,7 +57,17 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN, Enum::PASARGAD];
+		return [
+            Enum::MELLAT,
+            Enum::SADAD,
+            Enum::ZARINPAL,
+            Enum::PARSIAN,
+            Enum::PASARGAD,
+            Enum::SAMAN,
+            Enum::PAYPAL,
+            Enum::ASANPARDAKHT,
+            Enum::PAYIR
+        ];
 	}
 
 	/**
@@ -98,9 +110,9 @@ class GatewayResolver
 		if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
 			throw new InvalidRequestException;
 		if ($this->request->has('transaction_id')) {
-			$id = intval($this->request->get('transaction_id'));
+			$id = $this->request->get('transaction_id');
 		}else {
-			$id = intval($this->request->get('iN'));
+			$id = $this->request->get('iN');
 		}
 
 		$transaction = $this->getTable()->whereId($id)->first();
@@ -129,15 +141,19 @@ class GatewayResolver
 			$name = Enum::MELLAT;
 		} elseif ($port InstanceOf Parsian) {
 			$name = Enum::PARSIAN;
-		} elseif ($port InstanceOf Payline) {
-			$name = Enum::PAYLINE;
+		} elseif ($port InstanceOf Saman) {
+			$name = Enum::SAMAN;
 		} elseif ($port InstanceOf Zarinpal) {
 			$name = Enum::ZARINPAL;
-		} elseif ($port InstanceOf JahanPay) {
-			$name = Enum::JAHANPAY;
-		} elseif ($port InstanceOf SADAD) {
+		} elseif ($port InstanceOf Sadad) {
 			$name = Enum::SADAD;
-		} elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
+		} elseif ($port InstanceOf Asanpardakht) {
+			$name = Enum::ASANPARDAKHT;
+		} elseif ($port InstanceOf Paypal) {
+			$name = Enum::PAYPAL;
+		} elseif ($port InstanceOf Payir) {
+			$name = Enum::PAYIR;
+		}  elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
 			$name=strtoupper($port);
 			$class=__NAMESPACE__.'\\'.$port.'\\'.$port;

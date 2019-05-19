@@ -1,13 +1,13 @@
 <?php
 
-namespace Larabookir\Gateway\Mellat;
+namespace Hosseinizadeh\Gateway\Mellat;
 
 use DateTime;
 use Illuminate\Support\Facades\Input;
-use Larabookir\Gateway\Enum;
+use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Hosseinizadeh\Gateway\PortAbstract;
+use Hosseinizadeh\Gateway\PortInterface;
 
 class Mellat extends PortAbstract implements PortInterface
 {
@@ -45,7 +45,7 @@ class Mellat extends PortAbstract implements PortInterface
 	{
 		$refId = $this->refId;
 
-		return view('gateway::mellat-redirector')->with(compact('refId'));
+        return \View::make('gateway::mellat-redirector')->with(compact('refId'));
 	}
 
 	/**
@@ -111,8 +111,8 @@ class Mellat extends PortAbstract implements PortInterface
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
-			$response = $soap->bpPayRequest($fields);
+			$soap = new \SoapClient($this->serverUrl);
+            $response = $soap->bpPayRequest($fields);
 
 		} catch (\SoapFault $e) {
 			$this->transactionFailed();
