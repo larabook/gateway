@@ -1,7 +1,7 @@
 {
   "name": "hosseinizadeh/gateway",
   "homepage": "https://github.com/hosseinizadeh/gateway",
-  "description": "A Laravel package for connecting to all Iranian bank, Paypal and AfghanPay with one unique API. (Multi Language Response)",
+  "description": "A Laravel package for connecting to all Iranian bank and Paypal with one unique API.",
   "version": "1.0.0",
   "keywords": [
     "laravel",
@@ -60,7 +60,6 @@
       "Hosseinizadeh\\Gateway\\Tests\\": "tests/"
     }
   },
-  "minimum-stability": "dev",
   "extra": {
     "laravel": {
       "providers": [

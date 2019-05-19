@@ -1,5 +1,5 @@
 
-by this  package we are able to connect to all Iranian bank, Paypal and AfghanPay with one unique API. (Multi Language Response)
+by this  package we are able to connect to all Iranian bank and Paypal with one unique API.
 
 ( This Package is now compatible with both **4.\* and 5.\* versions of Laravel** )
 
