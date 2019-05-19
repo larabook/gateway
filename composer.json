@@ -1,7 +1,8 @@
 {
-  "name": "larabook/gateway",
-  "homepage": "https://github.com/larabook/gateway",
-  "description": "A Laravel package for connecting to all Iraninan payment  gateways",
+  "name": "hosseinizadeh/gateway",
+  "homepage": "https://github.com/hosseinizadeh/gateway",
+  "description": "A Laravel package for connecting to all Iranian bank, Paypal and AfghanPay with one unique API. (Multi Language Response)",
+  "version": "1.0.0",
   "keywords": [
     "laravel",
     "iran",
@@ -43,26 +44,30 @@
     {
       "name": "Amir Khorsandi",
       "email": "Khorsandi@me.com"
+    },
+    {
+      "name": "Alireza Hosseinizadeh",
+      "email": "info@hosseinizadeh.ir"
     }
   ],
   "require": {
-    "nesbot/carbon": "~1.20",
+    "nesbot/carbon": "^1.26.3 || ^2.0",
     "paypal/rest-api-sdk-php": "*"
   },
   "autoload": {
     "psr-4": {
-      "Larabookir\\Gateway\\": "src/",
-      "Larabookir\\Gateway\\Tests\\": "tests/"
+      "Hosseinizadeh\\Gateway\\": "src/",
+      "Hosseinizadeh\\Gateway\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
   "extra": {
     "laravel": {
       "providers": [
-        "Larabookir\\Gateway\\GatewayServiceProvider"
+        "Hosseinizadeh\\Gateway\\GatewayServiceProvider"
       ],
       "aliases": {
-        "Gateway": "Larabookir\\Gateway\\Gateway"
+        "Gateway": "Hosseinizadeh\\Gateway\\Gateway"
       }
     }
   }

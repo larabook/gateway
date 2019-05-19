@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway\Pasargad;
+namespace Hosseinizadeh\Gateway\Pasargad;
 
 
 class PasargadResult

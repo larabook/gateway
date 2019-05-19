@@ -1,12 +1,13 @@
 <?php
 
-namespace Larabookir\Gateway\Payir;
+namespace Hosseinizadeh\Gateway\Payir;
 
-use Larabookir\Gateway\Exceptions\BankException;
+use Hosseinizadeh\Gateway\Exceptions\BankException;
 
 class PayirSendException extends BankException
 {
     public static $errors = [
+        -0       => 'در حال حاضر درگاه پرداخت قطع می باشد. به زودی مشکل برطرف خواهد شد' ,
         -1       => 'ارسال api الزامی می باشد',
         -2       => 'ارسال amount ( مبلغ تراکنش ) الزامی می باشد',
         -3       => 'amount ( مبلغ تراکنش )باید به صورت عددی باشد',

@@ -1,11 +1,11 @@
 <?php
 
-namespace Larabookir\Gateway\Saman;
+namespace Hosseinizadeh\Gateway\Saman;
 
 use Illuminate\Support\Facades\Input;
 use SoapClient;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Hosseinizadeh\Gateway\PortAbstract;
+use Hosseinizadeh\Gateway\PortInterface;
 
 class Saman extends PortAbstract implements PortInterface
 {
@@ -90,6 +90,7 @@ class Saman extends PortAbstract implements PortInterface
     /**
      * Sets callback url
      * @param $url
+     * @return Saman
      */
     function setCallback($url)
     {
@@ -121,9 +122,9 @@ class Saman extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $this->refId = Input::get('RefNum');
-        $this->trackingCode = Input::get('‫‪TRACENO‬‬');
-        $this->cardNumber = Input::get('‫‪SecurePan‬‬');
+        $this->refId = Input::get('ResNum');
+        $this->trackingCode = Input::get('TRACENO');
+        $this->cardNumber = Input::get('SecurePan');
         $payRequestRes = Input::get('State');
         $payRequestResCode = Input::get('StateCode');
 
@@ -143,7 +144,7 @@ class Saman extends PortAbstract implements PortInterface
      * @return bool
      *
      * @throws SamanException
-     * @throws SoapFault
+     * @throws \SoapFault
      */
     protected function verifyPayment()
     {
