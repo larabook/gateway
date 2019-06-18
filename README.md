@@ -41,7 +41,7 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 Step 3:  
 
-    php artisan vendor:publish --provider=Hosseinizadeh\Gateway\GatewayServiceProvider
+    php artisan vendor:publish --provider=Hosseinizadeh\Gateway\GatewayServiceProviderLaravel5
 
 Step 4: 
 
