@@ -1,4 +1,7 @@
 
+
+
+
 package's home : [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
 
 by this  package we are able to connect to all Iranian bank with one unique API.
@@ -71,7 +74,7 @@ You can make connection to bank by several way (Facade , Service container):
       // در اینجا
       //  شماره تراکنش  بانک را با توجه به نوع ساختار دیتابیس تان 
       //  در جداول مورد نیاز و بسته به نیاز سیستم تان
-      // ذخیر کنید .
+      // ذخیره کنید .
       
        return $gateway->redirect();
        

@@ -25,16 +25,16 @@ class CreateGatewayTransactionsTable extends Migration
 			$table->unsignedBigInteger('id', true);
 			$table->enum('port', [
 				Enum::MELLAT,
+				Enum::SADAD,
+				Enum::ZARINPAL,
+				Enum::PAYLINE,
 				Enum::JAHANPAY,
 				Enum::PARSIAN,
 				Enum::PASARGAD,
-				Enum::PAYLINE,
-				Enum::SADAD,
-				Enum::ZARINPAL,
 				Enum::SAMAN,
 				Enum::ASANPARDAKHT,
 				Enum::PAYPAL,
-				Enum::PAYIR,
+				Enum::PAYIR
 			]);
 			$table->decimal('price', 15, 2);
 			$table->string('ref_id', 100)->nullable();
