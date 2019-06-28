@@ -55,7 +55,7 @@ class Payline extends PortAbstract implements PortInterface
 	 */
 	public function redirect()
 	{
-		return redirect()->to($this->gateUrl . $this->refId);
+		return \Redirect::to($this->gateUrl . $this->refId);
 	}
 
 	/**

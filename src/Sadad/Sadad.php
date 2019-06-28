@@ -50,7 +50,7 @@ class Sadad extends PortAbstract implements PortInterface
 	{
 		$form = $this->form;
 
-		return view('gateway::sadad-redirector')->with(compact('form'));
+		return \View::make('gateway::sadad-redirector')->with(compact('form'));
 	}
 
 	/**
@@ -165,14 +165,13 @@ class Sadad extends PortAbstract implements PortInterface
 
 		$this->newLog($statusResult, $message['fa']);
 
-		if ($statusResult == 0 && $appStatus === 'commit') {
-			$this->trackingCode = $result->TraceNo;
-			$this->cardNumber = $result->CustomerCardNumber;
-			$this->transactionSucceed();
-		} else {
+		if ($statusResult != 0 || $appStatus !== 'commit') {
 			$this->transactionFailed();
 			throw new SadadException($message['fa'], $statusResult);
 		}
+		$this->trackingCode = $result->TraceNo;
+		$this->cardNumber = $result->CustomerCardNumber;
+		$this->transactionSucceed();
 	}
 
 	/**
@@ -188,15 +187,17 @@ class Sadad extends PortAbstract implements PortInterface
 	private function getMessage($code, $message)
 	{
 		$result = SadadResult::codeResponse($code, $message);
-		if (!$result) {
-			$result = array(
-				'code' => SadadResult::UNKNOWN_CODE,
-				'message' => SadadResult::UNKNOWN_MESSAGE,
-				'fa' => 'خطای ناشناخته',
-				'en' => 'Unknown Error',
-				'retry' => false
-			);
+		if ($result) {
+			return $result;
 		}
+		$result = array(
+			'code' => SadadResult::UNKNOWN_CODE,
+			'message' => SadadResult::UNKNOWN_MESSAGE,
+			'fa' => 'خطای ناشناخته',
+			'en' => 'Unknown Error',
+			'retry' => false
+		);
+		
 
 		return $result;
 	}

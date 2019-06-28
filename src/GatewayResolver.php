@@ -3,12 +3,14 @@
 namespace Larabookir\Gateway;
 
 use Larabookir\Gateway\Parsian\Parsian;
+use Larabookir\Gateway\Paypal\Paypal;
 use Larabookir\Gateway\Sadad\Sadad;
 use Larabookir\Gateway\Mellat\Mellat;
-use Larabookir\Gateway\Payline\Payline;
 use Larabookir\Gateway\Pasargad\Pasargad;
+use Larabookir\Gateway\Saman\Saman;
+use Larabookir\Gateway\Asanpardakht\Asanpardakht;
 use Larabookir\Gateway\Zarinpal\Zarinpal;
-use Larabookir\Gateway\JahanPay\JahanPay;
+use Larabookir\Gateway\Payir\Payir;
 use Larabookir\Gateway\Exceptions\RetryException;
 use Larabookir\Gateway\Exceptions\PortNotFoundException;
 use Larabookir\Gateway\Exceptions\InvalidRequestException;
@@ -28,7 +30,7 @@ class GatewayResolver
 	/**
 	 * Keep current port driver
 	 *
-	 * @var Mellat|Sadad|Zarinpal|Payline|JahanPay|Parsian
+	 * @var Mellat|Saman|Sadad|Zarinpal|Payir|Parsian
 	 */
 	protected $port;
 
@@ -55,7 +57,17 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [Enum::MELLAT, Enum::SADAD, Enum::ZARINPAL, Enum::PAYLINE, Enum::JAHANPAY, Enum::PARSIAN, Enum::PASARGAD];
+		return [
+            Enum::MELLAT,
+            Enum::SADAD,
+            Enum::ZARINPAL,
+            Enum::PARSIAN,
+            Enum::PASARGAD,
+            Enum::SAMAN,
+            Enum::PAYPAL,
+            Enum::ASANPARDAKHT,
+            Enum::PAYIR
+        ];
 	}
 
 	/**
@@ -98,9 +110,9 @@ class GatewayResolver
 		if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
 			throw new InvalidRequestException;
 		if ($this->request->has('transaction_id')) {
-			$id = intval($this->request->get('transaction_id'));
+			$id = $this->request->get('transaction_id');
 		}else {
-			$id = intval($this->request->get('iN'));
+			$id = $this->request->get('iN');
 		}
 
 		$transaction = $this->getTable()->whereId($id)->first();
@@ -129,15 +141,19 @@ class GatewayResolver
 			$name = Enum::MELLAT;
 		} elseif ($port InstanceOf Parsian) {
 			$name = Enum::PARSIAN;
-		} elseif ($port InstanceOf Payline) {
-			$name = Enum::PAYLINE;
+		} elseif ($port InstanceOf Saman) {
+			$name = Enum::SAMAN;
 		} elseif ($port InstanceOf Zarinpal) {
 			$name = Enum::ZARINPAL;
-		} elseif ($port InstanceOf JahanPay) {
-			$name = Enum::JAHANPAY;
-		} elseif ($port InstanceOf SADAD) {
+		} elseif ($port InstanceOf Sadad) {
 			$name = Enum::SADAD;
-		} elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
+		} elseif ($port InstanceOf Asanpardakht) {
+			$name = Enum::ASANPARDAKHT;
+		} elseif ($port InstanceOf Paypal) {
+			$name = Enum::PAYPAL;
+		} elseif ($port InstanceOf Payir) {
+			$name = Enum::PAYIR;
+		}  elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
 			$name=strtoupper($port);
 			$class=__NAMESPACE__.'\\'.$port.'\\'.$port;

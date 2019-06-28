@@ -113,12 +113,12 @@ class Zarinpal extends PortAbstract implements PortInterface
 	{
 		switch ($this->config->get('gateway.zarinpal.type')) {
 			case 'zarin-gate':
-				return redirect()->to(str_replace('$Authority', $this->refId, $this->zarinGateUrl));
+				return \Redirect::to(str_replace('$Authority', $this->refId, $this->zarinGateUrl));
 				break;
 
 			case 'normal':
 			default:
-				return redirect()->to($this->gateUrl . $this->refId);
+				return \Redirect::to($this->gateUrl . $this->refId);
 				break;
 		}
 	}
@@ -179,7 +179,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
+			$soap = new SoapClient($this->serverUrl, ['encoding' => 'UTF-8']);
 			$response = $soap->PaymentRequest($fields);
 
 		} catch (\SoapFault $e) {
@@ -236,7 +236,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
+			$soap = new SoapClient($this->serverUrl, ['encoding' => 'UTF-8']);
 			$response = $soap->PaymentVerification($fields);
 
 		} catch (\SoapFault $e) {
