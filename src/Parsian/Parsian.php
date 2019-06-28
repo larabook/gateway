@@ -14,14 +14,15 @@ class Parsian extends PortAbstract implements PortInterface
 	 *
 	 * @var string
 	 */
-	protected $serverUrl = 'https://pec.shaparak.ir/pecpaymentgateway/eshopservice.asmx?wsdl';
+	protected $serverUrl = 'https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl';
+	protected $serverUrlConfirm = 'https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?wsdl';
 
 	/**
 	 * Address of gate for redirect
 	 *
 	 * @var string
 	 */
-	protected $gateUrl = 'https://pec.shaparak.ir/pecpaymentgateway/default.aspx?au=';
+	protected $gateUrl = 'https://pec.shaparak.ir/NewIPG/?Token=';
 
 	/**
 	 * {@inheritdoc}
@@ -88,7 +89,8 @@ class Parsian extends PortAbstract implements PortInterface
 
 	/**
 	 * Send pay request to parsian gateway
-	 *
+	 * 
+	 * authority  === Token
 	 * @return bool
 	 *
 	 * @throws ParsianErrorException
@@ -98,27 +100,39 @@ class Parsian extends PortAbstract implements PortInterface
 		$this->newTransaction();
 
 		$params = array(
-			'pin' => $this->config->get('gateway.parsian.pin'),
-			'amount' => $this->amount,
-			'orderId' => $this->transactionId(),
-			'callbackUrl' => $this->getCallback(),
-			'authority' => 0,
-			'status' => 1
+			"requestData" => array(
+				'LoginAccount' => $this->config->get('gateway.parsian.pin'),
+				'Amount' => $this->amount,
+				'OrderId' => $this->transactionId(),
+				'CallBackUrl' => $this->getCallback(),
+				'AdditionalData' => '',
+			// 'authority' => 0,
+			// 'status' => 1
+			)
 		);
 
 		try {
 			$soap = new SoapClient($this->serverUrl);
-			$response = $soap->PinPaymentRequest($params);
+			$response = $soap->SalePaymentRequest($params);
 
 		} catch (\SoapFault $e) {
 			$this->transactionFailed();
 			$this->newLog('SoapFault', $e->getMessage());
 			throw $e;
 		}
-
+		if (!isset($response->SalePaymentRequestResult)
+			|| isset($response->SalePaymentRequestResult)
+			&& !isset($response->SalePaymentRequestResult->Token)
+			|| isset($response->SalePaymentRequestResult->Token)
+			&& $response->SalePaymentRequestResult->Token == '') {
+			$errorMessage = ParsianResult::errorMessage($response->SalePaymentRequestResult->Status);
+			$this->transactionFailed();
+			$this->newLog($response->SalePaymentRequestResult->Status, $errorMessage);
+			throw new ParsianErrorException($errorMessage, $response->SalePaymentRequestResult->Status);
+		}
 		if ($response !== false) {
-			$authority = $response->authority;
-			$status = $response->status;
+			$authority = $response->SalePaymentRequestResult->Token;
+			$status = $response->SalePaymentRequestResult->Status;
 
 			if ($authority && $status == 0) {
 				$this->refId = $authority;
@@ -140,16 +154,18 @@ class Parsian extends PortAbstract implements PortInterface
 
 	/**
 	 * Verify payment
-	 *
+	 * @authority == Token
 	 * @throws ParsianErrorException
 	 */
 	protected function verifyPayment()
 	{
-		if (!Input::has('au') && !Input::has('rs'))
+		if (!Input::has('status') && !Input::has('Token')
+			|| Input::has('status') && Input::get('status') == 0
+			|| Input::has('Token') && Input::get('Token') == "")
 			throw new ParsianErrorException('درخواست غیر معتبر', -1);
 
-		$authority = Input::get('au');
-		$status = Input::get('rs');
+		$authority = Input::get('Token');
+		$status = Input::get('status');
 
 		if ($status != 0) {
 			$errorMessage = ParsianResult::errorMessage($status);
@@ -161,30 +177,37 @@ class Parsian extends PortAbstract implements PortInterface
 			throw new ParsianErrorException('تراکنشی یافت نشد', -1);
 
 		$params = array(
-			'pin' => $this->config->get('gateway.parsian.pin'),
-			'authority' => $authority,
-			'status' => 1
+			"requestData" => array(
+				'LoginAccount' => $this->config->get('gateway.parsian.pin'),
+				'Token' => $authority,
+			// 'status' => 1
+			)
 		);
 
 		try {
-			$soap = new SoapClient($this->serverUrl);
-			$result = $soap->PinPaymentEnquiry($params);
+			$soap = new SoapClient($this->serverUrlConfirm);
+			$result = $soap->ConfirmPayment($params);
 
 		} catch (\SoapFault $e) {
 			throw new ParsianErrorException($e->getMessage(), -1);
 		}
 
-		if ($result === false || !isset($result->status))
+		if ($result === false || !isset($result->ConfirmPaymentResult) || $result->ConfirmPaymentResult == "")
 			throw new ParsianErrorException('پاسخ دریافتی از بانک نامعتبر است.', -1);
 
-		if ($result->status != 0) {
-			$errorMessage = ParsianResult::errorMessage($result->status);
+		if (!isset($result->ConfirmPaymentResult->status)
+			|| isset($result->ConfirmPaymentResult->status)
+			&& $result->ConfirmPaymentResult->status != 0
+			|| !isset($result->ConfirmPaymentResult->RRN)
+			|| $result->ConfirmPaymentResult->RRN == 0) {
+			$errorMessage = ParsianResult::errorMessage($result->ConfirmPaymentResult->status);
 			$this->transactionFailed();
 			$this->newLog($result->status, $errorMessage);
-			throw new ParsianErrorException($errorMessage, $result->status);
+			throw new ParsianErrorException($errorMessage, $result->ConfirmPaymentResult->status);
 		}
 
-		$this->trackingCode = $authority;
+		$this->trackingCode = $result->ConfirmPaymentResult->RRN;
+		$this->cardNumber = $result->ConfirmPaymentResult->CardNumberMasked;
 		$this->transactionSucceed();
 		$this->newLog($result->status, ParsianResult::errorMessage($result->status));
 	}
