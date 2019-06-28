@@ -259,21 +259,28 @@ abstract class PortAbstract
 		return $this->transactionId;
 	}
 
-	/**
-	 * Commit transaction
-	 * Set status field to success status
-	 *
-	 * @return bool
-	 */
-	protected function transactionSucceed()
+    /**
+     * Commit transaction
+     * Set status field to success status
+     *
+     * @param array $fields
+     * @return mixed
+     */
+	protected function transactionSucceed(array $fields = [])
 	{
-		return $this->getTable()->whereId($this->transactionId)->update([
-			'status' => Enum::TRANSACTION_SUCCEED,
-			'tracking_code' => $this->trackingCode,
-			'card_number' => $this->cardNumber,
-			'payment_date' => Carbon::now(),
-			'updated_at' => Carbon::now(),
-		]);
+	    $updateFields = [
+            'status' => Enum::TRANSACTION_SUCCEED,
+            'tracking_code' => $this->trackingCode,
+            'card_number' => $this->cardNumber,
+            'payment_date' => Carbon::now(),
+            'updated_at' => Carbon::now(),
+        ];
+
+	    if (!empty($fields)) {
+	        $updateFields = array_merge($updateFields, $fields);
+        }
+
+		return $this->getTable()->whereId($this->transactionId)->update($updateFields);
 	}
 
 	/**

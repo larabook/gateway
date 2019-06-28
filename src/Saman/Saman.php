@@ -122,8 +122,8 @@ class Saman extends PortAbstract implements PortInterface
     protected function userPayment()
     {
         $this->refId = Input::get('RefNum');
-        $this->trackingCode = Input::get('‫‪TRACENO‬‬');
-        $this->cardNumber = Input::get('‫‪SecurePan‬‬');
+        $this->trackingCode = Input::get('TRACENO');
+        $this->cardNumber = Input::get('SecurePan');
         $payRequestRes = Input::get('State');
         $payRequestResCode = Input::get('StateCode');
 
@@ -167,7 +167,11 @@ class Saman extends PortAbstract implements PortInterface
         $response = intval($response);
 
         if ($response == $this->amount) {
-            $this->transactionSucceed();
+            $this->transactionSucceed([
+                'ref_id' => $this->refId,
+                'tracking_code' => $this->trackingCode,
+                'card_number' => $this->cardNumber
+            ]);
             return true;
         }
 
@@ -185,6 +189,7 @@ class Saman extends PortAbstract implements PortInterface
         }
 
         //
+        $this->transactionSetRefId();
         $this->transactionFailed();
         $this->newLog($response, SamanException::$errors[$response]);
         throw new SamanException($response);
