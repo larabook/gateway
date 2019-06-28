@@ -8,7 +8,7 @@
 
 
             var params = {
-                RefId: '{{$RefId}}'
+                RefId: '{{$refId}}'
             };
 
             for(var key in params){
