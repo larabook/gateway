@@ -215,7 +215,6 @@ abstract class PortAbstract
 	protected function newTransaction()
 	{
 		$uid = $this->getTimeId();
-
 		$this->transactionId = $this->getTable()->insert([
 			'id' => $uid,
 			'port' => $this->getPortName(),
@@ -225,7 +224,6 @@ abstract class PortAbstract
 			'created_at' => Carbon::now(),
 			'updated_at' => Carbon::now(),
 		]) ? $uid : null;
-
 		return $this->transactionId;
 	}
 

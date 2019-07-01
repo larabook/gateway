@@ -66,7 +66,8 @@ class GatewayResolver
             Enum::SAMAN,
             Enum::PAYPAL,
             Enum::ASANPARDAKHT,
-            Enum::PAYIR
+            Enum::PAYIR,
+			Enum::MASKAN
         ];
 	}
 

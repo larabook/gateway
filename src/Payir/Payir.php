@@ -145,7 +145,7 @@ class Payir extends PortAbstract implements PortInterface
      *
      * @return bool
      *
-     * @throws PayirReceiveException
+     * @throws MaskanReceiveException
      */
     protected function userPayment()
     {
@@ -159,7 +159,7 @@ class Payir extends PortAbstract implements PortInterface
         }
         $this->transactionFailed();
         $this->newLog(-5, $message);
-        throw new PayirReceiveException(-5);
+        throw new MaskanReceiveException(-5);
     }
 
     /**
@@ -167,7 +167,7 @@ class Payir extends PortAbstract implements PortInterface
      *
      * @return bool
      *
-     * @throws PayirReceiveException
+     * @throws MaskanReceiveException
      */
     protected function verifyPayment()
     {
@@ -190,7 +190,7 @@ class Payir extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], PayirReceiveException::$errors[ $response['errorCode'] ]);
-        throw new PayirReceiveException($response['errorCode']);
+        $this->newLog($response['errorCode'], MaskanReceiveException::$errors[ $response['errorCode'] ]);
+        throw new MaskanReceiveException($response['errorCode']);
     }
 }
