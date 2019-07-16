@@ -57,6 +57,8 @@ Configuration file is placed in config/gateway.php , open it and enter your bank
 
 You can make connection to bank by several way (Facade , Service container):
 
+```php
+
     try {
        
        $gateway = \Gateway::make(new \Mellat());
@@ -82,6 +84,7 @@ You can make connection to bank by several way (Facade , Service container):
        
        	echo $e->getMessage();
     }
+```
 
 you can call the gateway by these ways :
  1. Gateway::make(new Mellat());
@@ -95,6 +98,7 @@ In `price` method you should enter the price in IRR (RIAL)
 
 and in your callback :
 
+```php
     try { 
        
        $gateway = \Gateway::verify();
@@ -118,6 +122,7 @@ and in your callback :
         // نمایش خطای بانک
         echo $e->getMessage();
     }  
+```
 
 If you are intrested to developing this package you can help us by these ways :
 
