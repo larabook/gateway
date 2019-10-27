@@ -45,6 +45,8 @@ class Yekpay extends PortAbstract implements PortInterface
      */
     protected $checkipUrl = 'https://gate.yekpay.com/api/payment/country';
 
+    protected $fromCurrencyCode = 978;
+    protected $toCurrencyCode = 978;
     protected $fname = '';
     protected $lname = '';
     protected $email = '';
@@ -111,6 +113,18 @@ class Yekpay extends PortAbstract implements PortInterface
     function setCallback($url)
     {
         $this->callbackUrl = $url;
+        return $this;
+    }
+
+    function setFrom($fromCurrencyCode)
+    {
+        $this->fromCurrencyCode = $fromCurrencyCode;
+        return $this;
+    }
+
+    function setTo($toCurrencyCode)
+    {
+        $this->toCurrencyCode = $toCurrencyCode;
         return $this;
     }
 
@@ -194,8 +208,8 @@ class Yekpay extends PortAbstract implements PortInterface
         $fields = array(
             'merchantId' => $this->config->get('gateway.yekpay.merchantId'),
             'amount' => $this->amount,
-            'fromCurrencyCode' => $this->config->get('gateway.yekpay.fromCurrencyCode'),
-            'toCurrencyCode' => $this->config->get('gateway.yekpay.toCurrencyCode'),
+            'fromCurrencyCode' => $this->fromCurrencyCode,
+            'toCurrencyCode' => $this->toCurrencyCode,
             'orderNumber' => $this->transactionId,
             'callback' => $this->getCallback(),
             'firstName' => $this->fname,

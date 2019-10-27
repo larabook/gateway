@@ -57,7 +57,7 @@ return [
         'terminalId'    => 000000000,
         'callback-url'  => '/'
     ],
-    
+
     //--------------------------------
     // Parsian gateway
     //--------------------------------
@@ -92,10 +92,8 @@ return [
     // Yekpay gateway
     //--------------------------------
     'yekpay' => [
-        'merchantId'       => 'xxxxxxxxxxxxxxxxxxxx',
+        'merchantId'       => 'YN5HQWEMN9T9AT2VUWRTKE8C22CDMA73',
         'callback-url'     => '/',
-        'fromCurrencyCode' => 978,
-        'toCurrencyCode'   => 978,
     ],
 
     //--------------------------------
