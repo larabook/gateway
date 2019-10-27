@@ -31,6 +31,19 @@ class Yekpay extends PortAbstract implements PortInterface
      */
     protected $gateUrl = 'https://gate.yekpay.com/api/payment/start/';
 
+    /**
+     * Address exchange
+     *
+     * @var string
+     */
+    protected $exchangeUrl = 'https://gate.yekpay.com/api/payment/exchange';
+
+    /**
+     * Address exchange
+     *
+     * @var string
+     */
+    protected $checkipUrl = 'https://gate.yekpay.com/api/payment/country';
 
     protected $fname = '';
     protected $lname = '';
@@ -69,7 +82,7 @@ class Yekpay extends PortAbstract implements PortInterface
     {
         return \Redirect::to($this->gateUrl.$this->refId());
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -77,7 +90,7 @@ class Yekpay extends PortAbstract implements PortInterface
     {
         return $this->gateUrl.$this->refId();
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -270,5 +283,64 @@ class Yekpay extends PortAbstract implements PortInterface
         $this->transactionFailed();
         $this->newLog($response['Code'], YekpayException::$errors[ $response['Code'] ]);
         throw new YekpayException($response['Code']);
+    }
+
+    /**
+     * exchange
+     *
+     * @return bool
+     *
+     * @throws YekpayException
+     */
+    public function exchange($from, $to)
+    {
+        $fields = [
+            'merchantId' => $this->config->get('gateway.yekpay.merchantId'),
+            'fromCurrencyCode'  => $from,
+            'toCurrencyCode'  => $to,
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->exchangeUrl);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+        curl_close($ch);
+
+        if ($response['Code'] == 100) {
+            return $response['Rate'];
+        }
+
+        throw new YekpayException($response['Code']);
+    }
+
+
+    /**
+     * checkip
+     *
+     * @return bool
+     *
+     * @throws YekpayException
+     */
+    public function checkip($ip)
+    {
+        $fields = [
+            'ip'  => $ip,
+        ];
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $this->checkipUrl);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $response = curl_exec($ch);
+        $response = json_decode($response, true);
+        curl_close($ch);
+
+        if ($response['Code'] == 100) {
+            return true;
+        }
+
+        return false;
     }
 }
