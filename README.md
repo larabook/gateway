@@ -12,9 +12,10 @@ Available Banks:
  4. PARSIAN
  5. PASARGAD
  6. ZARINPAL
- 7. PAYPAL (**Updated**)
- 8. ASAN PARDAKHT (**New**)
- 9. PAY.IR (**New**) (to use : new \Payir())
+ 7. PAYPAL
+ 8. ASAN PARDAKHT
+ 9. PAY.IR (to use : new \Payir())
+ 10. YEKPAY (**New**)
 ----------
 
 
@@ -41,7 +42,7 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 Step 3:  
 
-    php artisan vendor:publish --provider=Hosseinizadeh\Gateway\GatewayServiceProviderLaravel5
+    php artisan vendor:publish --provider=Hosseinizadeh\Gateway\GatewayServiceProvider
 
 Step 4: 
 

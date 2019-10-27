@@ -9,6 +9,7 @@ use Hosseinizadeh\Gateway\Mellat\Mellat;
 use Hosseinizadeh\Gateway\Pasargad\Pasargad;
 use Hosseinizadeh\Gateway\Saman\Saman;
 use Hosseinizadeh\Gateway\Asanpardakht\Asanpardakht;
+use Hosseinizadeh\Gateway\Yekpay\Yekpay;
 use Hosseinizadeh\Gateway\Zarinpal\Zarinpal;
 use Hosseinizadeh\Gateway\Payir\Payir;
 use Hosseinizadeh\Gateway\Exceptions\RetryException;
@@ -66,7 +67,8 @@ class GatewayResolver
             Enum::SAMAN,
             Enum::PAYPAL,
             Enum::ASANPARDAKHT,
-            Enum::PAYIR
+            Enum::PAYIR,
+            Enum::YEKPAY
         ];
 	}
 
@@ -153,6 +155,8 @@ class GatewayResolver
 			$name = Enum::PAYPAL;
 		} elseif ($port InstanceOf Payir) {
 			$name = Enum::PAYIR;
+        } elseif ($port InstanceOf Yekpay) {
+            $name = Enum::YEKPAY;
 		}  elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
 			$name=strtoupper($port);

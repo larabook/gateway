@@ -89,6 +89,16 @@ return [
     ],
 
     //--------------------------------
+    // Yekpay gateway
+    //--------------------------------
+    'yekpay' => [
+        'merchantId'       => 'xxxxxxxxxxxxxxxxxxxx',
+        'callback-url'     => '/',
+        'fromCurrencyCode' => 978,
+        'toCurrencyCode'   => 978,
+    ],
+
+    //--------------------------------
     // Paypal gateway
     //--------------------------------
     'paypal'   => [

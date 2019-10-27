@@ -15,7 +15,8 @@ class Enum
 	const ASANPARDAKHT = 'ASANPARDAKHT';
 	const PAYPAL = 'PAYPAL';
   	const PAYIR = 'PAYIR';
-	
+  	const YEKPAY = 'YEKPAY';
+
 	/**
 	 * Status code for status field in poolport_transactions table
 	 */
