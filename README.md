@@ -115,6 +115,44 @@ and in your callback :
         echo $e->getMessage();
     }  
 
+
+for yekpay you can use like this:
+and in your callback :
+
+        try {
+            $gateway = Gateway::yekpay();
+
+            /// can check country
+            $gateway->checkip(\request()->ip());
+
+            /// can get exchange currency
+            $exchange = $gateway->exchange(978,364);
+
+            $gateway->setCallback(route('bank.callback'));
+            $gateway->setFrom(364);
+            $gateway->setTo(364);
+            $gateway->setFname('ftest');
+            $gateway->setLname('ltest');
+            $gateway->setEmail('test@gmail.com');
+            $gateway->setMobile('+44123456789');
+            $gateway->setAddress('address');
+            $gateway->setPostalcode('9656789');
+            $gateway->setCountry('iran');
+            $gateway->setCity('tehran');
+            $gateway->setDescription('description');
+            $gateway->price(10000)->ready(10000);
+            $refId = $gateway->refId();
+            $transID = $gateway->transactionId();
+
+            $payurl = $gateway->payurl();
+
+            return redirect($payurl);
+
+        } catch (YekpayException $e) {
+            $message = $e->getMessage();
+            dd($message);
+        }
+    
 If you are intrested to developing this package you can help us by these ways :
 
  1. Improving documents.
