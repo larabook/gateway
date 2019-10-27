@@ -117,12 +117,11 @@ and in your callback :
 
 
 for yekpay you can use like this:
-and in your callback :
 
         try {
             $gateway = Gateway::yekpay();
 
-            /// can check country
+            /// can check country return true or false
             $gateway->checkip(\request()->ip());
 
             /// can get exchange currency
