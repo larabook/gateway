@@ -323,7 +323,7 @@ class Yekpay extends PortAbstract implements PortInterface
         curl_close($ch);
 
         if ($response['Code'] == 100) {
-            return $response['Rate'];
+            return $response['Rate_up'];
         }
 
         throw new YekpayException($response['Code']);
