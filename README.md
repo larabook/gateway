@@ -105,6 +105,9 @@
 
  مثال :‌اتصال به بانک ملت (درخواست توکن و انتقال کاربر به درگاه بانک)
 توجه :‌ مقدار متد price   به ریال وارد شده است و معادل یکصد تومان می باشد
+
+یک روت از نوع GET با آدرس /bank/request ایجاد نمایید و کد های زیر را در آن قرار دهید .
+
 </div>
 
 
@@ -114,7 +117,7 @@ try {
 
    $gateway = \Gateway::make('mellat');
 
-   // $gateway->setCallback(url('/path/to/callback/route')); You can also change the callback
+   // $gateway->setCallback(url('/bank/response')); You can also change the callback
    $gateway
         ->price(1000)
         // setShipmentPrice(10) // optional - just for paypal
@@ -140,9 +143,10 @@ try {
 
 <div dir="rtl">
 
- و سپس روت با مسیر /callback  و از نوع post  ایجاد نمایید و کد های زیر را در آن قرار دهید :
+ و سپس روت با مسیر /bank/response  و از نوع post  ایجاد نمایید و کد های زیر را در آن قرار دهید :
 
 </div>
+
 
 ```php
 
