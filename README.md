@@ -72,10 +72,10 @@
 </div>
 
     php artisan vendor:publish 
+    
+    // then chose : GatewayServiceProviderLaravel6
 
-
-<div dir="rtl">
-سپس این گزینه را انتخاب کنید :  "Larabookir\Gateway\GatewayServiceProviderLaravel6" 
+<div dir="rtl"> 
 
 
 
