@@ -33,16 +33,20 @@ STEP 1 :
     
 STEP 2 : Add `provider` and `facade` in config/app.php
 
-    'providers' => [
-      ...
-      Larabookir\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
-    ],
+```php
+
+'providers' => [
+  ...
+  Larabookir\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
+],
 
 
-    'aliases' => [
-      ...
-      'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
-    ]
+'aliases' => [
+  ...
+  'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
+]
+
+```
 
 Step 3:  
 
@@ -57,31 +61,35 @@ Configuration file is placed in config/gateway.php , open it and enter your bank
 
 You can make connection to bank by several way (Facade , Service container):
 
-    try {
-       
-       $gateway = \Gateway::make(new \Mellat());
+```php
 
-       // $gateway->setCallback(url('/path/to/callback/route')); You can also change the callback
-       $gateway
-            ->price(1000)
-            // setShipmentPrice(10) // optional - just for paypal
-            // setProductName("My Product") // optional - just for paypal
-            ->ready();
+try {
 
-       $refId =  $gateway->refId(); // شماره ارجاع بانک
-       $transID = $gateway->transactionId(); // شماره تراکنش
+   $gateway = \Gateway::make(new \Mellat());
 
-      // در اینجا
-      //  شماره تراکنش  بانک را با توجه به نوع ساختار دیتابیس تان 
-      //  در جداول مورد نیاز و بسته به نیاز سیستم تان
-      // ذخیره کنید .
-      
-       return $gateway->redirect();
-       
-    } catch (\Exception $e) {
-       
-       	echo $e->getMessage();
-    }
+   // $gateway->setCallback(url('/path/to/callback/route')); You can also change the callback
+   $gateway
+        ->price(1000)
+        // setShipmentPrice(10) // optional - just for paypal
+        // setProductName("My Product") // optional - just for paypal
+        ->ready();
+
+   $refId =  $gateway->refId(); // شماره ارجاع بانک
+   $transID = $gateway->transactionId(); // شماره تراکنش
+
+   // در اینجا
+   //  شماره تراکنش  بانک را با توجه به نوع ساختار دیتابیس تان 
+   //  در جداول مورد نیاز و بسته به نیاز سیستم تان
+   // ذخیره کنید .
+
+   return $gateway->redirect();
+
+} catch (\Exception $e) {
+
+   echo $e->getMessage();
+}
+
+```
 
 you can call the gateway by these ways :
  1. Gateway::make(new Mellat());
@@ -95,29 +103,33 @@ In `price` method you should enter the price in IRR (RIAL)
 
 and in your callback :
 
-    try { 
-       
-       $gateway = \Gateway::verify();
-       $trackingCode = $gateway->trackingCode();
-       $refId = $gateway->refId();
-       $cardNumber = $gateway->cardNumber();
-       
-        // تراکنش با موفقیت سمت بانک تایید گردید
-        // در این مرحله عملیات خرید کاربر را تکمیل میکنیم
-    
-    } catch (\Larabookir\Gateway\Exceptions\RetryException $e) {
-    
-        // تراکنش قبلا سمت بانک تاییده شده است و
-        // کاربر احتمالا صفحه را مجددا رفرش کرده است
-        // لذا تنها فاکتور خرید قبل را مجدد به کاربر نمایش میدهیم
-        
-        echo $e->getMessage() . "<br>";
-        
-    } catch (\Exception $e) {
-       
-        // نمایش خطای بانک
-        echo $e->getMessage();
-    }  
+```php
+
+try { 
+
+   $gateway = \Gateway::verify();
+   $trackingCode = $gateway->trackingCode();
+   $refId = $gateway->refId();
+   $cardNumber = $gateway->cardNumber();
+
+   // تراکنش با موفقیت سمت بانک تایید گردید
+   // در این مرحله عملیات خرید کاربر را تکمیل میکنیم
+
+} catch (\Larabookir\Gateway\Exceptions\RetryException $e) {
+
+    // تراکنش قبلا سمت بانک تاییده شده است و
+    // کاربر احتمالا صفحه را مجددا رفرش کرده است
+    // لذا تنها فاکتور خرید قبل را مجدد به کاربر نمایش میدهیم
+
+    echo $e->getMessage() . "<br>";
+
+} catch (\Exception $e) {
+
+    // نمایش خطای بانک
+    echo $e->getMessage();
+}
+
+```
 
 If you are intrested to developing this package you can help us by these ways :
 
