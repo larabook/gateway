@@ -1,4 +1,4 @@
-&rlm
+&rlm;
 
 
 سایت مرجع پکیج: [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
