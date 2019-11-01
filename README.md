@@ -50,7 +50,13 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 Step 3:  
 
-    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider
+For laravel 4
+
+    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel4
+
+For laravel 5 and up :
+
+    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
 
 Step 4: 
 
