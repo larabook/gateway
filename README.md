@@ -69,7 +69,7 @@
 
 <div dir="rtl">
 برای لاراول ۶ به بعد :
-&rlm;
+</div>
 
     php artisan vendor:publish 
 
