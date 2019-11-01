@@ -1,4 +1,4 @@
-<div style=""  >
+<div style="direction: rtl;float: right;">
 
 سایت مرجع پکیج: [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
 
