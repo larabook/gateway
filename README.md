@@ -76,12 +76,15 @@
 عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/ را باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
 
 حال میتوایند برای اتصال به api  بانک  از یکی از روش های زیر به انتخاب خودتان استفاده نمایید . (Facade , Service container):
- <div dir="ltr">
+
+<div dir="ltr">
+ 
  1. Gateway::make(new Mellat())
  2. Gateway::make('mellat')
  3. Gateway::mellat()
  4. app('gateway')->make(new Mellat());
  5. app('gateway')->mellat();
+ 
  </div>
 
  مثال :‌اتصال به بانک ملت (درخواست توکن و انتقال کاربر به درگاه بانک)
