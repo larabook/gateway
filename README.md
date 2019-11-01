@@ -40,9 +40,10 @@
 
 توجه برای نسخه های لاراول ۶ به بعد  این مرحله نیاز به انجام نمی باشد** ** 
 
-<div dir="rtl">
 
 ```php
+
+<div dir="rtl">
 
 'providers' => [
   ...
@@ -55,9 +56,10 @@
   'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
 ]
 
+</div>
+
 ```
 
-</div>
 
 مرحله ۳ ( انتقال فایل های مورد نیاز):   
 
