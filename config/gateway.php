@@ -49,6 +49,15 @@ return [
     ],
 
     //--------------------------------
+    // IranKish gateway
+    //--------------------------------
+    'irankish' => [
+        'merchantId' => 'xxxxxxxxxxxxxxxxxxxx',
+        'sha1key' => 'xxxxxxxxxxxxxxxxxxxx',
+        'callback-url' => '/'
+    ],
+
+    //--------------------------------
     // Sadad gateway
     //--------------------------------
     'sadad' => [
@@ -57,7 +66,7 @@ return [
         'terminalId'    => 000000000,
         'callback-url'  => '/'
     ],
-    
+
     //--------------------------------
     // Parsian gateway
     //--------------------------------

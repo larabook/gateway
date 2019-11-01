@@ -5,7 +5,7 @@ namespace Larabookir\Gateway;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
-class GatewayServiceProviderLaravel5 extends ServiceProvider
+class GatewayServiceProviderLaravel6 extends ServiceProvider
 {
 	/**
 	 * Indicates if loading of the provider is deferred.
@@ -28,7 +28,8 @@ class GatewayServiceProviderLaravel5 extends ServiceProvider
         //php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=config
         $this->publishes([
             $config => config_path('gateway.php'),
-        ], 'config');
+        ], 'config')
+        ;
 
         // php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=migrations
         $this->publishes([

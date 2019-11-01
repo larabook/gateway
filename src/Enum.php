@@ -15,7 +15,28 @@ class Enum
 	const ASANPARDAKHT = 'ASANPARDAKHT';
 	const PAYPAL = 'PAYPAL';
   	const PAYIR = 'PAYIR';
-	
+  	const IRANKISH = 'IRANKISH';
+  	const MASKAN = self::IRANKISH;
+
+  	static function getIPGs(){
+
+        $reflect = new \ReflectionClass(static::class);
+        $excepts=[
+            'MASKAN',
+            'TRANSACTION_INIT',
+            'TRANSACTION_INIT_TEXT',
+            'TRANSACTION_SUCCEED',
+            'TRANSACTION_SUCCEED_TEXT',
+            'TRANSACTION_FAILED',
+            'TRANSACTION_FAILED_TEXT',
+        ];
+        
+        if(function_exists('array_except'))
+            return array_values(array_except($reflect->getConstants(),$excepts));
+        else
+            return array_values(\Illuminate\Support\Arr::except($reflect->getConstants(),$excepts));
+    }
+
 	/**
 	 * Status code for status field in poolport_transactions table
 	 */

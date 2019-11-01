@@ -5,7 +5,7 @@ namespace Larabookir\Gateway\Paypal;
 use Larabookir\Gateway\Mellat\MellatException;
 use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\Paypal\PaypalException;
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
 use PayPal\Api\Amount;
@@ -186,9 +186,9 @@ class Paypal extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $this->refId = Input::get('PayerID');
+        $this->refId = Request::input('PayerID');
         $this->transactionSetRefId();
-        $this->trackingCode = Input::get('token');
+        $this->trackingCode = Request::input('token');
     }
 
     /**
