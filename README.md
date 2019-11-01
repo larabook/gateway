@@ -40,10 +40,9 @@
 
 توجه برای نسخه های لاراول ۶ به بعد  این مرحله نیاز به انجام نمی باشد** ** 
 
+</div>
 
 ```php
-
-<div dir="rtl">
 
 'providers' => [
   ...
@@ -56,23 +55,26 @@
   'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
 ]
 
-</div>
-
 ```
 
 
+<div dir="rtl">
 مرحله ۳ ( انتقال فایل های مورد نیاز):   
 
 برای لاراول ۵ :
+</div>
 
     php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
 
+
+<div dir="rtl">
 برای لاراول ۶ به بعد :
+&rlm;
 
     php artisan vendor:publish 
 
+<div dir="rtl">
 سپس این گزینه را انتخاب کنید :  "Larabookir\Gateway\GatewayServiceProviderLaravel6" 
-
 
 مرحله ۴ ایجاد جداول: 
 
@@ -82,8 +84,7 @@
 عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/ را باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
 
 حال میتوایند برای اتصال به api  بانک  از یکی از روش های زیر به انتخاب خودتان استفاده نمایید . (Facade , Service container):
-
-<div dir="ltr">
+</div>
  
  1. Gateway::make(new Mellat())
  2. Gateway::make('mellat')
@@ -91,12 +92,12 @@
  4. app('gateway')->make(new Mellat());
  5. app('gateway')->mellat();
  
- </div>
+<div dir="rtl">
 
  مثال :‌اتصال به بانک ملت (درخواست توکن و انتقال کاربر به درگاه بانک)
 توجه :‌ مقدار متد price   به ریال وارد شده است و معادل یکصد تومان می باشد
+</div>
 
-<div dir="rtl">
 
 ```php
 
@@ -127,12 +128,12 @@ try {
 }
 
 ```
-</div>
 
+<div dir="rtl">
 
  و سپس روت با مسیر /callback  و از نوع post  ایجاد نمایید و کد های زیر را در آن قرار دهید :
 
-<div dir="rtl">
+</div>
 
 ```php
 
@@ -162,7 +163,7 @@ try {
 
 ```
 
-<div>
+<div dir="rtl">
  
 در صورت تمایل جهت همکاری در توسعه   :
 
