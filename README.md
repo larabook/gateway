@@ -77,6 +77,7 @@ php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderL
 ```php
 
 php artisan vendor:publish 
+
 // then choose : GatewayServiceProviderLaravel6
 
 ```
@@ -87,7 +88,11 @@ php artisan vendor:publish
 
 **مرحله ۴) - ایجاد جداول**
 
-    php artisan migrate
+```php
+
+php artisan migrate
+
+```
 
 
 
