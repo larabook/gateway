@@ -1,4 +1,4 @@
-<p dir='rtl' align='right'>
+<div style=""  >
 
 سایت مرجع پکیج: [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
 
@@ -155,4 +155,4 @@ If you are intrested to developing this package you can help us by these ways :
  3. Collaboration in writing codes and other banks modules.
 
 This package is extended from PoolPort  but we've changed some functionality and improved it .
-</p>
+</div>
