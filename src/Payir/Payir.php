@@ -1,7 +1,7 @@
 <?php
 namespace Larabookir\Gateway\Payir;
 
-use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -149,10 +149,10 @@ class Payir extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $status = Input::get('status');
-        $transId = Input::get('transId');
-        $this->cardNumber = Input::get('cardNumber');
-        $message = Input::get('message');
+        $status = Request::input('status');
+        $transId = Request::input('transId');
+        $this->cardNumber = Request::input('cardNumber');
+        $message = Request::input('message');
         if (is_numeric($status) && $status > 0) {
             $this->trackingCode = $transId;
             return true;

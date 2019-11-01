@@ -57,17 +57,7 @@ class GatewayResolver
 	 */
 	public function getSupportedPorts()
 	{
-		return [
-            Enum::MELLAT,
-            Enum::SADAD,
-            Enum::ZARINPAL,
-            Enum::PARSIAN,
-            Enum::PASARGAD,
-            Enum::SAMAN,
-            Enum::PAYPAL,
-            Enum::ASANPARDAKHT,
-            Enum::PAYIR
-        ];
+		return (array) Enum::getIPGs();
 	}
 
 	/**
@@ -153,10 +143,7 @@ class GatewayResolver
 			$name = Enum::PAYPAL;
 		} elseif ($port InstanceOf Payir) {
 			$name = Enum::PAYIR;
-		} elseif ($port InstanceOf Pasargad) {
-            $name = Enum::PASARGAD;
-        }
-		elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
+		}  elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
 			$name=strtoupper($port);
 			$class=__NAMESPACE__.'\\'.$port.'\\'.$port;
