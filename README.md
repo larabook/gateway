@@ -1,16 +1,19 @@
+&rlm
 
 
+سایت مرجع پکیج: [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
 
+پکیج اتصال به تمامی IPG ها و  بانک های ایرانی.
 
-package's home : [larabook.ir](http://larabook.ir/اتصال-درگاه-بانک-لاراول/) 
+این پکیج با ورژن های
+(  ۴ و ۵ و ۶ لاراول )
+ لاراول سازگار می باشد
 
-by this  package we are able to connect to all Iranian bank with one unique API.
+درصورت بروز هر گونه 
+ [باگ](https://github.com/larabook/gateway/issues) یا [خطا](https://github.com/larabook/gateway/issues)  .
+  ما را آگاه سازید .
 
-( This Package is now compatible with both **4.\* and 5.\* versions of Laravel** )
-
-Please inform us once you've encountered [bug](https://github.com/larabook/gateway/issues) or [issue](https://github.com/larabook/gateway/issues)  .
-
-Available Banks:
+پشتیبانی تنها از درگاهای زیر می باشد:
  1. MELLAT
  2. SADAD (MELLI)
  3. SAMAN
@@ -19,19 +22,24 @@ Available Banks:
  6. ZARINPAL
  7. PAYPAL (**New**)
  8. ASAN PARDAKHT (**New**)
- 9. PAY.IR (**New**) (to use : new \Payir())
+ 9. PAY.IR (**New**) (use 'payir' to make instance)
+ 10. Irankish (**New**)(use 'irankish' to make instance)
 ----------
 
 
-**Installation**:
+**نصب**:
 
-Run below statements on your terminal :
+دستورات زیر را جهت نصب دنبال کنید :
 
-STEP 1 : 
+مرحله ۱  : 
 
     composer require larabook/gateway
     
-STEP 2 : Add `provider` and `facade` in config/app.php
+مرحله ۲  : 
+
+    تغییرات زیر را در فایل  config/app.php اعمال نمایید:
+
+توجه برای نسخه های لاراول ۶ به بعد  این مرحله نیاز به انجام نمی باشد** ** 
 
 ```php
 
@@ -48,24 +56,27 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 ```
 
-Step 3:  
+مرحله ۳ ( انتقال فایل های مورد نیاز):   
 
-For laravel 4
-
-    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel4
-
-For laravel 5 and up :
+For laravel 5 :
 
     php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
 
-Step 4: 
+For laravel 6 and up :
+
+    php artisan vendor:publish 
+
+سپس این گزینه را انتخاب کنید :  "Larabookir\Gateway\GatewayServiceProviderLaravel6" 
+
+
+مرحله ۴ ایجاد جداول: 
 
     php artisan migrate
 
+مرحله ۵ :
+عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/ را باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
 
-Configuration file is placed in config/gateway.php , open it and enter your banks credential:
-
-You can make connection to bank by several way (Facade , Service container):
+حال میتوایند برای اتصال به api  بانک  از یکی از روش های زیر به انتخاب خودتان استفاده نمایید . (Facade , Service container):
 
 ```php
 
@@ -98,10 +109,11 @@ try {
 ```
 
 you can call the gateway by these ways :
- 1. Gateway::make(new Mellat());
- 1. Gateway::mellat()
- 2. app('gateway')->make(new Mellat());
- 3. app('gateway')->mellat();
+ 1. Gateway::make(new Mellat())
+ 2. Gateway::make('mellat')
+ 3. Gateway::mellat()
+ 4. app('gateway')->make(new Mellat());
+ 5. app('gateway')->mellat();
 
 Instead of MELLAT you can enter other banks Name as we introduced above .
 
@@ -144,3 +156,4 @@ If you are intrested to developing this package you can help us by these ways :
  3. Collaboration in writing codes and other banks modules.
 
 This package is extended from PoolPort  but we've changed some functionality and improved it .
+&rlm;
