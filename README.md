@@ -117,7 +117,7 @@ try {
 
    $gateway = \Gateway::make('mellat');
 
-   $gateway->setCallback(url('/bank/response')); You can also change the callback
+   $gateway->setCallback(url('/bank/response')); // You can also change the callback
    $gateway->price(1000)
            // setShipmentPrice(10) // optional - just for paypal
            // setProductName("My Product") // optional - just for paypal
