@@ -73,7 +73,7 @@
 
     php artisan vendor:publish 
     
-    // then chose : GatewayServiceProviderLaravel6
+    // then choose : GatewayServiceProviderLaravel6
 
 <div dir="rtl"> 
 
