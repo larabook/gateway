@@ -30,12 +30,12 @@
 
 دستورات زیر را جهت نصب دنبال کنید :
 
-**مرحله ۱(**
+**مرحله ۱)**
 
     composer require larabook/gateway
     
 
-**مرحله ۲(**
+**مرحله ۲)**
 
     تغییرات زیر را در فایل  config/app.php اعمال نمایید:
 
@@ -62,7 +62,7 @@
 
 <div dir="rtl">
 
-**مرحله ۳( - انتقال فایل های مورد نیاز**
+**مرحله ۳) - انتقال فایل های مورد نیاز**
 
 برای لاراول ۵ :
 </div>
@@ -82,13 +82,13 @@
 
 
 
-**مرحله ۴( - ایجاد جداول**
+**مرحله ۴) - ایجاد جداول**
 
     php artisan migrate
 
 
 
-**مرحله ۵(**
+**مرحله ۵)**
 
 عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/ را باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
 
@@ -117,12 +117,11 @@ try {
 
    $gateway = \Gateway::make('mellat');
 
-   // $gateway->setCallback(url('/bank/response')); You can also change the callback
-   $gateway
-        ->price(1000)
-        // setShipmentPrice(10) // optional - just for paypal
-        // setProductName("My Product") // optional - just for paypal
-        ->ready();
+   $gateway->setCallback(url('/bank/response')); You can also change the callback
+   $gateway->price(1000)
+           // setShipmentPrice(10) // optional - just for paypal
+           // setProductName("My Product") // optional - just for paypal
+           ->ready();
 
    $refId =  $gateway->refId(); // شماره ارجاع بانک
    $transID = $gateway->transactionId(); // شماره تراکنش
