@@ -8,9 +8,6 @@
 (  ۴ و ۵ و ۶ لاراول )
  لاراول سازگار می باشد
 
-درصورت بروز هر گونه 
- [باگ](https://github.com/larabook/gateway/issues) یا [خطا](https://github.com/larabook/gateway/issues)  .
-  ما را آگاه سازید .
 
 پشتیبانی تنها از درگاهای زیر می باشد:
  1. MELLAT
@@ -184,5 +181,9 @@ try {
  3. همکاری در نوشتن ماژول دیگر بانک ها برای این پکیج .
 
 
+درصورت بروز هر گونه 
+ [باگ](https://github.com/larabook/gateway/issues) یا [خطا](https://github.com/larabook/gateway/issues)  .
+  ما را آگاه سازید .
+  
 این پکیج از پکیج دیگری بنام  poolport  مشتق شده است اما برخی از عملیات آن متناسب با فریموورک لارول تغییر کرده است
 </div>
