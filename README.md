@@ -57,11 +57,11 @@
 
 مرحله ۳ ( انتقال فایل های مورد نیاز):   
 
-For laravel 5 :
+برای لاراول ۵ :
 
     php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
 
-For laravel 6 and up :
+برای لاراول ۶ به بعد :
 
     php artisan vendor:publish 
 
@@ -76,12 +76,20 @@ For laravel 6 and up :
 عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/ را باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
 
 حال میتوایند برای اتصال به api  بانک  از یکی از روش های زیر به انتخاب خودتان استفاده نمایید . (Facade , Service container):
-
+ 
+ 1. Gateway::make(new Mellat())
+ 2. Gateway::make('mellat')
+ 3. Gateway::mellat()
+ 4. app('gateway')->make(new Mellat());
+ 5. app('gateway')->mellat();
+ 
+ مثال :‌اتصال به بانک ملت (درخواست توکن و انتقال کاربر به درگاه بانک)
+توجه :‌ مقدار متد price   به ریال وارد شده است و معادل یکصد تومان می باشد
 ```php
 
 try {
 
-   $gateway = \Gateway::make(new \Mellat());
+   $gateway = \Gateway::make('mellat');
 
    // $gateway->setCallback(url('/path/to/callback/route')); You can also change the callback
    $gateway
@@ -107,18 +115,8 @@ try {
 
 ```
 
-you can call the gateway by these ways :
- 1. Gateway::make(new Mellat())
- 2. Gateway::make('mellat')
- 3. Gateway::mellat()
- 4. app('gateway')->make(new Mellat());
- 5. app('gateway')->mellat();
 
-Instead of MELLAT you can enter other banks Name as we introduced above .
-
-In `price` method you should enter the price in IRR (RIAL) 
-
-and in your callback :
+ و سپس روت با مسیر /callback  و از نوع post  ایجاد نمایید و کد های زیر را در آن قرار دهید :
 
 ```php
 
@@ -148,11 +146,12 @@ try {
 
 ```
 
-If you are intrested to developing this package you can help us by these ways :
+در صورت تمایل جهت همکاری در توسعه   :
 
- 1. Improving documents.
- 2. Reporting issue or bugs.
- 3. Collaboration in writing codes and other banks modules.
+ ۱. توسعه مستندات پکیج.
+ ۲. گزارش باگ و خطا.
+ ۳. همکاری در نوشتن ماژول دیگر بانک ها برای این پکیج .
 
-This package is extended from PoolPort  but we've changed some functionality and improved it .
+
+این پکیج از پکیج دیگری بنام  poolport  مشتق شده است اما برخی از عملیات آن متناسب با فریموورک لارول تغییر کرده است
 </div>
