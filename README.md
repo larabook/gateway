@@ -21,8 +21,8 @@
  6. ZARINPAL
  7. PAYPAL (**New**)
  8. ASAN PARDAKHT (**New**)
- 9. PAY.IR (**New**) (use 'payir' to make instance)
- 10. Irankish (**New**)(use 'irankish' to make instance)
+ 9. PAY.IR (**New**  برای فراخوانی از 'payir' استفاده نمایید)
+ 10. Irankish (**New**  برای فراخوانی از 'irankish' استفاده نمایید)
 ----------
 
 
