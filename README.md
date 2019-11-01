@@ -19,10 +19,10 @@
  4. PARSIAN
  5. PASARGAD
  6. ZARINPAL
- 7. PAYPAL (**New**)
- 8. ASAN PARDAKHT (**New**)
- 9. PAY.IR (**New**  برای فراخوانی از 'payir' استفاده نمایید)
- 10. Irankish (**New**  برای فراخوانی از 'irankish' استفاده نمایید)
+ 7. PAYPAL 
+ 8. ASAN PARDAKHT 
+ 9. PAY.IR ( برای فراخوانی از 'payir' استفاده نمایید)
+ 10. Irankish (**جدید** -  برای فراخوانی از 'irankish' استفاده نمایید)
 ----------
 
 
