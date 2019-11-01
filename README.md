@@ -63,18 +63,22 @@
 
 برای لاراول ۵ :
 </div>
+```php
 
-    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
+php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
 
+```
 
 <div dir="rtl">
 برای لاراول ۶ به بعد :
 </div>
 
+```php
+
     php artisan vendor:publish 
     
     // then choose : GatewayServiceProviderLaravel6
-
+```
 <div dir="rtl"> 
 
 
