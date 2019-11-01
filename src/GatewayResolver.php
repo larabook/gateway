@@ -153,7 +153,10 @@ class GatewayResolver
 			$name = Enum::PAYPAL;
 		} elseif ($port InstanceOf Payir) {
 			$name = Enum::PAYIR;
-		}  elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
+		} elseif ($port InstanceOf Pasargad) {
+            $name = Enum::PASARGAD;
+        }
+		elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
 			$port=ucfirst(strtolower($port));
 			$name=strtoupper($port);
 			$class=__NAMESPACE__.'\\'.$port.'\\'.$port;
