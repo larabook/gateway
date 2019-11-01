@@ -29,9 +29,17 @@
 
 **مرحله ۱)**
 
-    composer require larabook/gateway
-    
+</div>
 
+
+```php
+
+composer require larabook/gateway
+
+```   
+
+<div dir="rtl">
+ 
 **مرحله ۲)**
 
     تغییرات زیر را در فایل  config/app.php اعمال نمایید:
