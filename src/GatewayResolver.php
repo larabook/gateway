@@ -146,6 +146,8 @@ class GatewayResolver
             $name = Enum::PAYIR;
         } elseif ($port InstanceOf Pasargad) {
             $name = Enum::PASARGAD;
+        } elseif ($port InstanceOf SHAHR) {
+            $name = Enum::SHAHR;
         } elseif ($port InstanceOf Irankish) {
             $name = Enum::IRANKISH;
         } elseif (in_array(strtoupper($port), $this->getSupportedPorts())) {
