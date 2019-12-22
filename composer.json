@@ -1,6 +1,6 @@
 {
-  "name": "larabook/gateway",
-  "homepage": "https://github.com/larabook/gateway",
+  "name": "HamidNE/gateway",
+  "homepage": "https://github.com/HamidNE/gateway",
   "description": "A Laravel package for connecting to all Iraninan payment  gateways",
   "keywords": [
     "laravel",
