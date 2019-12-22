@@ -51,18 +51,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Larabookir\\Gateway\\": "src/",
-      "Larabookir\\Gateway\\Tests\\": "tests/"
+      "HamidNE\\Gateway\\": "src/",
+      "HamidNE\\Gateway\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
   "extra": {
     "laravel": {
       "providers": [
-        "Larabookir\\Gateway\\GatewayServiceProvider"
+        "HamidNE\\Gateway\\GatewayServiceProvider"
       ],
       "aliases": {
-        "Gateway": "Larabookir\\Gateway\\Gateway"
+        "Gateway": "HamidNE\\Gateway\\Gateway"
       }
     }
   }

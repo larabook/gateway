@@ -1,21 +1,21 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace HamidNE\Gateway;
 
-use Larabookir\Gateway\Irankish\Irankish;
-use Larabookir\Gateway\Parsian\Parsian;
-use Larabookir\Gateway\Paypal\Paypal;
-use Larabookir\Gateway\Sadad\Sadad;
-use Larabookir\Gateway\Mellat\Mellat;
-use Larabookir\Gateway\Pasargad\Pasargad;
-use Larabookir\Gateway\Saman\Saman;
-use Larabookir\Gateway\Asanpardakht\Asanpardakht;
-use Larabookir\Gateway\Zarinpal\Zarinpal;
-use Larabookir\Gateway\Payir\Payir;
-use Larabookir\Gateway\Exceptions\RetryException;
-use Larabookir\Gateway\Exceptions\PortNotFoundException;
-use Larabookir\Gateway\Exceptions\InvalidRequestException;
-use Larabookir\Gateway\Exceptions\NotFoundTransactionException;
+use HamidNE\Gateway\Irankish\Irankish;
+use HamidNE\Gateway\Parsian\Parsian;
+use HamidNE\Gateway\Paypal\Paypal;
+use HamidNE\Gateway\Sadad\Sadad;
+use HamidNE\Gateway\Mellat\Mellat;
+use HamidNE\Gateway\Pasargad\Pasargad;
+use HamidNE\Gateway\Saman\Saman;
+use HamidNE\Gateway\Asanpardakht\Asanpardakht;
+use HamidNE\Gateway\Zarinpal\Zarinpal;
+use HamidNE\Gateway\Payir\Payir;
+use HamidNE\Gateway\Exceptions\RetryException;
+use HamidNE\Gateway\Exceptions\PortNotFoundException;
+use HamidNE\Gateway\Exceptions\InvalidRequestException;
+use HamidNE\Gateway\Exceptions\NotFoundTransactionException;
 use Illuminate\Support\Facades\DB;
 
 class GatewayResolver

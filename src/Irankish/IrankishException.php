@@ -1,8 +1,8 @@
 <?php
 
-namespace Larabookir\Gateway\Irankish;
+namespace HamidNE\Gateway\Irankish;
 
-use Larabookir\Gateway\Exceptions\BankException;
+use HamidNE\Gateway\Exceptions\BankException;
 
 class IrankishException extends BankException
 {
