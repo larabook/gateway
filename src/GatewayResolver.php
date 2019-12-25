@@ -10,6 +10,7 @@ use Larabookir\Gateway\Mellat\Mellat;
 use Larabookir\Gateway\Pasargad\Pasargad;
 use Larabookir\Gateway\Saman\Saman;
 use Larabookir\Gateway\Asanpardakht\Asanpardakht;
+use Larabookir\Gateway\Shahr\Shahr;
 use Larabookir\Gateway\Zarinpal\Zarinpal;
 use Larabookir\Gateway\Payir\Payir;
 use Larabookir\Gateway\Exceptions\RetryException;
@@ -146,7 +147,7 @@ class GatewayResolver
             $name = Enum::PAYIR;
         } elseif ($port InstanceOf Pasargad) {
             $name = Enum::PASARGAD;
-        } elseif ($port InstanceOf SHAHR) {
+        } elseif ($port InstanceOf Shahr) {
             $name = Enum::SHAHR;
         } elseif ($port InstanceOf Irankish) {
             $name = Enum::IRANKISH;

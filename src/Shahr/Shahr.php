@@ -18,6 +18,16 @@ class Shahr extends PortAbstract implements PortInterface
     protected $optional_data = [];
 
     /**
+     * @var Session ID from login
+     */
+    private $session_id;
+
+    /**
+     * @var Int
+     */
+    private $return_amount;
+
+    /**
      * Address of main SOAP server
      *
      * @var string
@@ -80,9 +90,123 @@ class Shahr extends PortAbstract implements PortInterface
     public function verify($transaction)
     {
         parent::verify($transaction);
-        $this->verifyPayment();
+        $this->login();
+        $this->verifyTransaction();
 
         return $this;
+    }
+
+    /**
+     * Login
+     * @throws \Exception
+     */
+    private function login()
+    {
+        try {
+            $info = new \StdClass();
+            $info->username = $this->config->get('gateway.shahr.username');
+            $info->password = $this->config->get('gateway.shahr.password');
+
+            /** @var $client */
+            $client = new \nusoap_client('https://fcp.shaparak.ir/ref-payment/jax/merchantAuth?wsdl',true);
+            $str = $client->call("login", array('loginRequest' => $info));
+            $this->session_id = ($str['return']);
+
+            /** Throw error if empty session id */
+            if(empty($this->session_id))
+            {
+                $this->transactionFailed();
+                $status = '-1';
+                $this->newLog($status, @ShahrException::$errors[$status]);
+                throw new ShahrException($status);
+            }
+
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), 500);
+        }
+
+    }
+
+    /**
+     * Verify Transaction
+     */
+    private function verifyTransaction()
+    {
+        try {
+            $State = request('State');
+            $this->trackingCode = request('TraceNo');
+            $this->transactionId = request('ResNum');
+            $this->refId = request('refNum');
+
+            /** @var $contextinfo */
+            $contextinfo = new \stdClass();
+            $contextinfo->data = new \stdClass();
+            $contextinfo->data->entry = array('key'=>'SESSION_ID','value'=> $this->session_id);
+
+            /** @var $requestinfo */
+            $requestinfo = new \StdClass();
+            $requestinfo->refNumList = $this->refId;
+
+            /** @var $client */
+            $client = new \nusoap_client('https://fcp.shaparak.ir/ref-payment/jax/merchantAuth?wsdl',true);
+            $str1 = $client->call("verifyTransaction", array('context' => $contextinfo,'verifyRequest' => $requestinfo));
+
+            /** If cancelled by user */
+            if($State == 'Canceled By User')
+            {
+                $this->transactionFailed();
+                $this->newLog(substr($State,0,10), @ShahrException::$errors[$State]);
+                throw new ShahrException($State);
+            }
+
+            /** Check Errors */
+            if(isset($str1['return']) and is_array($str1['return']) and isset($str1['return']['verifyResponseResults']['verificationError']))
+            {
+                $VerificationError = ($str1['return']['verifyResponseResults']['verificationError']);
+                $this->transactionFailed();
+                $this->reverseTransaction();
+                $this->newLog(substr($VerificationError,0,10), @ShahrException::$errors[$VerificationError]);
+                throw new ShahrException($VerificationError);
+            }
+
+            /** Update transaction */
+            $this->getTable()->whereId($this->transactionId)->update([
+                'ref_id' => $this->refId,
+                'tracking_code' => $this->trackingCode,
+                'updated_at' => Carbon::now(),
+            ]);
+
+            /** Success transaction */
+            if ($State == 'OK') {
+                $this->transactionSucceed();
+                return true;
+            }
+
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage(), 500);
+        }
+    }
+
+    /**
+     * Reversing transaction
+     */
+    private function reverseTransaction()
+    {
+        /** @var $contextinfo */
+        $contextinfo = new \stdClass();
+        $contextinfo->data = new \stdClass();
+        $contextinfo->data->entry = array('key'=>'SESSION_ID','value'=> $this->session_id);
+
+        /** @var $reverseinfo */
+        $reverseinfo = new \stdClass();
+        $reverseinfo->amount = intval(request('transactionAmount'));
+        $reverseinfo->mainTransactionRefNum = request('RefNum');
+        $reverseinfo->reverseTransactionResNum = request('ResNum');
+
+        /** @var $client */
+        $client = new \nusoap_client('https://fcp.shaparak.ir/ref-payment/jax/merchantAuth?wsdl',true);
+        $str1 = $client->call("reverseTransaction", array('context' => $contextinfo,'reverseRequest' => $reverseinfo));
+        $Refreverse = ($str1['return']['refNum']);
     }
 
     /**
@@ -107,41 +231,5 @@ class Shahr extends PortAbstract implements PortInterface
         $url = $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 
         return $url;
-    }
-
-    /**
-     * Verify user payment from bank server
-     *
-     * @return bool
-     *
-     * @throws ShahrException
-     * @throws SoapFault
-     */
-    protected function verifyPayment()
-    {
-        $State = request('State');
-        $ResNum = request('ResNum');
-        $this->refId = request('RefNum');
-        $this->trackingCode = request('TraceNo');
-        $MID = request('MID');
-        $language = request('language');
-        $redirectURL = request('redirectURL');
-        $merchantData = request('merchantData');
-        $transactionAmount = request('transactionAmount');
-
-        $this->getTable()->whereId($this->transactionId)->update([
-            'ref_id' => $this->refId,
-            'tracking_code' => $this->trackingCode,
-            'updated_at' => Carbon::now(),
-        ]);
-
-        if ($State == 'OK' and $transactionAmount == $this->amount) {
-            $this->transactionSucceed();
-            return true;
-        }
-
-        $this->transactionFailed();
-        $this->newLog(substr($State,0,10), @ShahrException::$errors[$State]);
-        throw new ShahrException($State);
     }
 }

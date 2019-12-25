@@ -9,7 +9,7 @@ class ShahrException extends BankException
 
     public static $errors = array(
         "OK" => "پرداخت با موفقیت انجام شد",
-        'Canceled By User' => 'تراکنش توسط خریدار کنسل شد',
+        'Canceled By User' => 'تراکنش توسط کاربر کنسل شد',
         'Invalid Amount' => 'مبلغ سند برگشتی از مبلغ تراکنش اصلی بیشتر است',
         'Merchant Invalid' => 'پذیرنده فروشگاهی نامعتبر است',
         'Do Not Honour' => 'از انجام تراکنش صرف نظر شد',
@@ -27,6 +27,12 @@ class ShahrException extends BankException
         'Allowable PIN Tries Exceeded Pick Up' => 'رمز کارت (PIN) 3 مرتبه اشتباه وارد شده است در نتیجه کارت شما غیر فعال خواهد شد',
         'Response Received Too Late' => 'تراکنش در شبکه بانکی Timeout خورده است',
         'Suspected Fraud Pick Up' => 'فیلد CV2V و یا فیلد ExpDate اشتباه وارد شده و یا اصلا وارد نشده است',
+
+        'TRANSACTION_NOT_FOUND_ERROR' => 'تراکنش اصلی پیدا نشد یا شماره پیگیری ارسال شده اشتباه است',
+        'TRANSACTION_IS_NOT_VERIFIABLE' => 'تراکنش قبل از تأیید شدن توسط سیستم برگشت خورده است',
+        'INVALID_SESSION_EXCEPTION' => 'جلسه کاری کاربر در سمت سرور منقضی شده و پذیرنده باید دوباره درخواست خود را تکرار کند.',
+        'VALIDATION_EXCEPTION' => 'مقادیر ورودی نامعتبر هستند.',
+        'SYSTEM_ERROR' => 'خطای داخلی سیستم است و در صورت تکرار فرایند و دریافت مجدد این خطا باید به پشتیبانی فنآوا کارت اطلاع داده شود',
 
 
         -1 => "خطای داخلی شبکه مالی",
