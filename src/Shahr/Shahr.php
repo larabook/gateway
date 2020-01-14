@@ -136,7 +136,7 @@ class Shahr extends PortAbstract implements PortInterface
             $State = request('State');
             $this->trackingCode = request('TraceNo');
             $this->transactionId = request('ResNum');
-            $this->refId = request('refNum');
+            $this->refId = request('RefNum');
 
             /** @var $contextinfo */
             $contextinfo = new \stdClass();
