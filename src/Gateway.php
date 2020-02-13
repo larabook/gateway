@@ -18,8 +18,8 @@ use Larabookir\Gateway\Zarinpal\Zarinpal;
 
 /**
  * @see \Larabookir\Gateway\GatewayResolver
- * @method  static GatewayResolver make($port)
- * @method  static GatewayResolver verify()
+ * @method  static Mellat|Saman|Sadad|Zarinpal|Payir|Parsian make($port)
+ * @method  static Mellat|Saman|Sadad|Zarinpal|Payir|Parsian verify()
  * @method  static Mellat mellat()
  * @method  static Sadad sadad()
  * @method  static Zarinpal zarinpal()
