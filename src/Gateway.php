@@ -3,33 +3,45 @@
 namespace Larabookir\Gateway;
 
 use Illuminate\Support\Facades\Facade;
+use Larabookir\Gateway\Asanpardakht\Asanpardakht;
+use Larabookir\Gateway\Irankish\Irankish;
+use Larabookir\Gateway\JahanPay\JahanPay;
+use Larabookir\Gateway\Mellat\Mellat;
+use Larabookir\Gateway\Parsian\Parsian;
+use Larabookir\Gateway\Pasargad\Pasargad;
+use Larabookir\Gateway\Payir\Payir;
+use Larabookir\Gateway\Payline\Payline;
+use Larabookir\Gateway\Paypal\Paypal;
+use Larabookir\Gateway\Sadad\Sadad;
+use Larabookir\Gateway\Saman\Saman;
+use Larabookir\Gateway\Zarinpal\Zarinpal;
 
 /**
  * @see \Larabookir\Gateway\GatewayResolver
  * @method  static GatewayResolver make($port)
  * @method  static GatewayResolver verify()
- * @method  static GatewayResolver mellat()
- * @method  static GatewayResolver sadad()
- * @method  static GatewayResolver zarinpal()
- * @method  static GatewayResolver payline()
- * @method  static GatewayResolver jahanpay()
- * @method  static GatewayResolver parsian()
- * @method  static GatewayResolver pasargad()
- * @method  static GatewayResolver saman()
- * @method  static GatewayResolver asanpardakht()
- * @method  static GatewayResolver paypal()
- * @method  static GatewayResolver payir()
- * @method  static GatewayResolver irankish()
+ * @method  static Mellat mellat()
+ * @method  static Sadad sadad()
+ * @method  static Zarinpal zarinpal()
+ * @method  static Payline payline()
+ * @method  static JahanPay jahanpay()
+ * @method  static Parsian parsian()
+ * @method  static Pasargad pasargad()
+ * @method  static Saman saman()
+ * @method  static Asanpardakht asanpardakht()
+ * @method  static Paypal paypal()
+ * @method  static Payir payir()
+ * @method  static Irankish irankish()
  */
 class Gateway extends Facade
 {
-	/**
-	 * The name of the binding in the IoC container.
-	 *
-	 * @return string
-	 */
-	protected static function getFacadeAccessor()
-	{
-		return 'gateway';
-	}
+    /**
+     * The name of the binding in the IoC container.
+     *
+     * @return string
+     */
+    protected static function getFacadeAccessor()
+    {
+        return 'gateway';
+    }
 }
