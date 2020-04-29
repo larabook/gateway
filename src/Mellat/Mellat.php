@@ -3,7 +3,7 @@
 namespace Larabookir\Gateway\Mellat;
 
 use DateTime;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
 use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
@@ -140,10 +140,10 @@ class Mellat extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->refId = Request::input('RefId');
-		$this->trackingCode = Request::input('SaleReferenceId');
-		$this->cardNumber = Request::input('CardHolderPan');
-		$payRequestResCode = Request::input('ResCode');
+		$this->refId = Input::get('RefId');
+		$this->trackingCode = Input::get('SaleReferenceId');
+		$this->cardNumber = Input::get('CardHolderPan');
+		$payRequestResCode = Input::get('ResCode');
 
 		if ($payRequestResCode == '0') {
 			return true;

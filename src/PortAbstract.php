@@ -60,13 +60,6 @@ abstract class PortAbstract
 	protected $description;
 
 	/**
-	 * Custom Invoice Number of transaction
-	 *
-	 * @var string
-	 */
-	protected $customInvoiceNo;
-
-	/**
 	 * callback URL
 	 *
 	 * @var url
@@ -105,7 +98,7 @@ abstract class PortAbstract
 	/**
 	 * @return mixed
 	 */
-	function getTable()
+	function getTable() 
 	{
 		return $this->db->table($this->config->get('gateway.table'));
 	}
@@ -158,28 +151,6 @@ abstract class PortAbstract
 	function getCustomDesc ()
 	{
 		return $this->description;
-	}
-
-	/**
-	 * Set custom Invoice number on current transaction
-	 *
-	 * @param string $description
-	 *
-	 * @return void
-	 */
-	function setCustomInvoiceNo ($invoiceNo)
-	{
-		$this->customInvoiceNo = $invoiceNo;
-	}
-
-	/**
-	 * Get custom Invoice number of current transaction
-	 *
-	 * @return string | null
-	 */
-	function getCustomInvoiceNo ()
-	{
-		return $this->customInvoiceNo;
 	}
 
 	/**
@@ -391,7 +362,6 @@ abstract class PortAbstract
 		return (!empty($url_array['scheme']) ? $url_array['scheme'] . '://' : null) .
 		(!empty($url_array['host']) ? $url_array['host'] : null) .
 		(!empty($url_array['port']) ? ':' . $url_array['port'] : null) .
-        (!empty($url_array['path']) ? $url_array['path'] : null) .
-        '?' . http_build_query($query_array);
+		$url_array['path'] . '?' . http_build_query($query_array);
 	}
 }

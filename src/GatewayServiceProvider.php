@@ -55,10 +55,8 @@ class GatewayServiceProvider extends ServiceProvider
     {
         if (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '<')) {
             $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel4';
-        }elseif (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '>=') && version_compare(\Illuminate\Foundation\Application::VERSION, '6.0', '<')) {
+        } else {
             $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel5';
-        }else {
-            $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel6';
         }
 
         return new $provider($this->app);

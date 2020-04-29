@@ -2,7 +2,7 @@
 
 namespace Larabookir\Gateway\Asanpardakht;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
@@ -141,7 +141,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $ReturningParams = Request::input('ReturningParams');
+        $ReturningParams = Input::get('ReturningParams');
         $ReturningParams = $this->decrypt($ReturningParams);
 
         $paramsArray = explode(",", $ReturningParams);

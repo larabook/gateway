@@ -20,12 +20,22 @@ class CreateGatewayTransactionsTable extends Migration
 	 */
 	public function up()
 	{
-       
-	    
 		Schema::create($this->getTable(), function (Blueprint $table) {
 			$table->engine = "innoDB";
 			$table->unsignedBigInteger('id', true);
-			$table->enum('port', (array) Enum::getIPGs());
+			$table->enum('port', [
+				Enum::MELLAT,
+				Enum::SADAD,
+				Enum::ZARINPAL,
+				Enum::PAYLINE,
+				Enum::JAHANPAY,
+				Enum::PARSIAN,
+				Enum::PASARGAD,
+				Enum::SAMAN,
+				Enum::ASANPARDAKHT,
+				Enum::PAYPAL,
+				Enum::PAYIR
+			]);
 			$table->decimal('price', 15, 2);
 			$table->string('ref_id', 100)->nullable();
 			$table->string('tracking_code', 50)->nullable();

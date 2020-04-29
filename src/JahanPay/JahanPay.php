@@ -2,7 +2,7 @@
 
 namespace Larabookir\Gateway\JahanPay;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
 use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
@@ -134,7 +134,7 @@ class JahanPay extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $refId = Request::input('au');
+        $refId = Input::get('au');
 
         if ($this->refId() != $refId) {
             $this->transactionFailed();

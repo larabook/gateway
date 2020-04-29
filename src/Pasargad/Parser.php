@@ -1,7 +1,7 @@
 <?php
 namespace Larabookir\Gateway\Pasargad;
 
-use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Input;
 
 class Parser
 {
@@ -21,8 +21,8 @@ class Parser
         xml_parser_free($parser);
         $hash_stack = [];
         $temp = [
-            "invoiceNumber" => Request::input('iN'),
-            "invoiceDate" => Request::input('iD')
+            "invoiceNumber" => Input::get('iN'),
+            "invoiceDate" => Input::get('iD')
         ];
 
         foreach ($values as $key => $val) {

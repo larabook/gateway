@@ -145,7 +145,8 @@ class AsanpardakhtException extends BankException
         1101 => "هویت درخواست کننده نامعتبر است",
         1102 => "خطا در پردازش",
         1103 => "تراکنشی یافت نشد"
-        
+
+
     );
 
     public function __construct($errorRef)
