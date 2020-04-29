@@ -1,5 +1,5 @@
 {
-  "name": "larabook/gateway",
+  "name": "kamranshalilian/gateway",
   "homepage": "https://github.com/larabook/gateway",
   "description": "A Laravel package for connecting to all Iraninan payment  gateways",
   "keywords": [
