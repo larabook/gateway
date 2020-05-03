@@ -1,7 +1,7 @@
 {
-  "name": "larabook/gateway",
-  "homepage": "https://github.com/larabook/gateway",
-  "description": "A Laravel package for connecting to all Iraninan payment  gateways",
+  "name": "imerit-pro/gateway",
+  "homepage": "https://github.com/imerit-pro/gateway",
+  "description": "A Laravel package for connecting to all Saman payment  gateway",
   "keywords": [
     "laravel",
     "iran",
@@ -10,39 +10,14 @@
     "port",
     "bank",
     "pay",
-    "mellat",
     "saman",
-    "pasargad",
-    "parsian",
-    "sadad",
-    "meli",
-    "payline",
-    "jahanpay",
-    "zarinpal",
-    "iranian-banks",
-    "persian-banks",
-    "pardakht",
-    "dargah",
-    "shaparak",
-    "poolport",
-    "ipay",
-    "asan-pardakht",
-    "pay-ir",
     "paypal"
   ],
   "license": "MIT",
   "authors": [
     {
-      "name": "Hamed Pakdaman",
-      "email": "pakdaman.it@gmail.com"
-    },
-    {
-      "name": "MohammadReza Honarkhah",
-      "email": "m.honar@gmail.com"
-    },
-    {
-      "name": "Amir Khorsandi",
-      "email": "Khorsandi@me.com"
+      "name": "Med Ga",
+      "email": "amdeadman@gmail.com"
     }
   ],
   "require": {
@@ -51,18 +26,18 @@
   },
   "autoload": {
     "psr-4": {
-      "Larabookir\\Gateway\\": "src/",
-      "Larabookir\\Gateway\\Tests\\": "tests/"
+      "Imerit\\Gateway\\": "src/",
+      "Imeirt\\Gateway\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
   "extra": {
     "laravel": {
       "providers": [
-        "Larabookir\\Gateway\\GatewayServiceProvider"
+        "Imerit\\Gateway\\GatewayServiceProvider"
       ],
       "aliases": {
-        "Gateway": "Larabookir\\Gateway\\Gateway"
+        "Gateway": "Imerit\\Gateway\\Gateway"
       }
     }
   }

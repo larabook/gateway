@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Imerit\Gateway;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -54,9 +54,9 @@ class GatewayServiceProvider extends ServiceProvider
     private function getProvider()
     {
         if (version_compare(\Illuminate\Foundation\Application::VERSION, '6.0', '<')) {
-            $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel6';
+            $provider = 'Imerit\Gateway\GatewayServiceProviderLaravel6';
         }else {
-            $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel7';
+            $provider = 'Imerit\Gateway\GatewayServiceProviderLaravel7';
         }
 
         return new $provider($this->app);

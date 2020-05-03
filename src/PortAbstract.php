@@ -1,8 +1,8 @@
 <?php
-namespace Larabookir\Gateway;
+namespace Imerit\Gateway;
 
 use Illuminate\Support\Facades\Request;
-use Larabookir\Gateway\Enum;
+use Imerit\Gateway\Enum;
 use Carbon\Carbon;
 
 abstract class PortAbstract

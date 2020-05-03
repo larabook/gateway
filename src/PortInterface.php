@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Imerit\Gateway;
 
 interface PortInterface
 {

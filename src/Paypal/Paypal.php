@@ -1,13 +1,13 @@
 <?php
 
-namespace Larabookir\Gateway\Paypal;
+namespace Imerit\Gateway\Paypal;
 
-use Larabookir\Gateway\Mellat\MellatException;
-use Larabookir\Gateway\Enum;
-use Larabookir\Gateway\Paypal\PaypalException;
+use Imerit\Gateway\Mellat\MellatException;
+use Imerit\Gateway\Enum;
+use Imerit\Gateway\Paypal\PaypalException;
 use Illuminate\Support\Facades\Request;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Imerit\Gateway\PortAbstract;
+use Imerit\Gateway\PortInterface;
 use PayPal\Api\Amount;
 use PayPal\Api\Item;
 use PayPal\Api\ItemList;

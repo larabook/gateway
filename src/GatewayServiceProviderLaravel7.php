@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Imerit\Gateway;
 
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
@@ -25,13 +25,13 @@ class GatewayServiceProviderLaravel7 extends ServiceProvider
         $migrations = __DIR__ . '/../migrations/';
         $views = __DIR__ . '/../views/';
 
-        //php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=config
+        //php artisan vendor:publish --provider=Imerit\Gateway\GatewayServiceProvider --tag=config
         $this->publishes([
             $config => config_path('gateway.php'),
         ], 'config')
         ;
 
-        // php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=migrations
+        // php artisan vendor:publish --provider=Imerit\Gateway\GatewayServiceProvider --tag=migrations
         $this->publishes([
             $migrations => base_path('database/migrations')
         ], 'migrations');
@@ -39,7 +39,7 @@ class GatewayServiceProviderLaravel7 extends ServiceProvider
 
         $this->loadViewsFrom($views, 'gateway');
 
-        // php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProvider --tag=views
+        // php artisan vendor:publish --provider=Imerit\Gateway\GatewayServiceProvider --tag=views
         $this->publishes([
             $views => base_path('resources/views/vendor/gateway'),
         ], 'views');

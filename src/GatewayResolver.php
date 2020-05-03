@@ -1,13 +1,13 @@
 <?php
 
-namespace Larabookir\Gateway;
+namespace Imerit\Gateway;
 
-use Larabookir\Gateway\Paypal\Paypal;
-use Larabookir\Gateway\Saman\Saman;
-use Larabookir\Gateway\Exceptions\RetryException;
-use Larabookir\Gateway\Exceptions\PortNotFoundException;
-use Larabookir\Gateway\Exceptions\InvalidRequestException;
-use Larabookir\Gateway\Exceptions\NotFoundTransactionException;
+use Imerit\Gateway\Paypal\Paypal;
+use Imerit\Gateway\Saman\Saman;
+use Imerit\Gateway\Exceptions\RetryException;
+use Imerit\Gateway\Exceptions\PortNotFoundException;
+use Imerit\Gateway\Exceptions\InvalidRequestException;
+use Imerit\Gateway\Exceptions\NotFoundTransactionException;
 
 class GatewayResolver
 {

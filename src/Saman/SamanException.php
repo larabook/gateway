@@ -1,8 +1,8 @@
 <?php
 
-namespace Larabookir\Gateway\Saman;
+namespace Imerit\Gateway\Saman;
 
-use Larabookir\Gateway\Exceptions\BankException;
+use Imerit\Gateway\Exceptions\BankException;
 
 class SamanException extends BankException
 {
