@@ -2,21 +2,12 @@
 
 namespace Larabookir\Gateway;
 
-use Larabookir\Gateway\Irankish\Irankish;
-use Larabookir\Gateway\Parsian\Parsian;
 use Larabookir\Gateway\Paypal\Paypal;
-use Larabookir\Gateway\Sadad\Sadad;
-use Larabookir\Gateway\Mellat\Mellat;
-use Larabookir\Gateway\Pasargad\Pasargad;
 use Larabookir\Gateway\Saman\Saman;
-use Larabookir\Gateway\Asanpardakht\Asanpardakht;
-use Larabookir\Gateway\Zarinpal\Zarinpal;
-use Larabookir\Gateway\Payir\Payir;
 use Larabookir\Gateway\Exceptions\RetryException;
 use Larabookir\Gateway\Exceptions\PortNotFoundException;
 use Larabookir\Gateway\Exceptions\InvalidRequestException;
 use Larabookir\Gateway\Exceptions\NotFoundTransactionException;
-use Illuminate\Support\Facades\DB;
 
 class GatewayResolver
 {
@@ -128,31 +119,10 @@ class GatewayResolver
 	 */
 	function make($port)
     {
-        if ($port InstanceOf Mellat) {
-            $name = Enum::MELLAT;
-        } elseif ($port InstanceOf Parsian) {
-            $name = Enum::PARSIAN;
-        } elseif ($port InstanceOf Saman) {
+        if ($port InstanceOf Saman) {
             $name = Enum::SAMAN;
-        } elseif ($port InstanceOf Zarinpal) {
-            $name = Enum::ZARINPAL;
-        } elseif ($port InstanceOf Sadad) {
-            $name = Enum::SADAD;
-        } elseif ($port InstanceOf Asanpardakht) {
-            $name = Enum::ASANPARDAKHT;
         } elseif ($port InstanceOf Paypal) {
             $name = Enum::PAYPAL;
-        } elseif ($port InstanceOf Payir) {
-            $name = Enum::PAYIR;
-        } elseif ($port InstanceOf Pasargad) {
-            $name = Enum::PASARGAD;
-        } elseif ($port InstanceOf Irankish) {
-            $name = Enum::IRANKISH;
-        } elseif (in_array(strtoupper($port), $this->getSupportedPorts())) {
-            $port = ucfirst(strtolower($port));
-            $name = strtoupper($port);
-            $class = __NAMESPACE__ . '\\' . $port . '\\' . $port;
-            $port = new $class;
         } else
             throw new PortNotFoundException;
 

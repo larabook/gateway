@@ -4,19 +4,8 @@ namespace Larabookir\Gateway;
 
 class Enum
 {
-	const MELLAT = 'MELLAT';
-	const SADAD = 'SADAD';
-	const ZARINPAL = 'ZARINPAL';
-	const PAYLINE = 'PAYLINE';
-	const JAHANPAY = 'JAHANPAY';
-	const PARSIAN = 'PARSIAN';
-	const PASARGAD = 'PASARGAD';
 	const SAMAN = 'SAMAN';
-	const ASANPARDAKHT = 'ASANPARDAKHT';
 	const PAYPAL = 'PAYPAL';
-  	const PAYIR = 'PAYIR';
-  	const IRANKISH = 'IRANKISH';
-  	const MASKAN = self::IRANKISH;
 
   	static function getIPGs(){
 
