@@ -1,6 +1,6 @@
 {
   "name": "masihjazayeri/gateway",
-  "homepage": "https://github.com/masihjazy-z/gateway",
+  "homepage": "https://github.com/masihjay-z/gateway",
   "description": "A Laravel package for connecting to all Iraninan payment  gateways",
   "keywords": [
     "laravel",
@@ -43,7 +43,7 @@
   },
   "autoload": {
     "psr-4": {
-      "Masihjzayeri\\Gateway\\": "src/",
+      "Masihjazayeri\\Gateway\\": "src/",
       "Masihjazayeri\\Gateway\\Tests\\": "tests/"
     }
   },
