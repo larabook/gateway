@@ -37,7 +37,7 @@
 
 ```php
 
-composer require larabook/gateway
+composer require masihjazayeri/gateway
 
 ```   
 
@@ -55,13 +55,13 @@ composer require larabook/gateway
 
 'providers' => [
   ...
-  Larabookir\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
+  Masihjazayeri\Gateway\GatewayServiceProvider::class, // <-- add this line at the end of provider array
 ],
 
 
 'aliases' => [
   ...
-  'Gateway' => Larabookir\Gateway\Gateway::class, // <-- add this line at the end of aliases array
+  'Gateway' => Masihjazayeri\Gateway\Gateway::class, // <-- add this line at the end of aliases array
 ]
 
 ```
@@ -77,7 +77,7 @@ composer require larabook/gateway
 
 ```php
 
-php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
+php artisan vendor:publish --provider=Masihjazayeri\Gateway\GatewayServiceProviderLaravel5
 
 ```
 
@@ -179,7 +179,7 @@ try {
    // تراکنش با موفقیت سمت بانک تایید گردید
    // در این مرحله عملیات خرید کاربر را تکمیل میکنیم
 
-} catch (\Larabookir\Gateway\Exceptions\RetryException $e) {
+} catch (\Masihjazayeri\Gateway\Exceptions\RetryException $e) {
 
     // تراکنش قبلا سمت بانک تاییده شده است و
     // کاربر احتمالا صفحه را مجددا رفرش کرده است
@@ -205,7 +205,7 @@ try {
 
 
 درصورت بروز هر گونه 
- [باگ](https://github.com/larabook/gateway/issues) یا [خطا](https://github.com/larabook/gateway/issues)  .
+ [باگ](https://github.com/masihjay-z/gateway/issues) یا [خطا](https://github.com/masihjay-z/gateway/issues)  .
   ما را آگاه سازید .
   
 این پکیج از پکیج دیگری بنام  poolport  مشتق شده است اما برخی از عملیات آن متناسب با فریموورک لارول تغییر کرده است
