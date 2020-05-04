@@ -175,7 +175,7 @@ class Saderat extends PortAbstract implements PortInterface
     protected function userPayment()
     {
         $this->trackingCode = Request::input('tracenumber');
-        // $this->cardNumber = Request::input('SecurePan'); , will cause mysql error : Data too long for column 'card_number' !
+        $this->cardNumber = Request::input('cardnumber'); 
         $payRequestRes = Request::input('respmsg');
         $payRequestResCode = Request::input('respcode');
 
@@ -183,7 +183,7 @@ class Saderat extends PortAbstract implements PortInterface
         $this->getTable()->whereId($this->transactionId)->update([
             'ref_id' => $this->refId,
             'tracking_code' => $this->trackingCode,
-             'card_number' => $this->cardNumber,
+            'card_number' => $this->cardNumber,
             'updated_at' => Carbon::now(),
         ]);
 
