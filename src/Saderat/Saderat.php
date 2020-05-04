@@ -223,7 +223,7 @@ class Saderat extends PortAbstract implements PortInterface
         //
         $this->transactionSetRefId();
         $this->transactionFailed();
-        $this->newLog($response, SaderatException::$errors[$response]);
+        $this->newLog($response, SaderatException::$errors[$respcode]);
         throw new SaderatException($response);
 
 
