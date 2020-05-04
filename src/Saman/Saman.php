@@ -1,12 +1,12 @@
 <?php
 
-namespace Larabookir\Gateway\Saman;
+namespace Masihjazayeri\Gateway\Saman;
 
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Request;
 use SoapClient;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Masihjazayeri\Gateway\PortAbstract;
+use Masihjazayeri\Gateway\PortInterface;
 
 class Saman extends PortAbstract implements PortInterface
 {

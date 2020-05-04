@@ -1,6 +1,6 @@
 <?php
 
-namespace Larabookir\Gateway\Parsian;
+namespace Masihjazayeri\Gateway\Parsian;
 
 
 class ParsianResult
