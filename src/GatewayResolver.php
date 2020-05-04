@@ -6,6 +6,7 @@ use Masihjazayeri\Gateway\Irankish\Irankish;
 use Masihjazayeri\Gateway\Parsian\Parsian;
 use Masihjazayeri\Gateway\Paypal\Paypal;
 use Masihjazayeri\Gateway\Sadad\Sadad;
+use Masihjazayeri\Gateway\Saderat\Saderat;
 use Masihjazayeri\Gateway\Mellat\Mellat;
 use Masihjazayeri\Gateway\Pasargad\Pasargad;
 use Masihjazayeri\Gateway\Saman\Saman;
