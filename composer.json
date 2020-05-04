@@ -1,6 +1,6 @@
 {
   "name": "larabook/gateway",
-  "homepage": "https://github.com/larabook/gateway",
+  "homepage": "https://github.com/masihjazy-z/gateway",
   "description": "A Laravel package for connecting to all Iraninan payment  gateways",
   "keywords": [
     "laravel",
@@ -33,16 +33,8 @@
   "license": "MIT",
   "authors": [
     {
-      "name": "Hamed Pakdaman",
-      "email": "pakdaman.it@gmail.com"
-    },
-    {
-      "name": "MohammadReza Honarkhah",
-      "email": "m.honar@gmail.com"
-    },
-    {
-      "name": "Amir Khorsandi",
-      "email": "Khorsandi@me.com"
+      "name": "Masih Jazayeri",
+      "email": "masih1376@gmail.com"
     }
   ],
   "require": {
@@ -59,10 +51,10 @@
   "extra": {
     "laravel": {
       "providers": [
-        "Larabookir\\Gateway\\GatewayServiceProvider"
+        "Masihjazayeri\\Gateway\\GatewayServiceProvider"
       ],
       "aliases": {
-        "Gateway": "Larabookir\\Gateway\\Gateway"
+        "Gateway": "Masihjazayeri\\Gateway\\Gateway"
       }
     }
   }
