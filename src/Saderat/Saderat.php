@@ -26,9 +26,8 @@ class Saderat extends PortAbstract implements PortInterface
      * @var string
      */
 
-    protected $serverVerifyUrl = "https://sep.shaparak.ir/payments/referencepayment.asmx?WSDL";
 
-    protected $token_service_wsdl = 'https://mabna.shaparak.ir:8082/Token.svc?wsdl';
+    protected $advice_url = 'https://mabna.shaparak.ir:8081/V1/PeymentApi/Advice';
 
     protected $getTokenUrl = "https://mabna.shaparak.ir:8081/V1/PeymentApi/GetToken";
 
@@ -175,20 +174,20 @@ class Saderat extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $this->trackingCode = Request::input('TRACENO');
+        $this->trackingCode = Request::input('tracenumber');
         // $this->cardNumber = Request::input('SecurePan'); , will cause mysql error : Data too long for column 'card_number' !
-        $payRequestRes = Request::input('State');
-        $payRequestResCode = Request::input('Status');
+        $payRequestRes = Request::input('respmsg');
+        $payRequestResCode = Request::input('respcode');
 
-        $this->refId = Request::input('RefNum');
+        $this->refId = Request::input('rrn');
         $this->getTable()->whereId($this->transactionId)->update([
             'ref_id' => $this->refId,
             'tracking_code' => $this->trackingCode,
-            // 'card_number' => $this->cardNumber, will cause mysql error : Data too long for column 'card_number' !
+             'card_number' => $this->cardNumber,
             'updated_at' => Carbon::now(),
         ]);
 
-        if ($payRequestRes == 'OK') {
+        if ($$payRequestResCode == '0') {
             return true;
         }
 
@@ -208,42 +207,19 @@ class Saderat extends PortAbstract implements PortInterface
      */
     protected function verifyPayment()
     {
-        $fields = array(
-            "merchantID" => $this->config->get('gateway.saderat.merchant'),
-            "RefNum" => $this->refId,
-            "password" => $this->config->get('gateway.saderat.password'),
-        );
+    
+        $dataQuery ='digitalreceipt='.$this->test_input(Request::input('digitalreceipt')).'&Tid='.$this->config->get('gateway.saderat.terminalID');
 
-        try {
-            $soap = new SoapClient($this->serverVerifyUrl);
-            $response = $soap->VerifyTransaction($fields["RefNum"], $fields["merchantID"]);
+        $response =json_decode( makeHttpChargeRequest('POST',$dataQuery,$AdviceAddress));
 
-        } catch (\SoapFault $e) {
-            $this->transactionFailed();
-            $this->newLog('SoapFault', $e->getMessage());
-            throw $e;
-        }
+        $Status =$response->Status;
+        $ReturnId=$response->ReturnId;
+        $Message=$response->Message;
 
-        $response = intval($response);
-
-        if ($response == $this->amount) {
+        if ( $respcode == 0 && $Status== "Ok" && $ReturnId==$this->amount) {
             $this->transactionSucceed();
             return true;
         }
-
-        //Reverse Transaction
-        if ($response > 0) {
-            try {
-                $soap = new SoapClient($this->serverVerifyUrl);
-                $response = $soap->ReverseTransaction($fields["RefNum"], $fields["merchantID"], $fields["password"], $response);
-
-            } catch (\SoapFault $e) {
-                $this->transactionFailed();
-                $this->newLog('SoapFault', $e->getMessage());
-                throw $e;
-            }
-        }
-
         //
         $this->transactionSetRefId();
         $this->transactionFailed();
