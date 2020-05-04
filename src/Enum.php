@@ -15,7 +15,9 @@ class Enum
 	const ASANPARDAKHT = 'ASANPARDAKHT';
 	const PAYPAL = 'PAYPAL';
   	const PAYIR = 'PAYIR';
-  	const IRANKISH = 'IRANKISH';
+	const IRANKISH = 'IRANKISH';
+	const SADERAT = 'SADERAT';
+
   	const MASKAN = self::IRANKISH;
 
   	static function getIPGs(){

@@ -148,6 +148,8 @@ class GatewayResolver
             $name = Enum::PASARGAD;
         } elseif ($port InstanceOf Irankish) {
             $name = Enum::IRANKISH;
+        }elseif ($port InstanceOf Saderat) {
+            $name = Enum::SADERAT;
         } elseif (in_array(strtoupper($port), $this->getSupportedPorts())) {
             $port = ucfirst(strtolower($port));
             $name = strtoupper($port);
