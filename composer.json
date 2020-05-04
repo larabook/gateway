@@ -1,5 +1,5 @@
 {
-  "name": "larabook/gateway",
+  "name": "masihjazayeri/gateway",
   "homepage": "https://github.com/masihjazy-z/gateway",
   "description": "A Laravel package for connecting to all Iraninan payment  gateways",
   "keywords": [
@@ -43,8 +43,8 @@
   },
   "autoload": {
     "psr-4": {
-      "Larabookir\\Gateway\\": "src/",
-      "Larabookir\\Gateway\\Tests\\": "tests/"
+      "Masihjzayeri\\Gateway\\": "src/",
+      "Masihjazayeri\\Gateway\\Tests\\": "tests/"
     }
   },
   "minimum-stability": "dev",
