@@ -2,7 +2,7 @@
 namespace Masihjazayeri\Gateway;
 
 use Illuminate\Support\Facades\Request;
-use Larabookir\Gateway\Enum;
+use Masihjazayeri\Gateway\Enum;
 use Carbon\Carbon;
 
 abstract class PortAbstract
