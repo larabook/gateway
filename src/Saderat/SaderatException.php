@@ -27,7 +27,7 @@ class SaderatException extends BankException
         'Allowable PIN Tries Exceeded Pick Up' => 'رمز کارت (PIN) 3 مرتبه اشتباه وارد شده است در نتیجه کارت شما غیر فعال خواهد شد',
         'Response Received Too Late' => 'تراکنش در شبکه بانکی Timeout خورده است',
         'Suspected Fraud Pick Up' => 'فیلد CV2V و یا فیلد ExpDate اشتباه وارد شده و یا اصلا وارد نشده است',
-
+        'Duplicate'=> 'این تراکنش قبلا انجام شده است.',
 
 
         -1 => "تراکنش پیدا نشد.",

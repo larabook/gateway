@@ -215,15 +215,15 @@ class Saderat extends PortAbstract implements PortInterface
         $ReturnId=$response->ReturnId;
         $Message=$response->Message;
 
-        if (  $Status== "Ok" && $ReturnId==$this->amount) {
+        if ($Status== "Ok" && $ReturnId==$this->amount) {
             $this->transactionSucceed();
             return true;
         }
         //
         $this->transactionSetRefId();
         $this->transactionFailed();
-        $this->newLog($response, SaderatException::$errors[$respcode]);
-        throw new SaderatException($response);
+        $this->newLog(intval($Status), SaderatException::$errors[$Status]);
+        throw new SaderatException($Status);
 
 
     }
