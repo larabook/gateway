@@ -186,7 +186,7 @@ class Saderat extends PortAbstract implements PortInterface
             'updated_at' => Carbon::now(),
         ]);
 
-        if ($$payRequestResCode == '0') {
+        if ($payRequestResCode == '0') {
             return true;
         }
 
