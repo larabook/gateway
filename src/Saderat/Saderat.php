@@ -209,13 +209,13 @@ class Saderat extends PortAbstract implements PortInterface
     
         $dataQuery ='digitalreceipt='.$this->test_input(Request::input('digitalreceipt')).'&Tid='.$this->config->get('gateway.saderat.terminalID');
 
-        $response =json_decode( $this.makeHttpChargeRequest('POST',$dataQuery,$AdviceAddress));
+        $response =json_decode($this->makeHttpChargeRequest($dataQuery,$this->advice_url));
 
         $Status =$response->Status;
         $ReturnId=$response->ReturnId;
         $Message=$response->Message;
 
-        if ( $respcode == 0 && $Status== "Ok" && $ReturnId==$this->amount) {
+        if (  $Status== "Ok" && $ReturnId==$this->amount) {
             $this->transactionSucceed();
             return true;
         }
