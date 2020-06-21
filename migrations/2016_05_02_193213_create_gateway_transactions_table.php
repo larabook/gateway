@@ -22,6 +22,7 @@ class CreateGatewayTransactionsTable extends Migration
 	{
 		Schema::create($this->getTable(), function (Blueprint $table) {
 			$table->engine = "innoDB";
+			$table->unsignedBigInteger('user_id', true);
 			$table->unsignedBigInteger('id', true);
 			$table->enum('port', [
 				Enum::MELLAT,
