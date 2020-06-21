@@ -1,6 +1,8 @@
 <?php
+
 namespace Larabookir\Gateway;
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
 use Carbon\Carbon;
@@ -12,12 +14,12 @@ abstract class PortAbstract
 	 *
 	 * @var null|int
 	 */
-	protected $transactionId = null;
+	protected $transactionId = NULL;
 
 	/**
 	 * Transaction row in database
 	 */
-	protected $transaction = null;
+	protected $transaction = NULL;
 
 	/**
 	 * Customer card number
@@ -76,21 +78,22 @@ abstract class PortAbstract
 	/**
 	 * Initialize of class
 	 *
-	 * @param Config $config
+	 * @param Config          $config
 	 * @param DataBaseManager $db
-	 * @param int $port
+	 * @param int             $port
 	 */
 	function __construct()
 	{
-		$this->db = app('db');
+		$this->db = app( 'db' );
 	}
 
 	/** bootstraper */
-	function boot(){
+	function boot()
+	{
 
 	}
 
-	function setConfig($config)
+	function setConfig( $config )
 	{
 		$this->config = $config;
 	}
@@ -98,9 +101,9 @@ abstract class PortAbstract
 	/**
 	 * @return mixed
 	 */
-	function getTable() 
+	function getTable()
 	{
-		return $this->db->table($this->config->get('gateway.table'));
+		return $this->db->table( $this->config->get( 'gateway.table' ) );
 	}
 
 	/**
@@ -108,7 +111,7 @@ abstract class PortAbstract
 	 */
 	function getLogTable()
 	{
-		return $this->db->table($this->config->get('gateway.table') . '_logs');
+		return $this->db->table( $this->config->get( 'gateway.table' ) . '_logs' );
 	}
 
 	/**
@@ -126,7 +129,7 @@ abstract class PortAbstract
 	 *
 	 * @return int
 	 */
-	function setPortName($name)
+	function setPortName( $name )
 	{
 		$this->portName = $name;
 	}
@@ -138,7 +141,7 @@ abstract class PortAbstract
 	 *
 	 * @return void
 	 */
-	function setCustomDesc ($description)
+	function setCustomDesc( $description )
 	{
 		$this->description = $description;
 	}
@@ -148,7 +151,7 @@ abstract class PortAbstract
 	 *
 	 * @return string | null
 	 */
-	function getCustomDesc ()
+	function getCustomDesc()
 	{
 		return $this->description;
 	}
@@ -191,12 +194,14 @@ abstract class PortAbstract
 
 	/**
 	 * Sets price
+	 *
 	 * @param $price
+	 *
 	 * @return mixed
 	 */
-	function price($price)
+	function price( $price )
 	{
-		return $this->set($price);
+		return $this->set( $price );
 	}
 
 	/**
@@ -217,22 +222,22 @@ abstract class PortAbstract
 	 *
 	 * @return $this
 	 */
-	function verify($transaction)
+	function verify( $transaction )
 	{
-		$this->transaction = $transaction;
+		$this->transaction   = $transaction;
 		$this->transactionId = $transaction->id;
-		$this->amount = intval($transaction->price);
-		$this->refId = $transaction->ref_id;
+		$this->amount        = intval( $transaction->price );
+		$this->refId         = $transaction->ref_id;
 	}
 
 	function getTimeId()
 	{
-		$genuid = function(){
-			return substr(str_pad(str_replace('.','', microtime(true)),12,0),0,12);
+		$genuid = function ()
+		{
+			return substr( str_pad( str_replace( '.' , '' , microtime( TRUE ) ) , 12 , 0 ) , 0 , 12 );
 		};
-		$uid=$genuid();
-		while ($this->getTable()->whereId($uid)->first())
-			$uid = $genuid();
+		$uid    = $genuid();
+		while ( $this->getTable()->whereId( $uid )->first() ) $uid = $genuid();
 		return $uid;
 	}
 
@@ -245,42 +250,47 @@ abstract class PortAbstract
 	{
 		$uid = $this->getTimeId();
 
-		$this->transactionId = $this->getTable()->insert([
-			'id' 			=> $uid,
-			'port' 			=> $this->getPortName(),
-			'price' 		=> $this->amount,
-			'status' 		=> Enum::TRANSACTION_INIT,
-			'ip' 			=> Request::getClientIp(),
-			'description'	=> $this->description,
-			'created_at' 	=> Carbon::now(),
-			'updated_at' 	=> Carbon::now(),
-		]) ? $uid : null;
+		$this->transactionId = $this->getTable()->insert(
+			[
+				'id'          => $uid ,
+				'port'        => $this->getPortName() ,
+				'user_id'     => Auth::id() ,
+				'price'       => $this->amount ,
+				'status'      => Enum::TRANSACTION_INIT ,
+				'ip'          => Request::getClientIp() ,
+				'description' => $this->description ,
+				'created_at'  => Carbon::now() ,
+				'updated_at'  => Carbon::now() ,
+			]
+		) ? $uid : NULL;
 
 		return $this->transactionId;
 	}
 
-    /**
-     * Commit transaction
-     * Set status field to success status
-     *
-     * @param array $fields
-     * @return mixed
-     */
-	protected function transactionSucceed(array $fields = [])
+	/**
+	 * Commit transaction
+	 * Set status field to success status
+	 *
+	 * @param array $fields
+	 *
+	 * @return mixed
+	 */
+	protected function transactionSucceed( array $fields = [] )
 	{
-	    $updateFields = [
-            'status' => Enum::TRANSACTION_SUCCEED,
-            'tracking_code' => $this->trackingCode,
-            'card_number' => $this->cardNumber,
-            'payment_date' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ];
+		$updateFields = [
+			'status'        => Enum::TRANSACTION_SUCCEED ,
+			'tracking_code' => $this->trackingCode ,
+			'card_number'   => $this->cardNumber ,
+			'payment_date'  => Carbon::now() ,
+			'updated_at'    => Carbon::now() ,
+		];
 
-	    if (!empty($fields)) {
-	        $updateFields = array_merge($updateFields, $fields);
-        }
+		if ( !empty( $fields ) )
+		{
+			$updateFields = array_merge( $updateFields , $fields );
+		}
 
-		return $this->getTable()->whereId($this->transactionId)->update($updateFields);
+		return $this->getTable()->whereId( $this->transactionId )->update( $updateFields );
 	}
 
 	/**
@@ -291,10 +301,12 @@ abstract class PortAbstract
 	 */
 	protected function transactionFailed()
 	{
-		return $this->getTable()->whereId($this->transactionId)->update([
-			'status' => Enum::TRANSACTION_FAILED,
-			'updated_at' => Carbon::now(),
-		]);
+		return $this->getTable()->whereId( $this->transactionId )->update(
+			[
+				'status'     => Enum::TRANSACTION_FAILED ,
+				'updated_at' => Carbon::now() ,
+			]
+		);
 	}
 
 	/**
@@ -304,10 +316,12 @@ abstract class PortAbstract
 	 */
 	protected function transactionSetRefId()
 	{
-		return $this->getTable()->whereId($this->transactionId)->update([
-			'ref_id' => $this->refId,
-			'updated_at' => Carbon::now(),
-		]);
+		return $this->getTable()->whereId( $this->transactionId )->update(
+			[
+				'ref_id'     => $this->refId ,
+				'updated_at' => Carbon::now() ,
+			]
+		);
 
 	}
 
@@ -315,53 +329,59 @@ abstract class PortAbstract
 	 * New log
 	 *
 	 * @param string|int $statusCode
-	 * @param string $statusMessage
+	 * @param string     $statusMessage
 	 */
-	protected function newLog($statusCode, $statusMessage)
+	protected function newLog( $statusCode , $statusMessage )
 	{
-		return $this->getLogTable()->insert([
-			'transaction_id' => $this->transactionId,
-			'result_code' => $statusCode,
-			'result_message' => $statusMessage,
-			'log_date' => Carbon::now(),
-		]);
+		return $this->getLogTable()->insert(
+			[
+				'transaction_id' => $this->transactionId ,
+				'result_code'    => $statusCode ,
+				'result_message' => $statusMessage ,
+				'log_date'       => Carbon::now() ,
+			]
+		);
 	}
 
 	/**
 	 * Add query string to a url
 	 *
 	 * @param string $url
-	 * @param array $query
+	 * @param array  $query
+	 *
 	 * @return string
 	 */
-	protected function makeCallback($url, array $query)
+	protected function makeCallback( $url , array $query )
 	{
-		return $this->url_modify(array_merge($query, ['_token' => csrf_token()]), url($url));
+		return $this->url_modify( array_merge( $query , [ '_token' => csrf_token() ] ) , url( $url ) );
 	}
 
 	/**
 	 * manipulate the Current/Given URL with the given parameters
-	 * @param $changes
+	 *
+	 * @param  $changes
 	 * @param  $url
+	 *
 	 * @return string
 	 */
-	protected function url_modify($changes, $url)
+	protected function url_modify( $changes , $url )
 	{
 		// Parse the url into pieces
-		$url_array = parse_url($url);
+		$url_array = parse_url( $url );
 
 		// The original URL had a query string, modify it.
-		if (!empty($url_array['query'])) {
-			parse_str($url_array['query'], $query_array);
-			$query_array = array_merge($query_array, $changes);
+		if ( !empty( $url_array[ 'query' ] ) )
+		{
+			parse_str( $url_array[ 'query' ] , $query_array );
+			$query_array = array_merge( $query_array , $changes );
 		} // The original URL didn't have a query string, add it.
-		else {
+		else
+		{
 			$query_array = $changes;
 		}
 
-		return (!empty($url_array['scheme']) ? $url_array['scheme'] . '://' : null) .
-		(!empty($url_array['host']) ? $url_array['host'] : null) .
-		(!empty($url_array['port']) ? ':' . $url_array['port'] : null) .
-		$url_array['path'] . '?' . http_build_query($query_array);
+		return ( !empty( $url_array[ 'scheme' ] ) ? $url_array[ 'scheme' ] . '://' : NULL )
+		       . ( !empty( $url_array[ 'host' ] ) ? $url_array[ 'host' ] : NULL ) . ( !empty( $url_array[ 'port' ] )
+				? ':' . $url_array[ 'port' ] : NULL ) . $url_array[ 'path' ] . '?' . http_build_query( $query_array );
 	}
 }
