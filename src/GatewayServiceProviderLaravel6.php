@@ -59,5 +59,6 @@ class GatewayServiceProviderLaravel6 extends ServiceProvider
 		});
 
 
+
 	}
 }
