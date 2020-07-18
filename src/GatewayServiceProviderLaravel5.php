@@ -51,11 +51,27 @@ class GatewayServiceProviderLaravel5 extends ServiceProvider
 	 *
 	 * @return void
 	 */
-	public function register()
-	{
-		$this->app->singleton('gateway', function () {
-			return new GatewayResolver();
-		});
+    public function register()
+    {
+        $this->app->singleton('gateway', function () {
+            $this->overrideWithDbConfig(app('config'));
+            return new GatewayResolver();
+        });
+    }
 
-	}
+    /**
+     * @param $config
+     * @return mixed
+     */
+    private function overrideWithDbConfig($config)
+    {
+        $paymentgateways = PaymentGateway::with('settings')->get();
+        foreach ($paymentgateways as $paymentGateway) {
+            foreach ($paymentGateway->settings as $setting) {
+                $config->set('gateway.'.$paymentGateway->name.'.'.$setting->key, $setting->value);
+            }
+        }
+
+        return $config;
+    }
 }

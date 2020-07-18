@@ -30,8 +30,8 @@ class GatewayServiceProviderLaravel4 extends ServiceProvider
 
         // for laravel 4.2
         $this->package('larabook/gateway',null,__DIR__.'/../');
-		
-		
+
+
 		if (
 			File::glob(base_path('/database/migrations/*create_gateway_status_log_table\.php'))
 			&& !File::exists(base_path('/database/migrations/2017_04_05_103357_alter_id_in_transactions_table.php'))
@@ -45,11 +45,27 @@ class GatewayServiceProviderLaravel4 extends ServiceProvider
 	 *
 	 * @return void
 	 */
-	public function register()
-	{
-		$this->app->singleton('gateway', function () {
-			return new GatewayResolver();
-		});
+    public function register()
+    {
+        $this->app->singleton('gateway', function () {
+            $this->overrideWithDbConfig(app('config'));
+            return new GatewayResolver();
+        });
+    }
 
-	}
+    /**
+     * @param $config
+     * @return mixed
+     */
+    private function overrideWithDbConfig($config)
+    {
+        $paymentgateways = PaymentGateway::with('settings')->get();
+        foreach ($paymentgateways as $paymentGateway) {
+            foreach ($paymentGateway->settings as $setting) {
+                $config->set('gateway.'.$paymentGateway->name.'.'.$setting->key, $setting->value);
+            }
+        }
+
+        return $config;
+    }
 }

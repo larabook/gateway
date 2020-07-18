@@ -42,7 +42,7 @@ class GatewayResolver
 	 */
 	public function __construct($config = null, $port = null)
 	{
-		$this->config = app('config');
+	    $this->config = app('config');
 		$this->request = app('request');
 
 		if ($this->config->has('gateway.timezone'))
@@ -68,7 +68,6 @@ class GatewayResolver
 	 */
 	public function __call($name, $arguments)
 	{
-
 		// calling by this way ( Gateway::mellat()->.. , Gateway::parsian()->.. )
 		if(in_array(strtoupper($name),$this->getSupportedPorts())){
 			return $this->make($name);
@@ -98,7 +97,7 @@ class GatewayResolver
 	 */
 	public function verify()
 	{
-		if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
+        if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
 			throw new InvalidRequestException;
 		if ($this->request->has('transaction_id')) {
 			$id = $this->request->get('transaction_id');
