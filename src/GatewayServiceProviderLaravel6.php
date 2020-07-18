@@ -58,5 +58,6 @@ class GatewayServiceProviderLaravel6 extends ServiceProvider
 			return new GatewayResolver();
 		});
 
+
 	}
 }
