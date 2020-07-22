@@ -35,4 +35,7 @@ class Enum
 	const TRANSACTION_FAILED = 'FAILED';
 	const TRANSACTION_FAILED_TEXT = 'عملیات پرداخت با خطا مواجه شد.';
 
+
+    const CALL_BACK_URL_ASANPARDAKHT = "/";
+
 }

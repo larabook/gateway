@@ -26,7 +26,7 @@ class CreateGatewayStatusLogTable extends Migration
             $table->engine="innoDB";
             $table->increments('id');
             $table->unsignedBigInteger('transaction_id'); 
-            $table->string('result_code', 10)->nullable();
+            $table->string('result_code')->nullable();
             $table->string('result_message', 255)->nullable();
             $table->timestamp('log_date')->nullable();
 

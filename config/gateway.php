@@ -83,6 +83,7 @@ return [
         'merchantConfigId'     => '',
         'username' => '',
         'password' => '',
+        'iban' => '' ,
         'key' => '',
         'iv' => '',
         'callback-url'   => '/',

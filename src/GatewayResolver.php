@@ -109,6 +109,12 @@ class GatewayResolver
 	 */
 	public function verify()
 	{
+	    if($this->request['factor']){
+	        $factor = $this->request['factor'];
+            $this->make(Enum::ASANPARDAKHT);
+            return $this->port->verify($factor);
+        }
+
 		if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
 			throw new InvalidRequestException;
 		if ($this->request->has('transaction_id')) {
