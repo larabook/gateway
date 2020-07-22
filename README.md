@@ -13,7 +13,7 @@ Available Banks:
  5. PASARGAD
  6. ZARINPAL
  7. PAYPAL
- 8. ASAN PARDAKHT
+ 8. ASAN PARDAKHT (update from new documents)
  9. PAY.IR (to use : new \Payir())
  10. YEKPAY (**New**)
 ----------
@@ -42,7 +42,7 @@ STEP 2 : Add `provider` and `facade` in config/app.php
 
 Step 3:  
 
-    php artisan vendor:publish --provider=Hosseinizadeh\Gateway\GatewayServiceProvider
+    php artisan vendor:publish --provider=Hosseinizadeh\Gateway\GatewayServiceProvider5
 
 Step 4: 
 

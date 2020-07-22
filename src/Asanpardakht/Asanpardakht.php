@@ -54,10 +54,10 @@ class Asanpardakht extends PortAbstract implements PortInterface
      */
     public function verify($transaction)
     {
-        //   parent::verify($transaction);
+        parent::verify($transaction);
 
-        $this->transactionId = $transaction;
-        $resultCheckTransaction = $this->checkTransaction($transaction);
+        $this->transactionId = $transaction->id;
+        $resultCheckTransaction = $this->checkTransaction($transaction->id);
         if (isset($resultCheckTransaction['status']) && $resultCheckTransaction['status'] == 200) {
             $jsonDecode = json_decode($resultCheckTransaction['result']);
             if (isset($jsonDecode->payGateTranID)) {
@@ -67,7 +67,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
                 $salesOrderID = $jsonDecode->salesOrderID;
                 $this->trackingCode = $jsonDecode->payGateTranID;
 
-                $find = $this->getTable()->whereId($transaction)
+                $find = $this->getTable()->whereId($transaction->id)
                     ->where(['price' => $jsonDecode->amount, 'ref_id' => $jsonDecode->refID])
                     ->first();
 

@@ -377,7 +377,12 @@ abstract class PortAbstract
 		$url_array['path'] . '?' . http_build_query($query_array);
 	}
 
-
+    /**
+     * @param $url
+     * @param $methods
+     * @param array $options
+     * @return int|mixed
+     */
     protected function clientsPost($url , $methods , array $options=array())
     {
         $clients = new Client();

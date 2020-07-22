@@ -35,12 +35,13 @@ class GatewayResolver
 	 */
 	protected $port;
 
-	/**
-	 * Gateway constructor.
-	 * @param null $config
-	 * @param null $port
-	 */
-	public function __construct($config = null, $port = null)
+    /**
+     * GatewayResolver constructor.
+     * @param null $config
+     * @param null $port
+     * @throws PortNotFoundException
+     */
+    public function __construct($config = null, $port = null)
 	{
 		$this->config = app('config');
 		$this->request = app('request');
@@ -72,12 +73,13 @@ class GatewayResolver
         ];
 	}
 
-	/**
-	 * Call methods of current driver
-	 *
-	 * @return mixed
-	 */
-	public function __call($name, $arguments)
+    /**
+     * @param $name
+     * @param $arguments
+     * @return GatewayResolver|mixed
+     * @throws PortNotFoundException
+     */
+    public function __call($name, $arguments)
 	{
 
 		// calling by this way ( Gateway::mellat()->.. , Gateway::parsian()->.. )
@@ -109,17 +111,13 @@ class GatewayResolver
 	 */
 	public function verify()
 	{
-	    if($this->request['factor']){
-	        $factor = $this->request['factor'];
-            $this->make(Enum::ASANPARDAKHT);
-            return $this->port->verify($factor);
-        }
-
-		if (!$this->request->has('transaction_id') && !$this->request->has('iN'))
+		if (!$this->request->has('transaction_id') && !$this->request->has('iN') && !$this->request->has('factor'))
 			throw new InvalidRequestException;
 		if ($this->request->has('transaction_id')) {
 			$id = $this->request->get('transaction_id');
-		}else {
+		} elseif ($this->request->has('factor')) {
+            $id = $this->request->get('factor');
+        } else {
 			$id = $this->request->get('iN');
 		}
 
