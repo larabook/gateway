@@ -132,37 +132,34 @@ class AsanpardakhtException extends BankException
     public function __construct($errorRef , $isVerify = null)
     {
         $this->errorRef = $errorRef;
-        
+
         if(isset($isVerify) && !empty($isVerify)){
             $message = self::getMessageByCodeVerify($this->errorRef);
-            parent::__construct($message . ' (' . $this->errorRef . ')', intval($this->errorRef));
+            parent::__construct($message . ' (' . $this->errorRef['code'] . ')', intval($this->errorRef['code']));
             return true;
         }
 
         $message = self::getMessageByCode($this->errorRef);
-        parent::__construct($message . ' (' . $this->errorRef . ')', intval($this->errorRef));
+        parent::__construct($message . ' (' . $this->errorRef['code'] . ')', intval($this->errorRef['code']));
     }
 
     public static function getMessageByCode($code)
     {
-
         $message = "";
-        if (isset(self::$errors[$code]))
-            $message = self::$errors[$code];
-        else if (is_numeric($code) && isset(self::$errors[intval($code)]))
-            $message = self::$errors[intval($code)];
-
+        if (isset(self::$errors[$code['code']]))
+            $message = self::$errors[$code['code']];
+        else if (is_numeric($code['code']) && isset(self::$errors[intval($code['code'])]))
+            $message = self::$errors[intval($code['code'])];
         return $message;
     }
 
     public static function getMessageByCodeVerify($code)
     {
-
         $message = "";
-        if (isset(self::$errorsVerify[$code]))
-            $message = self::$errorsVerify[$code];
-        else if (is_numeric($code) && isset(self::$errorsVerify[intval($code)]))
-            $message = self::$errorsVerify[intval($code)];
+        if (isset(self::$errorsVerify[$code['code']]))
+            $message = self::$errorsVerify[$code['code']];
+        else if (is_numeric($code['code']) && isset(self::$errorsVerify[intval($code['code'])]))
+            $message = self::$errorsVerify[intval($code['code'])];
 
         return $message;
     }
