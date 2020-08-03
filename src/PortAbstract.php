@@ -413,7 +413,7 @@ abstract class PortAbstract
                 curl_close($curl);
                 return [
                     'code' => $code,
-                    'result' => $response
+                    'result' => trim($response, '"')
                 ];
 
         } catch (\Exception $e) {
@@ -424,6 +424,6 @@ abstract class PortAbstract
         return $response;
     }
 
-    
+
 
 }
