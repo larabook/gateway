@@ -10,7 +10,14 @@ use Carbon\Carbon;
 abstract class PortAbstract
 {
 
+    /**
+     * @var
+     */
     protected $username;
+
+    /**
+     * @var
+     */
     protected $password;
 
 
@@ -383,47 +390,5 @@ abstract class PortAbstract
             (!empty($url_array['port']) ? ':' . $url_array['port'] : null) .
             $url_array['path'] . '?' . http_build_query($query_array);
     }
-
-    /**
-     * @param $url
-     * @param $methods
-     * @param array $options
-     * @return int|mixed
-     */
-    protected function clientsPost($url, $methods, $options = array(), $headers = [])
-    {
-        try {
-            $curl = curl_init();
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => $url,
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_SSL_VERIFYPEER => false,
-                CURLOPT_ENCODING => "",
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_CUSTOMREQUEST => $methods,
-                CURLOPT_TIMEOUT => 30,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_POSTFIELDS => $options,
-                CURLOPT_HTTPHEADER => $headers,
-            ));
-
-
-                $response = curl_exec($curl);
-                $code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
-                curl_close($curl);
-                return [
-                    'code' => $code,
-                    'result' => trim($response, '"')
-                ];
-
-        } catch (\Exception $e) {
-            //$err = curl_error($curl);
-            $response = $e->getCode();
-        }
-
-        return $response;
-    }
-
-
 
 }
