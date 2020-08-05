@@ -50,7 +50,9 @@ class Asanpardakht extends PortAbstract implements PortInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param object $transaction
+     * @return $this|PortAbstract|PortInterface
+     * @throws AsanpardakhtException
      */
     public function verify($transaction)
     {
@@ -84,21 +86,16 @@ class Asanpardakht extends PortAbstract implements PortInterface
                     $resultVerify = $this->userPayment($jsonDecode->payGateTranID);
 
                     if ($resultVerify['status'] == 200) {
-                        return true;
+                        return $this;
                     } else {
                         $this->transactionFailed();
                         $this->newLog($resultVerify['status'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['status']));
-                        throw new AsanpardakhtException($resultVerify, true);
+                        throw new AsanpardakhtException($resultVerify);
                     }
                 }
             }
         }
-
-        $this->transactionFailed();
-        $this->newLog($resultVerify['code'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['code']));
-        new AsanpardakhtException($resultVerify, true);
         return $this;
-
     }
 
     /**
@@ -210,7 +207,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
                 ];
             }
 
-        } catch (Exception $e) {
+        } catch (\Exception $e) {
             $this->transactionFailed();
             $this->newLog('httpResponse', $e->getMessage());
             throw $e;
@@ -237,8 +234,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
     /**
      * @param $value
-     * @return array
-     * @throws AsanpardakhtException
+     * @return array|bool
+     * @throws \Exception
      */
     public function checkTransaction($value)
     {
@@ -253,22 +250,21 @@ class Asanpardakht extends PortAbstract implements PortInterface
                         'result' => $result['result']
                     ];
                 }
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->transactionFailed();
                 $this->newLog('httpResponse', $e->getMessage());
                 throw $e;
             }
         }
-        $this->transactionFailed();
-        $this->newLog($result['code'], AsanpardakhtException::getMessageByCode($result['code']));
-        throw new AsanpardakhtException($result);
+        return true;
     }
 
     /**
      * @param $url
      * @param $methods
      * @param array $options
-     * @return int|mixed
+     * @param array $headers
+     * @return array|bool|int|mixed|string
      */
     private function clientsPost($url, $methods, $options = array(), $headers = [])
     {
