@@ -61,6 +61,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
         $this->transactionId = $transaction->id;
         $resultCheckTransaction = $this->checkTransaction($transaction->id);
         $resultVerify = [
+            'status' => 471,
             'code' => 471
         ];
 
@@ -193,6 +194,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
         ];
         $objectRequest = json_encode($data);
         $result = [
+            'status' => 471,
             'code' => 471
         ];
         try {
@@ -202,6 +204,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
             if (isset($result) && $result['code'] == 200) {
                 return [
                     'status' => 200,
+                    'code' => 200,
                     'result' => $result['result']
                 ];
             }
