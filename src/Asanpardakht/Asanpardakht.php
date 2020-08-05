@@ -60,6 +60,10 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
         $this->transactionId = $transaction->id;
         $resultCheckTransaction = $this->checkTransaction($transaction->id);
+        $resultVerify = [
+            'code' => 471
+        ];
+
         if (isset($resultCheckTransaction['status']) && $resultCheckTransaction['status'] == 200) {
             $jsonDecode = json_decode($resultCheckTransaction['result']);
             if (isset($jsonDecode->payGateTranID)) {
@@ -69,32 +73,27 @@ class Asanpardakht extends PortAbstract implements PortInterface
                 $salesOrderID = $jsonDecode->salesOrderID;
                 $this->trackingCode = $jsonDecode->payGateTranID;
 
-                $find = $this->getTable()->whereId($transaction->id)
-                    ->where(['price' => $jsonDecode->amount, 'ref_id' => $jsonDecode->refID])
-                    ->first();
+                $resultVerify = $this->userPayment($jsonDecode->payGateTranID);
 
-                $resultVerify = [
-                    'code' => 471
-                ];
-                if (isset($find) && $find) {
-
-                    $find->update([
-                        'tracking_code' => $jsonDecode->payGateTranID,
-                        'card_number' => $jsonDecode->cardNumber,
-                    ]);
-
-                    $resultVerify = $this->userPayment($jsonDecode->payGateTranID);
-
-                    if ($resultVerify['status'] == 200) {
-                        return $this;
-                    } else {
-                        $this->transactionFailed();
-                        $this->newLog($resultVerify['status'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['status']));
-                        throw new AsanpardakhtException($resultVerify);
-                    }
+                if ($resultVerify['status'] == 200) {
+                    $this->transactionSucceed();
+                    $this->newLog($response->Status, Enum::TRANSACTION_SUCCEED_TEXT);
+                } else {
+                    $this->transactionFailed();
+                    $this->newLog($resultVerify['status'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['status']));
+                    throw new AsanpardakhtException($resultVerify);
                 }
+            } else {
+                $this->transactionFailed();
+                $this->newLog($resultVerify['status'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['status']));
+                throw new AsanpardakhtException($resultVerify);
             }
+        } else {
+            $this->transactionFailed();
+            $this->newLog($resultVerify['status'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['status']));
+            throw new AsanpardakhtException($resultVerify);
         }
+
         return $this;
     }
 
