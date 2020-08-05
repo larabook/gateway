@@ -96,7 +96,9 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
         $this->transactionFailed();
         $this->newLog($resultVerify['code'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['code']));
-        throw new AsanpardakhtException($resultVerify, true);
+        new AsanpardakhtException($resultVerify, true);
+        return $this;
+
     }
 
     /**
@@ -152,7 +154,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
             'amountInRials' => $price,
             'localDate' => $localDate,
             'additionalData' => $additionalData,
-            'callbackURL' => isset($this->callbackUrl) ? $this->callbackUrl . "/?factor=" . $orderId : Enum::CALL_BACK_URL_ASANPARDAKHT . "/?factor=" . $orderId,
+            'callbackURL' => isset($this->callbackUrl) ? $this->callbackUrl . "/?transaction_id=" . $orderId : Enum::CALL_BACK_URL_ASANPARDAKHT . "/?transaction_id=" . $orderId,
             'paymentId' => '0',
             'settlementPortions' => [
                 [
@@ -242,7 +244,9 @@ class Asanpardakht extends PortAbstract implements PortInterface
     {
         if ($value) {
             try {
+
                 $result = $this->clientsPost($this->serverUrl . "TranResult?merchantConfigurationId=" . $this->config->get('gateway.asanpardakht.merchantConfigId') . "&localInvoiceId=" . $value . "", "GET", [], "yes");
+
                 if (isset($result) && $result['code'] == 200) {
                     return [
                         'status' => 200,
