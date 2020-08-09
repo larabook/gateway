@@ -78,7 +78,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
                 if ($resultVerify['status'] == 200) {
                     $this->transactionSucceed();
-                    $this->newLog($response->Status, Enum::TRANSACTION_SUCCEED_TEXT);
+                    $this->newLog($resultVerify['status'], Enum::TRANSACTION_SUCCEED_TEXT);
                 } else {
                     $this->transactionFailed();
                     $this->newLog($resultVerify['status'], AsanpardakhtException::getMessageByCodeVerify($resultVerify['status']));
