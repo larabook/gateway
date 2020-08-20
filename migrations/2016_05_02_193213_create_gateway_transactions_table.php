@@ -27,6 +27,7 @@ class CreateGatewayTransactionsTable extends Migration
 				Enum::MELLAT,
 				Enum::SADAD,
 				Enum::ZARINPAL,
+				Enum::ZARINPALWAGES,
 				Enum::PAYLINE,
 				Enum::JAHANPAY,
 				Enum::PARSIAN,

@@ -9,7 +9,6 @@ use Carbon\Carbon;
 
 abstract class PortAbstract
 {
-
     /**
      * @var
      */
@@ -19,7 +18,6 @@ abstract class PortAbstract
      * @var
      */
     protected $password;
-
 
     /**
      * Transaction id
@@ -92,6 +90,10 @@ abstract class PortAbstract
      */
     protected $trackingCode;
 
+    /**
+     * @var
+     */
+    public $wages;
 
     /**
      * Initialize of class

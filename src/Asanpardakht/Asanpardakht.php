@@ -31,10 +31,25 @@ class Asanpardakht extends PortAbstract implements PortInterface
     }
 
     /**
+     * @param array $wages
+     * @return $this
+     */
+    public function setWages(array $wages)
+    {
+        $this->wages = $wages;
+
+        return $this;
+    }
+
+    /**
      * {@inheritdoc}
      */
     public function ready()
     {
+        if (isset($this->wages) && count($this->wages)) {
+            $this->sendPayRequestWages();
+            return $this;
+        }
         $this->sendPayRequest();
 
         return $this;
@@ -159,6 +174,68 @@ class Asanpardakht extends PortAbstract implements PortInterface
                     'amountInRials' => $this->amount
                 ]
             ],
+        ];
+
+        $objectRequest = json_encode($data, true);
+
+        try {
+
+            $response = $this->clientsPost($this->serverUrl . "Token", 'POST', $objectRequest, "yes");
+            if (isset($response['code']) && isset($response['result']) && $response['code'] == 200) {
+                $this->refId = $response['result'];
+                $this->transactionSetRefId();
+                return true;
+            }
+        } catch (\Exception $e) {
+            $this->transactionFailed();
+            $this->newLog('httpResponse', $e->getMessage());
+            throw $e;
+        }
+        $this->transactionFailed();
+        $this->newLog($response['code'], AsanpardakhtException::getMessageByCode($response['code']));
+        throw new AsanpardakhtException($response);
+    }
+
+
+    /**
+     * @return bool
+     * @throws AsanpardakhtException
+     */
+    protected function sendPayRequestWages(){
+
+        $this->newTransaction();
+        $orderId = $this->transactionId();
+        $price = $this->amount;
+
+        $Time = $this->getTime();
+
+        if ($Time == false) {
+            return false;
+        }
+
+        $this->username = $this->config->get('gateway.asanpardakht.username');
+        $this->password = $this->config->get('gateway.asanpardakht.password');
+
+        $Time = trim($Time, '"');
+        $localDate = $Time;
+
+        $additionalData = $this->getCustomDesc();
+
+        list($array, $errors) = $this->wagesArray();
+        if (!isset($array) || $errors == true) {
+            return false;
+        }
+
+        $data = [
+            'merchantConfigurationId' => $this->config->get('gateway.asanpardakht.merchantConfigId'),
+            'serviceTypeId' => 1,
+            'localInvoiceId' => $orderId,
+            'amountInRials' => $price,
+            'localDate' => $localDate,
+            'additionalData' => $additionalData,
+            'callbackURL' => isset($this->callbackUrl) ? $this->callbackUrl . "/?transaction_id=" . $orderId : Enum::CALL_BACK_URL_ASANPARDAKHT . "/?transaction_id=" . $orderId,
+            'paymentId' => '0',
+            'settlementPortions' => $array
         ];
 
         $objectRequest = json_encode($data, true);
@@ -310,4 +387,23 @@ class Asanpardakht extends PortAbstract implements PortInterface
         return $response;
     }
 
+    /**
+     * @return array
+     */
+    protected function wagesArray()
+    {
+        $errors = false;
+        $array = [];
+        if (isset($this->wages) && is_array($this->wages)) {
+            foreach ($this->wages as $itemWages) {
+                $array [] = [
+                    'iban' => $itemWages['iban'],
+                    'amountInRials' => $itemWages['amount']
+                ];
+            }
+        } else {
+            $errors = true;
+        }
+        return array($array, $errors);
+    }
 }

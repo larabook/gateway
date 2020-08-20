@@ -16,6 +16,7 @@ use Hosseinizadeh\Gateway\Exceptions\RetryException;
 use Hosseinizadeh\Gateway\Exceptions\PortNotFoundException;
 use Hosseinizadeh\Gateway\Exceptions\InvalidRequestException;
 use Hosseinizadeh\Gateway\Exceptions\NotFoundTransactionException;
+use Hosseinizadeh\Gateway\ZarinpalWages\ZarinpalWages;
 use Illuminate\Support\Facades\DB;
 
 class GatewayResolver
@@ -63,6 +64,7 @@ class GatewayResolver
             Enum::MELLAT,
             Enum::SADAD,
             Enum::ZARINPAL,
+            Enum::ZARINPALWAGES,
             Enum::PARSIAN,
             Enum::PASARGAD,
             Enum::SAMAN,
@@ -151,7 +153,9 @@ class GatewayResolver
 			$name = Enum::SAMAN;
 		} elseif ($port InstanceOf Zarinpal) {
 			$name = Enum::ZARINPAL;
-		} elseif ($port InstanceOf Sadad) {
+		} elseif ($port InstanceOf ZarinpalWages) {
+            $name = Enum::ZARINPALWAGES;
+        } elseif ($port InstanceOf Sadad) {
 			$name = Enum::SADAD;
 		} elseif ($port InstanceOf Asanpardakht) {
 			$name = Enum::ASANPARDAKHT;
