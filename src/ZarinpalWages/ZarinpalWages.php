@@ -46,7 +46,7 @@ class ZarinpalWages extends PortAbstract implements PortInterface
      *
      * @var string
      */
-    protected $iranServer = 'https://ir.zarinpal.com/pg/services/WebGate/wsdl';
+    protected $iranServer = 'https://www.zarinpal.com/pg/services/WebGate/wsdl';
 
     /**
      * Address of sandbox SOAP server
