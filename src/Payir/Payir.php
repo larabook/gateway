@@ -1,7 +1,6 @@
 <?php
 namespace Hosseinizadeh\Gateway\Payir;
 
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
@@ -149,10 +148,10 @@ class Payir extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $status = Input::get('status');
-        $transId = Input::get('transId');
-        $this->cardNumber = Input::get('cardNumber');
-        $message = Input::get('message');
+        $status = Request('status');
+        $transId = Request('transId');
+        $this->cardNumber = Request('cardNumber');
+        $message = Request('message');
         if (is_numeric($status) && $status > 0) {
             $this->trackingCode = $transId;
             return true;

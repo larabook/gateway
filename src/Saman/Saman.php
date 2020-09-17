@@ -2,7 +2,6 @@
 
 namespace Hosseinizadeh\Gateway\Saman;
 
-use Illuminate\Support\Facades\Input;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
@@ -55,7 +54,7 @@ class Saman extends PortAbstract implements PortInterface
     {
         $this->optional_data = $data;
     }
-    
+
 
     /**
      * {@inheritdoc}
@@ -70,7 +69,7 @@ class Saman extends PortAbstract implements PortInterface
         ];
 
         $data = array_merge($main_data, $this->optional_data);
-        
+
         return \View::make('gateway::saman-redirector')->with($data);
     }
 
@@ -122,11 +121,11 @@ class Saman extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $this->refId = Input::get('ResNum');
-        $this->trackingCode = Input::get('TRACENO');
-        $this->cardNumber = Input::get('SecurePan');
-        $payRequestRes = Input::get('State');
-        $payRequestResCode = Input::get('StateCode');
+        $this->refId = Request('ResNum');
+        $this->trackingCode = Request('TRACENO');
+        $this->cardNumber = Request('SecurePan');
+        $payRequestRes = Request('State');
+        $payRequestResCode = Request('StateCode');
 
         if ($payRequestRes == 'OK') {
             return true;
@@ -189,7 +188,7 @@ class Saman extends PortAbstract implements PortInterface
         $this->transactionFailed();
         $this->newLog($response, SamanException::$errors[$response]);
         throw new SamanException($response);
-        
+
 
 
     }

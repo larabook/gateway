@@ -2,7 +2,6 @@
 
 namespace Hosseinizadeh\Gateway\Yekpay;
 
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
@@ -254,7 +253,7 @@ class Yekpay extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $status = Input::get('success');
+        $status = Request('success');
 
         if ($status == 1) {
             return true;

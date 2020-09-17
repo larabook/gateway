@@ -1,8 +1,6 @@
 <?php
 namespace Hosseinizadeh\Gateway\Pasargad;
 
-use Illuminate\Support\Facades\Input;
-
 class Parser
 {
     /**
@@ -21,8 +19,8 @@ class Parser
         xml_parser_free($parser);
         $hash_stack = [];
         $temp = [
-            "invoiceNumber" => Input::get('iN'),
-            "invoiceDate" => Input::get('iD')
+            "invoiceNumber" => Request('iN'),
+            "invoiceDate" => Request('iD')
         ];
 
         foreach ($values as $key => $val) {

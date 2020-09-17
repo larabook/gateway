@@ -2,7 +2,6 @@
 
 namespace Hosseinizadeh\Gateway\Payline;
 
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
@@ -141,8 +140,8 @@ class Payline extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->refIf = Input::get('id_get');
-		$trackingCode = Input::get('trans_id');
+		$this->refIf = Request('id_get');
+		$trackingCode = Request('trans_id');
 
 		if (is_numeric($trackingCode) && $trackingCode > 0) {
 			$this->trackingCode = $trackingCode;

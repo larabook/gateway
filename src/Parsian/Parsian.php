@@ -1,6 +1,5 @@
 <?php
 namespace Hosseinizadeh\Gateway\Parsian;
-use Illuminate\Support\Facades\Input;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
@@ -139,12 +138,12 @@ class Parsian extends PortAbstract implements PortInterface
      */
     protected function verifyPayment()
     {
-        if (!Input::has('status') && !Input::has('Token')
-            || Input::has('status') && Input::get('status') == 0
-            || Input::has('Token') && Input::get('Token') == "")
+        if (!Request('status') && !Request('Token')
+            || Request('status') && Request('status') == 0
+            || Request('Token') && Request('Token') == "")
             throw new ParsianErrorException('درخواست غیر معتبر', -1);
-        $authority = Input::get('Token');
-        $status = Input::get('status');
+        $authority = Request('Token');
+        $status = Request('status');
         if ($status != 0) {
             $errorMessage = ParsianResult::errorMessage($status);
             $this->newLog($status, $errorMessage);

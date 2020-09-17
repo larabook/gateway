@@ -3,7 +3,6 @@
 namespace Hosseinizadeh\Gateway\ZarinpalWages;
 
 use DateTime;
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
@@ -243,16 +242,13 @@ class ZarinpalWages extends PortAbstract implements PortInterface
     }
 
     /**
-     * Check user payment with GET data
-     *
      * @return bool
-     *
-     * @throws ZarinpalException
+     * @throws ZarinpalWagesException
      */
     protected function userPayment()
     {
-        $this->authority = Input::get('Authority');
-        $status = Input::get('Status');
+        $this->authority = Request('Authority');
+        $status = Request('Status');
 
         if ($status == 'OK') {
             return true;

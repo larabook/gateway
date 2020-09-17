@@ -3,7 +3,6 @@
 namespace Hosseinizadeh\Gateway\Zarinpal;
 
 use DateTime;
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
@@ -24,7 +23,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 * @var string
 	 */
 	protected $iranServer = 'https://ir.zarinpal.com/pg/services/WebGate/wsdl';
-    
+
     /**
 	 * Address of sandbox SOAP server
 	 *
@@ -66,7 +65,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 * @var string
 	 */
 	protected $gateUrl = 'https://www.zarinpal.com/pg/StartPay/';
-    
+
     /**
 	 * Address of sandbox gate for redirect
 	 *
@@ -207,8 +206,8 @@ class Zarinpal extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->authority = Input::get('Authority');
-		$status = Input::get('Status');
+		$this->authority = Request('Authority');
+		$status = Request('Status');
 
 		if ($status == 'OK') {
 			return true;
@@ -269,7 +268,7 @@ class Zarinpal extends PortAbstract implements PortInterface
 			case 'iran':
 				$this->serverUrl = $this->iranServer;
 				break;
-                
+
 			case 'test':
 				$this->serverUrl = $this->sandboxServer;
 				$this->gateUrl = $this->sandboxGateUrl;

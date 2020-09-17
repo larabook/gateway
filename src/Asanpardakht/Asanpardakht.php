@@ -3,9 +3,6 @@
 namespace Hosseinizadeh\Gateway\Asanpardakht;
 
 use Hosseinizadeh\Gateway\Enum;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Input;
-use Mockery\Exception;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;

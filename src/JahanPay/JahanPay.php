@@ -2,7 +2,6 @@
 
 namespace Hosseinizadeh\Gateway\JahanPay;
 
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
@@ -134,7 +133,7 @@ class JahanPay extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $refId = Input::get('au');
+        $refId = Request('au');
 
         if ($this->refId() != $refId) {
             $this->transactionFailed();

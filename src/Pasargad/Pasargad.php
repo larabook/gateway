@@ -2,7 +2,6 @@
 
 namespace Hosseinizadeh\Gateway\Pasargad;
 
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
@@ -126,7 +125,7 @@ class Pasargad extends PortAbstract implements PortInterface
 	protected function verifyPayment()
 	{
 		$processor = new RSAProcessor($this->config->get('gateway.pasargad.certificate-path'),RSAKeyType::XMLFile);
-		$fields = array('invoiceUID' => Input::get('tref'));
+		$fields = array('invoiceUID' => Request('tref'));
 		$result = Parser::post2https($fields,$this->checkTransactionUrl);
 		$check_array = Parser::makeXMLTree($result);
 
@@ -135,12 +134,12 @@ class Pasargad extends PortAbstract implements PortInterface
 		    $this->transactionFailed();
 		    throw new PasargadErrorException(Enum::TRANSACTION_FAILED_TEXT, -1);
 		}
-		
+
 		$fields = array(
 			'MerchantCode' => $this->config->get('gateway.pasargad.merchantId'),
 			'TerminalCode' => $this->config->get('gateway.pasargad.terminalId'),
 			'InvoiceNumber' => $check_array['resultObj']['invoiceNumber'],
-			'InvoiceDate' => Input::get('iD'),
+			'InvoiceDate' => Request('iD'),
 			'amount' => $check_array['resultObj']['amount'],
 			'TimeStamp' => date("Y/m/d H:i:s"),
 			'sign' => '',
@@ -159,7 +158,7 @@ class Pasargad extends PortAbstract implements PortInterface
 		}
 		$this->refId = $check_array['resultObj']['referenceNumber'];
 		$this->transactionSetRefId();
-		$this->trackingCode = Input::get('tref');
+		$this->trackingCode = Request('tref');
 		$this->transactionSucceed();
 		$this->newLog(0, Enum::TRANSACTION_SUCCEED_TEXT);
 	}

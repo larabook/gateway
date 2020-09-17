@@ -5,7 +5,6 @@ namespace Hosseinizadeh\Gateway\Paypal;
 use Hosseinizadeh\Gateway\Mellat\MellatException;
 use Hosseinizadeh\Gateway\Enum;
 use Hosseinizadeh\Gateway\Paypal\PaypalException;
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
 use PayPal\Api\Amount;
@@ -186,9 +185,9 @@ class Paypal extends PortAbstract implements PortInterface
      */
     protected function userPayment()
     {
-        $this->refId = Input::get('PayerID');
+        $this->refId = Request('PayerID');
         $this->transactionSetRefId();
-        $this->trackingCode = Input::get('token');
+        $this->trackingCode = Request('token');
     }
 
     /**

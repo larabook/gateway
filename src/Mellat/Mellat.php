@@ -3,7 +3,6 @@
 namespace Hosseinizadeh\Gateway\Mellat;
 
 use DateTime;
-use Illuminate\Support\Facades\Input;
 use Hosseinizadeh\Gateway\Enum;
 use SoapClient;
 use Hosseinizadeh\Gateway\PortAbstract;
@@ -140,10 +139,10 @@ class Mellat extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->refId = Input::get('RefId');
-		$this->trackingCode = Input::get('SaleReferenceId');
-		$this->cardNumber = Input::get('CardHolderPan');
-		$payRequestResCode = Input::get('ResCode');
+		$this->refId = Request('RefId');
+		$this->trackingCode = Request('SaleReferenceId');
+		$this->cardNumber = Request('CardHolderPan');
+		$payRequestResCode = Request('ResCode');
 
 		if ($payRequestResCode == '0') {
 			return true;
