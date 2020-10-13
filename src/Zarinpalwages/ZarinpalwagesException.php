@@ -1,10 +1,10 @@
 <?php
 
-namespace Hosseinizadeh\Gateway\ZarinpalWages;
+namespace Hosseinizadeh\Gateway\Zarinpalwages;
 
 use Hosseinizadeh\Gateway\Exceptions\BankException;
 
-class ZarinpalWagesException extends BankException
+class ZarinpalwagesException extends BankException
 {
     public static $errorsWages = array(
         -1 => 'اطلاعات ارسال شده ناقص است.',

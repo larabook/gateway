@@ -1,13 +1,13 @@
 <?php
 
-namespace Hosseinizadeh\Gateway\ZarinpalWages;
+namespace Hosseinizadeh\Gateway\Zarinpalwages;
 
 use DateTime;
 use Hosseinizadeh\Gateway\Enum;
 use Hosseinizadeh\Gateway\PortAbstract;
 use Hosseinizadeh\Gateway\PortInterface;
 
-class ZarinpalWages extends PortAbstract implements PortInterface
+class Zarinpalwages extends PortAbstract implements PortInterface
 {
     /**
      * @var string
@@ -236,14 +236,14 @@ class ZarinpalWages extends PortAbstract implements PortInterface
                 }
             }
             $this->transactionFailed();
-            $this->newLog($result['errors']['code'], ZarinpalWagesException::$errorsWages[$result['errors']['code']]);
-            throw new ZarinpalWagesException($result['errors']['code']);
+            $this->newLog($result['errors']['code'], ZarinpalwagesException::$errorsWages[$result['errors']['code']]);
+            throw new ZarinpalwagesException($result['errors']['code']);
         }
     }
 
     /**
      * @return bool
-     * @throws ZarinpalWagesException
+     * @throws ZarinpalwagesException
      */
     protected function userPayment()
     {
@@ -255,8 +255,8 @@ class ZarinpalWages extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog(-22, ZarinpalWagesException::$errors[-22]);
-        throw new ZarinpalWagesException(-22);
+        $this->newLog(-22, ZarinpalwagesException::$errors[-22]);
+        throw new ZarinpalwagesException(-22);
     }
 
     /**
@@ -295,8 +295,8 @@ class ZarinpalWages extends PortAbstract implements PortInterface
                 }
             } else {
                 $this->transactionFailed();
-                $this->newLog($result['errors']['code'], ZarinpalWagesException::$errorsWages[$result['errors']['code']]);
-                throw new ZarinpalWagesException($result['errors']['code']);
+                $this->newLog($result['errors']['code'], ZarinpalwagesException::$errorsWages[$result['errors']['code']]);
+                throw new ZarinpalwagesException($result['errors']['code']);
             }
         }
     }
