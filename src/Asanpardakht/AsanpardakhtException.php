@@ -146,21 +146,20 @@ class AsanpardakhtException extends BankException
     public static function getMessageByCode($code)
     {
         $message = "";
-        if (isset(self::$errors[$code['code']]))
+        if (is_numeric($code) and array_key_exists($code, self::$errors))
+            $message = self::$errors[$code];
+        else if (array_key_exists('code', $code) && is_numeric($code['code']) && array_key_exists($code['code'], self::$errors))
             $message = self::$errors[$code['code']];
-        else if (is_numeric($code['code']) && isset(self::$errors[intval($code['code'])]))
-            $message = self::$errors[intval($code['code'])];
         return $message;
     }
 
     public static function getMessageByCodeVerify($code)
     {
         $message = "";
-        if (isset(self::$errorsVerify[$code['code']]))
+        if (is_numeric($code) and array_key_exists($code, self::$errorsVerify))
+            $message = self::$errorsVerify[$code];
+        else if (array_key_exists('code', $code) && is_numeric($code['code']) && array_key_exists($code['code'], self::$errorsVerify))
             $message = self::$errorsVerify[$code['code']];
-        else if (is_numeric($code['code']) && isset(self::$errorsVerify[intval($code['code'])]))
-            $message = self::$errorsVerify[intval($code['code'])];
-
         return $message;
     }
 
