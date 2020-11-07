@@ -232,7 +232,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
                 if ($result['data']['code'] == 100) {
                     $this->refId = $result['data']["authority"];
                     $this->transactionSetRefId();
-                    exit();
+                    return true;
                 }
             }
             $this->transactionFailed();
