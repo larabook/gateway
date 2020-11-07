@@ -22,6 +22,23 @@ return [
     ],
 
     //--------------------------------
+    // Zarinpal wages gateway
+    //--------------------------------
+    'zarinpalwages' => [
+        'merchant-id'  => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx',
+        'type'         => 'zarin-gate',             // Types: [zarin-gate || normal]
+        'callback-url' => '/',
+        'server'       => 'iran',                   // Servers: [germany || iran || test]
+        'email'        => 'email@gmail.com',
+        'mobile'       => '09xxxxxxxxx',
+        'description'  => 'description',
+
+        'iban' => 'IRxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        'iban2' => 'IRxxxxxxxxxxxxxxxxxxxxxxxxxxx',
+        /// and other iban
+    ],
+
+    //--------------------------------
     // Mellat gateway
     //--------------------------------
     'mellat' => [

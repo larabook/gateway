@@ -142,7 +142,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-        switch ($this->config->get('gateway.zarinpal.type')) {
+        switch ($this->config->get('gateway.zarinpalwages.type')) {
             case 'zarin-gate':
                 return \Redirect::to(str_replace('$Authority', $this->refId, $this->zarinGateUrl));
                 break;
@@ -160,8 +160,10 @@ class Zarinpalwages extends PortAbstract implements PortInterface
     public function verify($transaction)
     {
         parent::verify($transaction);
+
         $this->userPayment();
         $this->verifyPaymentWages();
+
         return $this;
     }
 
@@ -182,7 +184,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.zarinpal.callback-url');
+            $this->callbackUrl = $this->config->get('gateway.zarinpalwages.callback-url');
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
@@ -200,13 +202,13 @@ class Zarinpalwages extends PortAbstract implements PortInterface
         }
 
         $data = array(
-            "merchant_id" => $this->config->get('gateway.zarinpal.merchant-id'),
+            "merchant_id" => $this->config->get('gateway.zarinpalwages.merchant-id'),
             "amount" => $this->amount,
             "callback_url" => $this->getCallback(),
-            'description' => $this->description ? $this->description : $this->config->get('gateway.zarinpal.description', ''),
+            'description' => $this->description ? $this->description : $this->config->get('gateway.zarinpalwages.description', ''),
             'metadata' => [
-                'mobile' => $this->mobileNumber ? $this->mobileNumber : $this->config->get('gateway.zarinpal.mobile', ''),
-                'email' => $this->email ? $this->email : $this->config->get('gateway.zarinpal.email', ''),
+                'mobile' => $this->mobileNumber ? $this->mobileNumber : $this->config->get('gateway.zarinpalwages.mobile', ''),
+                'email' => $this->email ? $this->email : $this->config->get('gateway.zarinpalwages.email', ''),
             ],
             'wages' => $array,
         );
@@ -230,8 +232,6 @@ class Zarinpalwages extends PortAbstract implements PortInterface
                 if ($result['data']['code'] == 100) {
                     $this->refId = $result['data']["authority"];
                     $this->transactionSetRefId();
-                    header('Location: ' . $this->gateUrl . $result['data']["authority"]);
-//                    header('Location: ' . $this->testStartPay . $result['data']["authority"]);
                     exit();
                 }
             }
@@ -266,7 +266,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
     protected function verifyPaymentWages()
     {
         $data = array(
-            'merchant_id' => $this->config->get('gateway.zarinpal.merchant-id'),
+            'merchant_id' => $this->config->get('gateway.zarinpalwages.merchant-id'),
             'authority' => $this->refId,
             'amount' => $this->amount
         );
@@ -308,7 +308,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
      */
     protected function setServer()
     {
-        $server = $this->config->get('gateway.zarinpal.server', 'germany');
+        $server = $this->config->get('gateway.zarinpalwages.server', 'germany');
         switch ($server) {
             case 'iran':
                 $this->serverUrl = $this->jsonRequestWages;
