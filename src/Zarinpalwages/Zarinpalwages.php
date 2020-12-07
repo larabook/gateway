@@ -113,7 +113,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
      */
     public function set($amount)
     {
-        $this->amount = ($amount / 10);
+        $this->amount = $amount;
 
         return $this;
     }
@@ -125,9 +125,6 @@ class Zarinpalwages extends PortAbstract implements PortInterface
     public function setWages(array $wages)
     {
         $this->wages = $wages;
-        foreach ($this->wages as $key => $value){
-            $this->wages[$key]['amount'] = $value['amount'] / 10;
-        }
         return $this;
     }
 
