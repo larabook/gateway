@@ -258,7 +258,7 @@ class Zarinpalwages extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog(-22, ZarinpalwagesException::$errors[-22]);
+        $this->newLog(-22, ZarinpalwagesException::$errorsWages[-22]);
         throw new ZarinpalwagesException(-22);
     }
 
