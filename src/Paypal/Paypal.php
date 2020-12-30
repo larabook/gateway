@@ -2,6 +2,7 @@
 
 namespace Larabookir\Gateway\Paypal;
 
+use Illuminate\Support\Facades\DB;
 use Larabookir\Gateway\Mellat\MellatException;
 use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\Paypal\PaypalException;
@@ -22,12 +23,16 @@ use PayPal\Rest\ApiContext;
 
 class Paypal extends PortAbstract implements PortInterface
 {
+    protected $paypalDB;
     private $_api_context;
     protected $productName;
     protected $shipmentPrice;
     protected $redirectUrl;
 
-
+    public function __construct()
+    {
+        $this->paypalDB = DB::table('paypal')->first();
+    }
 
     /**
      * {@inheritdoc}
@@ -62,16 +67,15 @@ class Paypal extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.paypal.settings.call_back_url');
+            $this->callbackUrl = $this->paypalDB->callbackUrl;
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
 
     public function setApiContext()
     {
-        $paypal_conf = $this->config->get('gateway.paypal');
-        $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
-        $this->_api_context->setConfig($paypal_conf['settings']);
+        $this->_api_context = new ApiContext(new OAuthTokenCredential($this->paypalDB->clientId, $this->paypalDB->secret));
+        $this->_api_context->setConfig($this->paypalDB->settings->toArray());
     }
 
     public function setShipmentPrice($shipmentPrice)
@@ -110,7 +114,8 @@ class Paypal extends PortAbstract implements PortInterface
         return $this;
     }
 
-    public function setProductName($name){
+    public function setProductName($name)
+    {
         $this->productName = $name;
 
         return $this;
@@ -216,7 +221,7 @@ class Paypal extends PortAbstract implements PortInterface
             $execution->setPayerId($this->refId);
             /**Execute the payment **/
             $result = $payment->execute($execution, $this->_api_context);
-            /** dd($result);exit; /** DEBUG RESULT, remove it later **/
+            /** DEBUG RESULT, remove it later **/
             if ($result->getState() == 'approved') {
 
                 /** it's all right **/
@@ -234,16 +239,18 @@ class Paypal extends PortAbstract implements PortInterface
         }
     }
 
-    public function getProductName(){
-        if(!$this->productName){
+    public function getProductName()
+    {
+        if (!$this->productName) {
             return $this->config->get('gateway.paypal.default_product_name');
         }
 
         return $this->productName;
     }
 
-    public function getShipmentPrice(){
-        if(!$this->shipmentPrice){
+    public function getShipmentPrice()
+    {
+        if (!$this->shipmentPrice) {
             return $this->config->get('gateway.paypal.default_shipment_price');
         }
 

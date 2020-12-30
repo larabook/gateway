@@ -3,6 +3,7 @@
 namespace Larabookir\Gateway\Irankish;
 
 use DateTime;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
 use SoapClient;
@@ -11,6 +12,14 @@ use Larabookir\Gateway\PortInterface;
 
 class Irankish extends PortAbstract implements PortInterface
 {
+
+    protected $irankishDB;
+
+    public function __construct()
+    {
+        $this->irankishDB = DB::table('irankish')->first();
+    }
+
     /**
      * Address of main SOAP server
      *
@@ -49,11 +58,11 @@ class Irankish extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-        $gateUrl     = $this->gateUrl;
-        $token      = $this->refId;
-        $merchantId = $this->config->get('gateway.irankish.merchantId');
+        $gateUrl = $this->gateUrl;
+        $token = $this->refId;
+        $merchantId = $this->irankishDB->merchantId;
 
-        return view('gateway::irankish-redirector')->with(compact('token', 'merchantId','gateUrl'));
+        return view('gateway::irankish-redirector')->with(compact('token', 'merchantId', 'gateUrl'));
     }
 
     /**
@@ -87,7 +96,7 @@ class Irankish extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl) {
-            $this->callbackUrl = $this->config->get('gateway.irankish.callback-url');
+            $this->callbackUrl = $this->irankishDB->callbackUrl;
         }
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
@@ -107,16 +116,16 @@ class Irankish extends PortAbstract implements PortInterface
         $this->newTransaction();
 
         $fields = [
-            'amount'           => $this->amount,
-            'merchantId'       => $this->config->get('gateway.irankish.merchantId'),
-            'invoiceNo'        => $this->transactionId(),
-            'paymentId'        => $this->getCustomInvoiceNo(),
-            'revertURL'        => $this->getCallback(),
-            'description'      => $this->getCustomDesc(),
+            'amount' => $this->amount,
+            'merchantId' => $this->irankishDB->merchantId,
+            'invoiceNo' => $this->transactionId(),
+            'paymentId' => $this->getCustomInvoiceNo(),
+            'revertURL' => $this->getCallback(),
+            'description' => $this->getCustomDesc(),
         ];
 
         try {
-            $soap     = new SoapClient($this->serverUrl, ['soap_version' => SOAP_1_1]);
+            $soap = new SoapClient($this->serverUrl, ['soap_version' => SOAP_1_1]);
             $response = $soap->MakeToken($fields);
 
         } catch (\SoapFault $e) {
@@ -144,11 +153,11 @@ class Irankish extends PortAbstract implements PortInterface
     protected function userPayment()
     {
 
-        $this->refId        = Request::input('token');
+        $this->refId = Request::input('token');
         $this->trackingCode = Request::input('referenceId');
-        if(Request::has('cardNo'))
-            $this->cardNumber   = Request::input('cardNo');
-        $payRequestResCode  = Request::input('resultCode');
+        if (Request::has('cardNo'))
+            $this->cardNumber = Request::input('cardNo');
+        $payRequestResCode = Request::input('resultCode');
 
         if ($payRequestResCode == '100') {
             return true;
@@ -170,14 +179,14 @@ class Irankish extends PortAbstract implements PortInterface
     protected function verifyPayment()
     {
         $fields = [
-            'token'       => $this->refId(),
-            'merchantId'  => $this->config->get('gateway.irankish.merchantId'),
+            'token' => $this->refId(),
+            'merchantId' => $this->irankishDB->merchantId,
             'referenceNumber' => $this->trackingCode(),
-            'sha1key'         => $this->config->get('gateway.irankish.sha1key')
+            'sha1key' => $this->irankishDB->sha1key
         ];
 
         try {
-            $soap     = new SoapClient($this->serverVerifyUrl);
+            $soap = new SoapClient($this->serverVerifyUrl);
             $response = $soap->KicccPaymentsVerification($fields);
 
         } catch (\SoapFault $e) {
@@ -186,7 +195,7 @@ class Irankish extends PortAbstract implements PortInterface
             throw $e;
         }
 
-        if ($response->KicccPaymentsVerificationResult  != $this->amount) {
+        if ($response->KicccPaymentsVerificationResult != $this->amount) {
             $this->transactionFailed();
             $this->newLog($response->KicccPaymentsVerificationResult, IrankishException::$errors[$response->KicccPaymentsVerificationResult]);
             throw new IrankishException($response->KicccPaymentsVerificationResult);

@@ -1,6 +1,8 @@
 <?php
+
 namespace Larabookir\Gateway\Payir;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\PortAbstract;
@@ -8,6 +10,13 @@ use Larabookir\Gateway\PortInterface;
 
 class Payir extends PortAbstract implements PortInterface
 {
+    protected $payirDB;
+
+    public function __construct()
+    {
+        $this->payirDB = DB::table('payir')->first();
+    }
+
     /**
      * Address of main CURL server
      *
@@ -99,7 +108,7 @@ class Payir extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.payir.callback-url');
+            $this->callbackUrl = $this->payirDB->callbackUrl;
         return urlencode($this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]));
     }
 
@@ -114,8 +123,8 @@ class Payir extends PortAbstract implements PortInterface
     {
         $this->newTransaction();
         $fields = [
-            'api'      => $this->config->get('gateway.payir.api'),
-            'amount'   => $this->amount,
+            'api' => $this->payirDB->api,
+            'amount' => $this->amount,
             'redirect' => $this->getCallback(),
         ];
 
@@ -136,7 +145,7 @@ class Payir extends PortAbstract implements PortInterface
             return true;
         }
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], PayirSendException::$errors[ $response['errorCode'] ]);
+        $this->newLog($response['errorCode'], PayirSendException::$errors[$response['errorCode']]);
         throw new PayirSendException($response['errorCode']);
     }
 
@@ -172,7 +181,7 @@ class Payir extends PortAbstract implements PortInterface
     protected function verifyPayment()
     {
         $fields = [
-            'api'     => $this->config->get('gateway.payir.api'),
+            'api' => $this->payirDB->api,
             'transId' => $this->refId(),
         ];
         $ch = curl_init();
@@ -190,7 +199,7 @@ class Payir extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], PayirReceiveException::$errors[ $response['errorCode'] ]);
+        $this->newLog($response['errorCode'], PayirReceiveException::$errors[$response['errorCode']]);
         throw new PayirReceiveException($response['errorCode']);
     }
 }
