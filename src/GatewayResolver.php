@@ -32,7 +32,7 @@ class GatewayResolver
 	/**
 	 * Keep current port driver
 	 *
-	 * @var Mellat|Saman|Sadad|Zarinpal|Payir|Parsian
+	 * @var Mellat|Saman|Sadad|Zarinpal|Payir|Idpay|Parsian
 	 */
 	protected $port;
 
@@ -132,9 +132,9 @@ class GatewayResolver
         if ($port InstanceOf Mellat) {
             $name = Enum::MELLAT;
         } elseif ($port InstanceOf Parsian) {
-            $name = Enum::IDPAY;
-        } elseif ($port InstanceOf Idpay) {
             $name = Enum::PARSIAN;
+		} elseif ($port InstanceOf Idpay) {
+            $name = Enum::IDPAY;
         } elseif ($port InstanceOf Saman) {
             $name = Enum::SAMAN;
         } elseif ($port InstanceOf Zarinpal) {
