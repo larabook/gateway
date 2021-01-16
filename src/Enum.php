@@ -6,6 +6,7 @@ class Enum
 {
 	const MELLAT = 'MELLAT';
 	const SADAD = 'SADAD';
+	const IDPAY = 'IDPAY';
 	const ZARINPAL = 'ZARINPAL';
 	const PAYLINE = 'PAYLINE';
 	const JAHANPAY = 'JAHANPAY';

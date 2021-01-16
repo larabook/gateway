@@ -1,5 +1,5 @@
 <?php
-namespace Larabookir\Gateway\Payir;
+namespace Larabookir\Gateway\Idpay;
 
 use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
@@ -108,7 +108,7 @@ class Idpay extends PortAbstract implements PortInterface
      *
      * @return void
      *
-     * @throws PayirSendException
+     * @throws IdpaySendException
      */
     protected function sendPayRequest()
     {
@@ -150,8 +150,8 @@ class Idpay extends PortAbstract implements PortInterface
 
 
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], PayirSendException::$errors[ $response['errorCode'] ]);
-        throw new PayirSendException($response['errorCode']);
+        $this->newLog($response['errorCode'], IdpaySendException::$errors[ $response['errorCode'] ]);
+        throw new IdpaySendException($response['errorCode']);
           
 
         //==========================================================
@@ -180,8 +180,8 @@ class Idpay extends PortAbstract implements PortInterface
             return true;
         }
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], PayirSendException::$errors[ $response['errorCode'] ]);
-        throw new PayirSendException($response['errorCode']);
+        $this->newLog($response['errorCode'], IdpaySendException::$errors[ $response['errorCode'] ]);
+        throw new IdpaySendException($response['errorCode']);
         */
     }
 
@@ -190,7 +190,7 @@ class Idpay extends PortAbstract implements PortInterface
      *
      * @return bool
      *
-     * @throws PayirReceiveException
+     * @throws IdpayReceiveException
      */
     protected function userPayment()
     {
@@ -204,7 +204,7 @@ class Idpay extends PortAbstract implements PortInterface
         }
         $this->transactionFailed();
         $this->newLog(-5, $message);
-        throw new PayirReceiveException(-5);
+        throw new IdpayReceiveException(-5);
     }
 
     /**
@@ -212,7 +212,7 @@ class Idpay extends PortAbstract implements PortInterface
      *
      * @return bool
      *
-     * @throws PayirReceiveException
+     * @throws IdpayReceiveException
      */
     protected function verifyPayment()
     {
@@ -235,7 +235,7 @@ class Idpay extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], PayirReceiveException::$errors[ $response['errorCode'] ]);
-        throw new PayirReceiveException($response['errorCode']);
+        $this->newLog($response['errorCode'], IdpayReceiveException::$errors[ $response['errorCode'] ]);
+        throw new IdpayReceiveException($response['errorCode']);
     }
 }

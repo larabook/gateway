@@ -4,6 +4,7 @@ namespace Larabookir\Gateway;
 
 use Larabookir\Gateway\Irankish\Irankish;
 use Larabookir\Gateway\Parsian\Parsian;
+use Larabookir\Gateway\Idpay\Idpay;
 use Larabookir\Gateway\Paypal\Paypal;
 use Larabookir\Gateway\Sadad\Sadad;
 use Larabookir\Gateway\Mellat\Mellat;
@@ -131,6 +132,8 @@ class GatewayResolver
         if ($port InstanceOf Mellat) {
             $name = Enum::MELLAT;
         } elseif ($port InstanceOf Parsian) {
+            $name = Enum::IDPAY;
+        } elseif ($port InstanceOf Idpay) {
             $name = Enum::PARSIAN;
         } elseif ($port InstanceOf Saman) {
             $name = Enum::SAMAN;

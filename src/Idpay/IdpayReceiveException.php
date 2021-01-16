@@ -1,10 +1,10 @@
 <?php
 
-namespace Larabookir\Gateway\Payir;
+namespace Larabookir\Gateway\Idpay;
 
 use Larabookir\Gateway\Exceptions\BankException;
 
-class PayirReceiveException extends BankException
+class IdpayReceiveException extends BankException
 {
     public static $errors = [
         -1 => 'ارسال api الزامی می باشد',

@@ -1,10 +1,10 @@
 <?php
 
-namespace Larabookir\Gateway\Payir;
+namespace Larabookir\Gateway\Idpay;
 
 use Larabookir\Gateway\Exceptions\BankException;
 
-class PayirSendException extends BankException
+class IdpaySendException extends BankException
 {
     public static $errors = [
         -0       => 'در حال حاضر درگاه پرداخت قطع می باشد. به زودی مشکل برطرف خواهد شد' ,
