@@ -136,6 +136,7 @@ class Idpay extends PortAbstract implements PortInterface
           curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
           
           $response = curl_exec($ch);
+          dd($response);
         //   $response = json_decode($response, true);
           curl_close($ch);
 
