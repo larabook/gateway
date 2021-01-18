@@ -15,7 +15,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
      * @var string
      */
 
-    protected $serverUrl = 'https://rest.asanpardakht.net/v1/';
+    protected $serverUrl = 'https://ipgrest.asanpardakht.ir/v1/';
 
     /**
      * {@inheritdoc}
