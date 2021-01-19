@@ -35,7 +35,7 @@ class Parser
                     break;
                 case 'complete':
                     array_push($hash_stack, $val['tag']);
-                    if(!isset($val['value'])){
+                    if (!isset($val['value'])) {
                         $val['value'] = $temp[$val['tag']];
                     }
 
@@ -72,7 +72,7 @@ class Parser
         curl_setopt($ch, CURLOPT_URL, $url);
         curl_setopt($ch, CURLOPT_POST, count($fields_arr));
         curl_setopt($ch, CURLOPT_POSTFIELDS, $fields_string);
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 
 

@@ -71,7 +71,7 @@ class Maskan extends PortAbstract implements PortInterface
      *
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
 
@@ -82,7 +82,7 @@ class Maskan extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
@@ -128,7 +128,6 @@ class Maskan extends PortAbstract implements PortInterface
             $error_code = 505;
             $this->transactionFailed();
             $this->newLog($error_code, MaskanException::$errors[$error_code]);
-
         } else {
             $confirm     = json_decode($result, false);
             $ActionCode  = strval($confirm->ActionCode);

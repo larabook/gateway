@@ -29,7 +29,6 @@ class AddDescriptionToGatewayTransactions extends Migration
         Schema::table('gateway_transactions', function (Blueprint $table) {
             //
             $table->dropColumn('description');
-
         });
     }
 }

@@ -20,16 +20,14 @@ class Idpay extends PortAbstract implements PortInterface
      *
      * @var string
      */
-    protected $serverVerifyUrl = 'https://pay.ir/payment/verify';
+    protected $serverVerifyUrl = 'https://api.idpay.ir/v1.1/payment/verify';
     /**
      * Address of gate for redirect
      *
      * @var string
      */
-    protected $gateUrl = 'https://pay.ir/payment/gateway/';
+    protected $gateUrl = 'https://api.idpay.ir/v1.1/payment/verify';
 
-
-    protected $factorNumber;
 
     /**
      * {@inheritdoc}
@@ -56,6 +54,7 @@ class Idpay extends PortAbstract implements PortInterface
     /**
      * {@inheritdoc}
      */
+
     public function ready()
     {
         $this->sendPayRequest();
@@ -67,12 +66,23 @@ class Idpay extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-        return redirect()->to($this->gateUrl . $this->refId);
+        return redirect()->to($this->gateUrl);
     }
 
     /**
      * {@inheritdoc}
      */
+
+    public function setConfig($config)
+    {
+        parent::setConfig($config);
+        $this->header = array(
+            'Content-Type: application/json',
+            'X-API-KEY: ' . $this->config->get('gateway.idpay.api'),
+            'X-SANDBOX: ' . $this->config->get('gateway.idpay.sandbox'),
+        );
+    }
+
     public function verify($transaction)
     {
         parent::verify($transaction);
@@ -86,7 +96,7 @@ class Idpay extends PortAbstract implements PortInterface
      *
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -96,10 +106,11 @@ class Idpay extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.idpay.callback-url');
+        }
         return urlencode($this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]));
     }
 
@@ -112,79 +123,56 @@ class Idpay extends PortAbstract implements PortInterface
      */
     protected function sendPayRequest()
     {
+        if (is_null($this->factorNumber)) {
+            throw new IdpaySendException(32);
+        }
 
-       
-        $header = array(
-            'Content-Type: application/json',
-            'X-API-KEY: ' . $this->config->get('gateway.payir.api'),
-            'X-SANDBOX: ' . $this->config->get('gateway.payir.sandbox'),
-        );
+        $this->newTransaction();
         
         $fields = array(
-            'order_id' => '00011000',
-            'amount' => $this->amount,
-            'callback' =>  $this->getCallback(),
-          );
-          
-        if (isset($this->factorNumber))
-            $fields['order_id'] = $this->factorNumber;
+            'order_id'      => $this->factorNumber,
+            'amount'        => $this->amount,
+            'callback'      =>  $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId() , 'order_id' => $this->factorNumber]),
+        );
 
-          $ch = curl_init();
-          curl_setopt($ch, CURLOPT_URL, $this->serverUrl);
-          curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
-          curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-          curl_setopt($ch, CURLOPT_HTTPHEADER, $header);
-          
-          $response = curl_exec($ch);
-          //dd($response);
-           $response = json_decode($response, true);
-          curl_close($ch);
-
-        if (is_numeric($response['status']) && $response['status'] > 0) {
-            $this->refId = $response['transId'];
-            $this->transactionSetRefId();
-            return true;
-        }
-        
-        var_dump($result);
-        return; //FIXME: 
-
-
-        $this->transactionFailed();
-        $this->newLog($response['errorCode'], IdpaySendException::$errors[ $response['errorCode'] ]);
-        throw new IdpaySendException($response['errorCode']);
-          
-
-        //==========================================================
-        /*
-        $this->newTransaction();
-        $fields = [
-            'api'      => $this->config->get('gateway.idpay.api'),
-            'amount'   => $this->amount,
-            'redirect' => $this->getCallback(),
-        ];
-
-        if (isset($this->factorNumber))
-            $fields['factorNumber'] = $this->factorNumber;
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverUrl);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->header);
+          
         $response = curl_exec($ch);
         $response = json_decode($response, true);
         curl_close($ch);
-        if (is_numeric($response['status']) && $response['status'] > 0) {
+
+        
+        
+        if (isset($response['link'])) {
+            $this->gateUrl = $response['link'];
+            $this->refId = $response['id'];
+            $this->transactionSetRefId();
+            return true;
+        }
+        
+        if (isset($response['status']) && $response['status'] > 0) {
             $this->refId = $response['transId'];
             $this->transactionSetRefId();
             return true;
         }
+    
+    
         $this->transactionFailed();
-        $this->newLog($response['errorCode'], IdpaySendException::$errors[ $response['errorCode'] ]);
-        throw new IdpaySendException($response['errorCode']);
-        */
+        $this->newLog($response['error_code'], IdpaySendException::$errors[ $response['error_code'] ]);
+        throw new IdpaySendException($response['error_code']);
     }
+
+    public function setCustomDesc($description)
+    {
+        $this->description = $description;
+    }
+
+    
 
     /**
      * Check user payment with GET data
@@ -217,26 +205,35 @@ class Idpay extends PortAbstract implements PortInterface
      */
     protected function verifyPayment()
     {
-        $fields = [
-            'api'     => $this->config->get('gateway.payir.api'),
-            'transId' => $this->refId(),
-        ];
+        $fields = array(
+            'id'        =>  $this->refId,
+            'order_id'  =>  request()->order_id,
+        );
+        
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverVerifyUrl);
-        curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
-        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($fields));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $this->header);
+          
         $response = curl_exec($ch);
         $response = json_decode($response, true);
         curl_close($ch);
-        if ($response['status'] == 1) {
+
+        if (isset($response['status']) &&  $response['status'] == 100) {
+            $this->refId        = $response['id'];
+            $this->cardNumber   = $response['payment']['card_no'];
+            $this->trackingCode = $response['payment']['track_id'];
+
             $this->transactionSucceed();
             $this->newLog(1, Enum::TRANSACTION_SUCCEED_TEXT);
             return true;
         }
 
-        $this->transactionFailed();
-        $this->newLog($response['errorCode'], IdpayReceiveException::$errors[ $response['errorCode'] ]);
-        throw new IdpayReceiveException($response['errorCode']);
+        if (isset($response['error_code'])) {
+            $this->transactionFailed();
+            $this->newLog($response['error_code'], IdpayReceiveException::$errors[ $response['error_code'] ]);
+            throw new IdpayReceiveException($response['error_code']);
+        }
     }
 }

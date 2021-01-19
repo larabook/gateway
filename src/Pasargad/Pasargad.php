@@ -51,7 +51,6 @@ class Pasargad extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-
         $processor = new RSAProcessor($this->config->get('gateway.pasargad.certificate-path'), RSAKeyType::XMLFile);
 
         $url = $this->gateUrl;
@@ -88,7 +87,7 @@ class Pasargad extends PortAbstract implements PortInterface
      * @param $url
      * @return $this|string
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -98,10 +97,11 @@ class Pasargad extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.pasargad.callback-url');
+        }
 
         return $this->callbackUrl;
     }
@@ -190,6 +190,6 @@ class Pasargad extends PortAbstract implements PortInterface
         $xml = simplexml_load_string($xmlString, "SimpleXMLElement", LIBXML_NOCDATA);
         $json = json_encode($xml);
 
-        return json_decode($json,True);
+        return json_decode($json, true);
     }
 }

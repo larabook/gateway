@@ -170,13 +170,14 @@ class SadadResult
      * @param string $message
      * @return null
      */
-    public static function codeResponse($code,$message)
+    public static function codeResponse($code, $message)
     {
         $code = intval($code);
 
-        foreach(self::$results as $v) {
-            if ($v['message'] == $message && $v['code'] == $code)
+        foreach (self::$results as $v) {
+            if ($v['message'] == $message && $v['code'] == $code) {
                 return $v;
+            }
         }
 
         return null;

@@ -86,7 +86,7 @@ class Payir extends PortAbstract implements PortInterface
      *
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -96,10 +96,11 @@ class Payir extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.payir.callback-url');
+        }
         return urlencode($this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]));
     }
 
@@ -119,8 +120,9 @@ class Payir extends PortAbstract implements PortInterface
             'redirect' => $this->getCallback(),
         ];
 
-        if (isset($this->factorNumber))
+        if (isset($this->factorNumber)) {
             $fields['factorNumber'] = $this->factorNumber;
+        }
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverUrl);

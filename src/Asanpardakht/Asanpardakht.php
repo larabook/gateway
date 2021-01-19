@@ -41,7 +41,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
      */
     public function redirect()
     {
-
         return view('gateway::asan-pardakht-redirector')->with([
             'refId' => $this->refId
         ]);
@@ -63,7 +62,7 @@ class Asanpardakht extends PortAbstract implements PortInterface
      * Sets callback url
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -73,10 +72,11 @@ class Asanpardakht extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.asanpardakht.callback-url');
+        }
 
         $url = $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 
@@ -112,7 +112,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
         try {
             $soap = new SoapClient($this->serverUrl);
             $response = $soap->RequestOperation($params);
-
         } catch (\SoapFault $e) {
             $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
@@ -180,7 +179,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
      */
     protected function verifyAndSettlePayment()
     {
-
         $username = $this->config->get('gateway.asanpardakht.username');
         $password = $this->config->get('gateway.asanpardakht.password');
 
@@ -196,7 +194,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
             $soap = new SoapClient($this->serverUrl);
             $response = $soap->RequestVerification($params);
             $response = $response->RequestVerificationResult;
-
         } catch (\SoapFault $e) {
             $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
@@ -211,13 +208,12 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
 
         try {
-
             $response = $soap->RequestReconciliation($params);
             $response = $response->RequestReconciliationResult;
 
-            if ($response != '600')
+            if ($response != '600') {
                 $this->newLog($response, AsanpardakhtException::getMessageByCode($response));
-
+            }
         } catch (\SoapFault $e) {
             //If fail, shaparak automatically do it in next 12 houres.
         }
@@ -238,12 +234,10 @@ class Asanpardakht extends PortAbstract implements PortInterface
      */
     private function encrypt($string = "")
     {
-
         $key = $this->config->get('gateway.asanpardakht.key');
         $iv = $this->config->get('gateway.asanpardakht.iv');
 
         try {
-
             $soap = new SoapClient("https://services.asanpardakht.net/paygate/internalutils.asmx?WSDL");
             $params = array(
                 'aesKey' => $key,
@@ -253,7 +247,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
             $response = $soap->EncryptInAES($params);
             return $response->EncryptInAESResult;
-
         } catch (\SoapFault $e) {
             return "";
         }
@@ -272,7 +265,6 @@ class Asanpardakht extends PortAbstract implements PortInterface
         $iv = $this->config->get('gateway.asanpardakht.iv');
 
         try {
-
             $soap = new SoapClient("https://services.asanpardakht.net/paygate/internalutils.asmx?WSDL");
             $params = array(
                 'aesKey' => $key,
@@ -282,10 +274,8 @@ class Asanpardakht extends PortAbstract implements PortInterface
 
             $response = $soap->DecryptInAES($params);
             return $response->DecryptInAESResult;
-
         } catch (\SoapFault $e) {
             return "";
         }
     }
-
 }
