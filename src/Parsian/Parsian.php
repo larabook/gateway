@@ -10,196 +10,218 @@ use Larabookir\Gateway\PortInterface;
 
 class Parsian extends PortAbstract implements PortInterface
 {
-	/**
-	 * Url of parsian gateway web service
-	 *
-	 * @var string
-	 */
+    /**
+     * Url of parsian gateway web service
+     *
+     * @var string
+     */
     protected $serverUrl        = 'https://pec.shaparak.ir/NewIPGServices/Sale/SaleService.asmx?wsdl';
     protected $serverUrlConfirm = "https://pec.shaparak.ir/NewIPGServices/Confirm/ConfirmService.asmx?WSDL";
 
+    protected $additionalData = '';
 
     /**
-	 * Address of gate for redirect
-	 *
-	 * @var string
-	 */
-	protected $gateUrl = 'https://pec.shaparak.ir/NewIPG/?Token=';
+     * Address of gate for redirect
+     *
+     * @var string
+     */
+    protected $gateUrl = 'https://pec.shaparak.ir/NewIPG/?Token=';
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function set($amount)
-	{
-		$this->amount = intval($amount);
-		return $this;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function set($amount)
+    {
+        $this->amount = intval($amount);
+        return $this;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function ready()
-	{
-		$this->sendPayRequest();
+    /**
+    * Sets additional data
+    * @param $additionalData
+    */
+    public function setAdditionalData($additionalData)
+    {
+        $this->additionalData = $additionalData;
 
-		return $this;
-	}
+        return $this;
+    }
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function redirect()
-	{
-		$url = $this->gateUrl . $this->refId();
+    /**
+        * Gets additional data
+        * @return string
+        */
+    public function getAdditionalData()
+    {
+        return $this->additionalData;
+    }
 
-		return \View::make('gateway::parsian-redirector')->with(compact('url'));
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function ready()
+    {
+        $this->sendPayRequest();
 
-	/**
-	 * {@inheritdoc}
-	 */
-	public function verify($transaction)
-	{
-		parent::verify($transaction);
+        return $this;
+    }
 
-		$this->verifyPayment();
+    /**
+     * {@inheritdoc}
+     */
+    public function redirect()
+    {
+        $url = $this->gateUrl . $this->refId();
 
-		return $this;
-	}
+        return \View::make('gateway::parsian-redirector')->with(compact('url'));
+    }
 
-	/**
-	 * Sets callback url
-	 * @param $url
-	 */
-	function setCallback($url)
-	{
-		$this->callbackUrl = $url;
-		return $this;
-	}
+    /**
+     * {@inheritdoc}
+     */
+    public function verify($transaction)
+    {
+        parent::verify($transaction);
 
-	/**
-	 * Gets callback url
-	 * @return string
-	 */
-	function getCallback()
-	{
-		if (!$this->callbackUrl)
-			$this->callbackUrl = $this->config->get('gateway.parsian.callback-url');
+        $this->verifyPayment();
 
-		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
-	}
+        return $this;
+    }
 
-	/**
-	 * Send pay request to parsian gateway
-	 *
-	 * authority  === Token
-	 * @return bool
-	 *
-	 * @throws ParsianErrorException
-	 */
-	protected function sendPayRequest()
-	{
-		$this->newTransaction();
+    /**
+     * Sets callback url
+     * @param $url
+     */
+    public function setCallback($url)
+    {
+        $this->callbackUrl = $url;
+        return $this;
+    }
 
-		$params = array(
+    /**
+     * Gets callback url
+     * @return string
+     */
+    public function getCallback()
+    {
+        if (!$this->callbackUrl) {
+            $this->callbackUrl = $this->config->get('gateway.parsian.callback-url');
+        }
+
+        return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
+    }
+
+    /**
+     * Send pay request to parsian gateway
+     *
+     * authority  === Token
+     * @return bool
+     *
+     * @throws ParsianErrorException
+     */
+    protected function sendPayRequest()
+    {
+        $this->newTransaction();
+
+        $params = array(
             'LoginAccount'   => $this->config->get('gateway.parsian.pin'),
             'Amount'         => $this->amount . "",
             'OrderId'        => $this->transactionId(),
             'CallBackUrl'    => $this->getCallback(),
-            'AdditionalData' => ""
-		);
+            'AdditionalData' => $this->additionalData
+        );
 
-		try {
-			$soap = new SoapClient($this->serverUrl);
+        try {
+            $soap = new SoapClient($this->serverUrl);
             $response = $soap->SalePaymentRequest(["requestData" => $params]);
+        } catch (\SoapFault $e) {
+            $this->transactionFailed();
+            $this->newLog('SoapFault', $e->getMessage());
+            throw $e;
+        }
+        if (!isset($response->SalePaymentRequestResult)
+            || isset($response->SalePaymentRequestResult)
+            && !isset($response->SalePaymentRequestResult->Token)
+            || isset($response->SalePaymentRequestResult->Token)
+            && $response->SalePaymentRequestResult->Token == '') {
+            $errorMessage = ParsianResult::errorMessage($response->SalePaymentRequestResult->Status);
+            $this->transactionFailed();
+            $this->newLog($response->SalePaymentRequestResult->Status, $errorMessage);
+            throw new ParsianErrorException($errorMessage, $response->SalePaymentRequestResult->Status);
+        }
+        if ($response !== false) {
+            $authority = $response->SalePaymentRequestResult->Token;
+            $status = $response->SalePaymentRequestResult->Status;
 
-		} catch (\SoapFault $e) {
-			$this->transactionFailed();
-			$this->newLog('SoapFault', $e->getMessage());
-			throw $e;
-		}
-		if (!isset($response->SalePaymentRequestResult)
-			|| isset($response->SalePaymentRequestResult)
-			&& !isset($response->SalePaymentRequestResult->Token)
-			|| isset($response->SalePaymentRequestResult->Token)
-			&& $response->SalePaymentRequestResult->Token == '') {
-			$errorMessage = ParsianResult::errorMessage($response->SalePaymentRequestResult->Status);
-			$this->transactionFailed();
-			$this->newLog($response->SalePaymentRequestResult->Status, $errorMessage);
-			throw new ParsianErrorException($errorMessage, $response->SalePaymentRequestResult->Status);
-		}
-		if ($response !== false) {
-			$authority = $response->SalePaymentRequestResult->Token;
-			$status = $response->SalePaymentRequestResult->Status;
+            if ($authority && $status == 0) {
+                $this->refId = $authority;
+                $this->transactionSetRefId();
+                return true;
+            }
 
-			if ($authority && $status == 0) {
-				$this->refId = $authority;
-				$this->transactionSetRefId();
-				return true;
-			}
+            $errorMessage = ParsianResult::errorMessage($status);
+            $this->transactionFailed();
+            $this->newLog($status, $errorMessage);
+            throw new ParsianErrorException($errorMessage, $status);
+        } else {
+            $this->transactionFailed();
+            $this->newLog(-1, 'خطا در اتصال به درگاه پارسیان');
+            throw new ParsianErrorException('خطا در اتصال به درگاه پارسیان', -1);
+        }
+    }
 
-			$errorMessage = ParsianResult::errorMessage($status);
-			$this->transactionFailed();
-			$this->newLog($status, $errorMessage);
-			throw new ParsianErrorException($errorMessage, $status);
-
-		} else {
-			$this->transactionFailed();
-			$this->newLog(-1, 'خطا در اتصال به درگاه پارسیان');
-			throw new ParsianErrorException('خطا در اتصال به درگاه پارسیان', -1);
-		}
-	}
-
-	/**
-	 * Verify payment
-	 * @throws ParsianErrorException
-	 */
-	protected function verifyPayment()
-	{
-        if (!Request::has('Token') && !Request::has('status'))
+    /**
+     * Verify payment
+     * @throws ParsianErrorException
+     */
+    protected function verifyPayment()
+    {
+        if (!Request::has('Token') && !Request::has('status')) {
             throw new ParsianErrorException('درخواست غیر معتبر', -1);
+        }
 
-		$authority = Request::input('Token');
-		$status = Request::input('status');
+        $authority = Request::input('Token');
+        $status = Request::input('status');
 
-		if ($status != 0) {
-			$errorMessage = ParsianResult::errorMessage($status);
-			$this->newLog($status, $errorMessage);
-			throw new ParsianErrorException($errorMessage, $status);
-		}
+        if ($status != 0) {
+            $errorMessage = ParsianResult::errorMessage($status);
+            $this->newLog($status, $errorMessage);
+            throw new ParsianErrorException($errorMessage, $status);
+        }
 
-		if ($this->refId != $authority)
-			throw new ParsianErrorException('تراکنشی یافت نشد', -1);
+        if ($this->refId != $authority) {
+            throw new ParsianErrorException('تراکنشی یافت نشد', -1);
+        }
 
-		$params = array(
+        $params = array(
             'LoginAccount' => $this->config->get('gateway.parsian.pin'),
             'Token'        => $authority,
-		);
+        );
 
-		try {
+        try {
             $soap   = new SoapClient($this->serverUrlConfirm);
             $result = $soap->ConfirmPayment([
                 "requestData" => $params
             ]);
+        } catch (\SoapFault $e) {
+            throw new ParsianErrorException($e->getMessage(), -1);
+        }
 
-		} catch (\SoapFault $e) {
-			throw new ParsianErrorException($e->getMessage(), -1);
-		}
-
-        if ($result === false || !isset($result->ConfirmPaymentResult->Status))
-			throw new ParsianErrorException('پاسخ دریافتی از بانک نامعتبر است.', -1);
+        if ($result === false || !isset($result->ConfirmPaymentResult->Status)) {
+            throw new ParsianErrorException('پاسخ دریافتی از بانک نامعتبر است.', -1);
+        }
 
 
         if ($result->ConfirmPaymentResult->Status != 0) {
             $errorMessage = ParsianResult::errorMessage($result->ConfirmPaymentResult->Status);
-			$this->transactionFailed();
+            $this->transactionFailed();
             $this->newLog($result->ConfirmPaymentResult->Status, $errorMessage);
             throw new ParsianErrorException($errorMessage, $result->ConfirmPaymentResult->Status);
-		}
+        }
 
-		$this->trackingCode = $result->ConfirmPaymentResult->RRN;
-		$this->cardNumber = $result->ConfirmPaymentResult->CardNumberMasked;
-		$this->transactionSucceed();
+        $this->trackingCode = $result->ConfirmPaymentResult->RRN;
+        $this->cardNumber = $result->ConfirmPaymentResult->CardNumberMasked;
+        $this->transactionSucceed();
         $this->newLog($result->ConfirmPaymentResult->Status, ParsianResult::errorMessage($result->ConfirmPaymentResult->Status));
-	}
+    }
 }
