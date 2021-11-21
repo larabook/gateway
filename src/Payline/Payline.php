@@ -14,21 +14,21 @@ class Payline extends PortAbstract implements PortInterface
 	 *
 	 * @var string
 	 */
-	protected $serverUrl = 'https://pay.ir/payment/send';
+	protected $serverUrl = 'https://pay.ir/pg/send';
 
 	/**
 	 * Address of CURL server for verify payment
 	 *
 	 * @var string
 	 */
-	protected $serverVerifyUrl = 'https://pay.ir/payment/verify';
+	protected $serverVerifyUrl = 'https://pay.ir/pg/verify';
 
 	/**
 	 * Address of gate for redirect
 	 *
 	 * @var string
 	 */
-	protected $gateUrl = 'https://pay.ir/payment/gateway/';
+	protected $gateUrl = 'https://pay.ir/pg/';
 
 	/**
 	 * {@inheritdoc}
@@ -120,16 +120,18 @@ class Payline extends PortAbstract implements PortInterface
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-		if (is_numeric($response) && $response > 0) {
-			$this->refId = $response;
+        $response = json_decode($response);
+
+		if ($response->status === 1) {
+			$this->refId = $response->token;
 			$this->transactionSetRefId();
 
 			return true;
 		}
 
 		$this->transactionFailed();
-		$this->newLog($response, PaylineSendException::$errors[$response]);
-		throw new PaylineSendException($response);
+        $this->newLog($response->errorCode, PaylineSendException::$errors[$response->errorCode]);
+		throw new PaylineSendException($response->errorCode);
 	}
 
 	/**
@@ -141,13 +143,12 @@ class Payline extends PortAbstract implements PortInterface
 	 */
 	protected function userPayment()
 	{
-		$this->refIf = Request::input('id_get');
-		$trackingCode = Request::input('trans_id');
+        $this->token = Request::input('token');
+        $status = Request::input('status');
 
-		if (is_numeric($trackingCode) && $trackingCode > 0) {
-			$this->trackingCode = $trackingCode;
-			return true;
-		}
+        if ($status === "1") {
+          return true;
+        }
 
 		$this->transactionFailed();
 		$this->newLog(-4, PaylineReceiveException::$errors[-4]);
@@ -163,11 +164,10 @@ class Payline extends PortAbstract implements PortInterface
 	 */
 	protected function verifyPayment()
 	{
-		$fields = array(
-			'api' => $this->config->get('gateway.payline.api'),
-			'id_get' => $this->refId(),
-			'trans_id' => $this->trackingCode()
-		);
+        $fields = array(
+          'api' => $this->config->get('gateway.payline.api'),
+          'token' => $this->token
+        );
 
 		$ch = curl_init();
 
@@ -179,15 +179,17 @@ class Payline extends PortAbstract implements PortInterface
 		$response = curl_exec($ch);
 		curl_close($ch);
 
-		if ($response == 1) {
+        $response = json_decode($response);
+
+		if ($response->status == 1) {
 			$this->transactionSucceed();
-			$this->newLog($response, Enum::TRANSACTION_SUCCEED_TEXT);
+			$this->newLog($response->status, Enum::TRANSACTION_SUCCEED_TEXT);
 
 			return true;
 		}
 
 		$this->transactionFailed();
-		$this->newLog($response, PaylineReceiveException::$errors[$response]);
-		throw new PaylineReceiveException($response);
+		$this->newLog($response->errorCode, PaylineReceiveException::$errors[$response->errorCode]);
+		throw new PaylineReceiveException($response->errorCode);
 	}
 }
