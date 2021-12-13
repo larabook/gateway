@@ -1,11 +1,11 @@
 <?php
 
-namespace Larabookir\Gateway\Maskan;
+namespace Masihjazayeri\Gateway\Maskan;
 
 use Illuminate\Support\Facades\Input;
-use Larabookir\Gateway\Enum;
-use Larabookir\Gateway\PortAbstract;
-use Larabookir\Gateway\PortInterface;
+use Masihjazayeri\Gateway\Enum;
+use Masihjazayeri\Gateway\PortAbstract;
+use LarabMasihjazayeriookir\Gateway\PortInterface;
 
 class Maskan extends PortAbstract implements PortInterface
 {

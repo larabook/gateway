@@ -1,8 +1,8 @@
 <?php
 
-namespace Larabookir\Gateway\Maskan;
+namespace Masihjazayeri\Gateway\Maskan;
 
-use Larabookir\Gateway\Exceptions\BankException;
+use Masihjazayeri\Gateway\Exceptions\BankException;
 
 class MaskanException extends BankException
 {
