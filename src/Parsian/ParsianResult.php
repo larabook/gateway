@@ -2,7 +2,6 @@
 
 namespace Larabookir\Gateway\Parsian;
 
-
 class ParsianResult
 {
     public static $errors
@@ -29,8 +28,8 @@ class ParsianResult
             34     => 'شماره تراکنش فروشنده درست نمی باشد.',
         ];
 
-	public static function errorMessage($errorId)
-	{
-		return isset(self::$errors[$errorId]) ? self::$errors[$errorId] : $errorId;
-	}
+    public static function errorMessage($errorId)
+    {
+        return isset(self::$errors[$errorId]) ? self::$errors[$errorId] : $errorId;
+    }
 }

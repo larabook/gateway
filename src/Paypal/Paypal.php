@@ -44,7 +44,7 @@ class Paypal extends PortAbstract implements PortInterface
      * Sets callback url
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -59,10 +59,11 @@ class Paypal extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.paypal.settings.call_back_url');
+        }
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
@@ -110,7 +111,8 @@ class Paypal extends PortAbstract implements PortInterface
         return $this;
     }
 
-    public function setProductName($name){
+    public function setProductName($name)
+    {
         $this->productName = $name;
 
         return $this;
@@ -234,21 +236,21 @@ class Paypal extends PortAbstract implements PortInterface
         }
     }
 
-    public function getProductName(){
-        if(!$this->productName){
+    public function getProductName()
+    {
+        if (!$this->productName) {
             return $this->config->get('gateway.paypal.default_product_name');
         }
 
         return $this->productName;
     }
 
-    public function getShipmentPrice(){
-        if(!$this->shipmentPrice){
+    public function getShipmentPrice()
+    {
+        if (!$this->shipmentPrice) {
             return $this->config->get('gateway.paypal.default_shipment_price');
         }
 
         return $this->shipmentPrice;
     }
-
-
 }

@@ -69,7 +69,7 @@ class JahanPay extends PortAbstract implements PortInterface
      * Sets callback url
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -79,10 +79,11 @@ class JahanPay extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.jahanpay.callback-url');
+        }
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
@@ -107,8 +108,7 @@ class JahanPay extends PortAbstract implements PortInterface
                 $this->transactionId(),
                 ''
             );
-
-        } catch(\SoapFault $e) {
+        } catch (\SoapFault $e) {
             $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
             throw $e;
@@ -161,8 +161,7 @@ class JahanPay extends PortAbstract implements PortInterface
                 $this->amount,
                 $this->refId
             );
-
-        } catch(\SoapFault $e) {
+        } catch (\SoapFault $e) {
             $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
             throw $e;

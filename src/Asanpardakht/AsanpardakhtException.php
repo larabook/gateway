@@ -6,7 +6,6 @@ use Larabookir\Gateway\Exceptions\BankException;
 
 class AsanpardakhtException extends BankException
 {
-
     public static $errors = array(
 
         0 => "تراکنش با موفقیت انجام شد",
@@ -140,7 +139,7 @@ class AsanpardakhtException extends BankException
         709 => "تراکنش در لیست منتظر تسویه ها وجود دارد",
         710 => "هویت درخواست کننده عملیات نامعتبر است",
 
-	    911  => "انصراف کاربر از پرداخت",
+        911  => "انصراف کاربر از پرداخت",
         1100 => "موفق",
         1101 => "هویت درخواست کننده نامعتبر است",
         1102 => "خطا در پردازش",
@@ -160,15 +159,13 @@ class AsanpardakhtException extends BankException
 
     public static function getMessageByCode($code)
     {
-
         $message = "";
-        if (isset(self::$errors[$code]))
+        if (isset(self::$errors[$code])) {
             $message = self::$errors[$code];
-        else if (is_numeric($code) && isset(self::$errors[intval($code)]))
+        } elseif (is_numeric($code) && isset(self::$errors[intval($code)])) {
             $message = self::$errors[intval($code)];
+        }
 
         return $message;
     }
-
-
 }

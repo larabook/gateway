@@ -7,20 +7,20 @@ use Illuminate\Support\ServiceProvider;
 
 class GatewayServiceProviderLaravel5 extends ServiceProvider
 {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
-	/**
-	 * Bootstrap the application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         $config = __DIR__ . '/../config/gateway.php';
         $migrations = __DIR__ . '/../migrations/';
         $views = __DIR__ . '/../views/';
@@ -44,18 +44,17 @@ class GatewayServiceProviderLaravel5 extends ServiceProvider
         ], 'views');
 
         //$this->mergeConfigFrom( $config,'gateway')
-	}
+    }
 
-	/**
-	 * Register the application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-		$this->app->singleton('gateway', function () {
-			return new GatewayResolver();
-		});
-
-	}
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        $this->app->singleton('gateway', function () {
+            return new GatewayResolver();
+        });
+    }
 }

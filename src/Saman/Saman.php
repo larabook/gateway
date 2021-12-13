@@ -55,7 +55,7 @@ class Saman extends PortAbstract implements PortInterface
      * @param Array $data an array of data
      *
      */
-    function setOptionalData (Array $data)
+    public function setOptionalData(array $data)
     {
         $this->optional_data = $data;
     }
@@ -75,7 +75,7 @@ class Saman extends PortAbstract implements PortInterface
 
         $data = array_merge($main_data, $this->optional_data);
 
-        return \View::make('gateway::saman-redirector')->with($data)->with('gateUrl',$this->gateUrl);
+        return \View::make('gateway::saman-redirector')->with($data)->with('gateUrl', $this->gateUrl);
     }
 
     /**
@@ -95,7 +95,7 @@ class Saman extends PortAbstract implements PortInterface
      * Sets callback url
      * @param $url
      */
-    function setCallback($url)
+    public function setCallback($url)
     {
         $this->callbackUrl = $url;
         return $this;
@@ -105,10 +105,11 @@ class Saman extends PortAbstract implements PortInterface
      * Gets callback url
      * @return string
      */
-    function getCallback()
+    public function getCallback()
     {
-        if (!$this->callbackUrl)
+        if (!$this->callbackUrl) {
             $this->callbackUrl = $this->config->get('gateway.saman.callback-url');
+        }
 
         $url = $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 
@@ -167,7 +168,6 @@ class Saman extends PortAbstract implements PortInterface
         try {
             $soap = new SoapClient($this->serverVerifyUrl);
             $response = $soap->VerifyTransaction($fields["RefNum"], $fields["merchantID"]);
-
         } catch (\SoapFault $e) {
             $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
@@ -182,11 +182,10 @@ class Saman extends PortAbstract implements PortInterface
         }
 
         //Reverse Transaction
-        if($response>0){
+        if ($response>0) {
             try {
                 $soap = new SoapClient($this->serverVerifyUrl);
                 $response = $soap->ReverseTransaction($fields["RefNum"], $fields["merchantID"], $fields["password"], $response);
-
             } catch (\SoapFault $e) {
                 $this->transactionFailed();
                 $this->newLog('SoapFault', $e->getMessage());
@@ -199,10 +198,5 @@ class Saman extends PortAbstract implements PortInterface
         $this->transactionFailed();
         $this->newLog($response, SamanException::$errors[$response]);
         throw new SamanException($response);
-
-
-
     }
-
-
 }

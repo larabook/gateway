@@ -7,12 +7,12 @@ use Illuminate\Support\ServiceProvider;
 
 class GatewayServiceProvider extends ServiceProvider
 {
-	/**
-	 * Indicates if loading of the provider is deferred.
-	 *
-	 * @var bool
-	 */
-	protected $defer = false;
+    /**
+     * Indicates if loading of the provider is deferred.
+     *
+     * @var bool
+     */
+    protected $defer = false;
 
     /**
      * Actual provider
@@ -34,17 +34,17 @@ class GatewayServiceProvider extends ServiceProvider
         $this->provider = $this->getProvider();
     }
 
-	/**
-	 * Bootstrap the application services.
-	 *
-	 * @return void
-	 */
-	public function boot()
-	{
+    /**
+     * Bootstrap the application services.
+     *
+     * @return void
+     */
+    public function boot()
+    {
         if (method_exists($this->provider, 'boot')) {
             return $this->provider->boot();
         }
-	}
+    }
 
     /**
      * Return ServiceProvider according to Laravel version
@@ -55,22 +55,22 @@ class GatewayServiceProvider extends ServiceProvider
     {
         if (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '<')) {
             $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel4';
-        }elseif (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '>=') && version_compare(\Illuminate\Foundation\Application::VERSION, '6.0', '<')) {
+        } elseif (version_compare(\Illuminate\Foundation\Application::VERSION, '5.0', '>=') && version_compare(\Illuminate\Foundation\Application::VERSION, '6.0', '<')) {
             $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel5';
-        }else {
+        } else {
             $provider = 'Larabookir\Gateway\GatewayServiceProviderLaravel6';
         }
 
         return new $provider($this->app);
     }
 
-	/**
-	 * Register the application services.
-	 *
-	 * @return void
-	 */
-	public function register()
-	{
-	    return $this->provider->register();
-	}
+    /**
+     * Register the application services.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        return $this->provider->register();
+    }
 }

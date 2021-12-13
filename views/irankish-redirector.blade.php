@@ -11,13 +11,9 @@ $sha1Key = '22338240992352910814917221751200141041845518824222260';
 ///////////////////////////////////
 session_start();
 $Err = '';
-if($_POST['action'] == 'pay')
-{
-
-    if(intval($_POST['PayAmount']) >= 1000)
-    {
-        if(!empty($_POST['fullname']))
-        {
+if ($_POST['action'] == 'pay') {
+    if (intval($_POST['PayAmount']) >= 1000) {
+        if (!empty($_POST['fullname'])) {
             $_SESSION['merchantId'] = $MerchantId;
             $_SESSION['sha1Key'] = $sha1Key;
             $_SESSION['admin_email'] = $admin_email;
@@ -40,21 +36,16 @@ if($_POST['action'] == 'pay')
             $_SESSION['token'] = $result->MakeTokenResult->token;
             $data['token'] = $_SESSION['token'];
             $data['merchantId'] = $_SESSION['merchantId'];
-            redirect_post('https://ikc.shaparak.ir/TPayment/Payment/index',$data);
-        }
-        else
-        {
+            redirect_post('https://ikc.shaparak.ir/TPayment/Payment/index', $data);
+        } else {
             $Err .='نام را وارد کنید<br/>';
         }
-    }else
-    {
+    } else {
         $Err .='مبلغ صحیح نیست <br/>';
     }
-
 }
 function redirect_post($url, array $data)
 {
-
     echo '<html xmlns="http://www.w3.org/1999/xhtml">
     <head>
 	<title>در حال اتصال ...</title>
@@ -91,7 +82,7 @@ function redirect_post($url, array $data)
     <body onload="closethisasap();">';
     echo '<form name="redirectpost" method="post" action="'.$url.'">';
 
-    if ( !is_null($data) ) {
+    if (!is_null($data)) {
         foreach ($data as $k => $v) {
             echo '<input type="hidden" name="' . $k . '" value="' . $v . '"> ';
         }
