@@ -16,6 +16,7 @@ class Enum
 	const PAYPAL = 'PAYPAL';
   	const PAYIR = 'PAYIR';
   	const IRANKISH = 'IRANKISH';
+  	const SHAHR = 'SHAHR';
   	const MASKAN = self::IRANKISH;
 
   	static function getIPGs(){
@@ -30,7 +31,7 @@ class Enum
             'TRANSACTION_FAILED',
             'TRANSACTION_FAILED_TEXT',
         ];
-        
+
         if(function_exists('array_except'))
             return array_values(array_except($reflect->getConstants(),$excepts));
         else

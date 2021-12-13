@@ -47,7 +47,8 @@
   ],
   "require": {
     "nesbot/carbon": "*",
-    "paypal/rest-api-sdk-php": "*"
+    "paypal/rest-api-sdk-php": "*",
+    "econea/nusoap": "*"
   },
   "autoload": {
     "psr-4": {

@@ -8,7 +8,7 @@
 پکیج اتصال به تمامی IPG ها و  بانک های ایرانی.
 
 این پکیج با ورژن های
-(  ۴ و ۵ و ۶  )
+(  ۴ و ۵ و ۶ لاراول )
  لاراول سازگار می باشد
 
 
@@ -32,17 +32,9 @@
 
 **مرحله ۱)**
 
-</div>
+    composer require larabook/gateway
+    
 
-
-```php
-
-composer require larabook/gateway
-
-```   
-
-<div dir="rtl">
- 
 **مرحله ۲)**
 
     تغییرات زیر را در فایل  config/app.php اعمال نمایید:
@@ -75,42 +67,30 @@ composer require larabook/gateway
 برای لاراول ۵ :
 </div>
 
-```php
+    php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
 
-php artisan vendor:publish --provider=Larabookir\Gateway\GatewayServiceProviderLaravel5
-
-```
 
 <div dir="rtl">
 برای لاراول ۶ به بعد :
 </div>
 
-```php
+    php artisan vendor:publish 
 
-php artisan vendor:publish 
 
-// then choose : GatewayServiceProviderLaravel6
+<div dir="rtl">
+سپس این گزینه را انتخاب کنید :  "Larabookir\Gateway\GatewayServiceProviderLaravel6" 
 
-```
 
-<div dir="rtl"> 
 
 **مرحله ۴) - ایجاد جداول**
 
-</div>
-
-```php
-
-php artisan migrate
-
-```
+    php artisan migrate
 
 
-<div dir="rtl"> 
- 
+
 **مرحله ۵)**
 
-عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/  باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
+عملیات نصب پایان یافته است حال فایل gateway.php را در مسیر app/ را باز نموده و  تنظیمات مربوط به درگاه بانکی مورد نظر خود را در آن وارد نمایید .
 
 حال میتوایند برای اتصال به api  بانک  از یکی از روش های زیر به انتخاب خودتان استفاده نمایید . (Facade , Service container):
 </div>
