@@ -31,6 +31,16 @@ class Mellat extends PortAbstract implements PortInterface
 	/**
 	 * {@inheritdoc}
 	 */
+	public function setWallet($id)
+	{
+		$this->walletId = $id;
+
+		return $this;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
 	public function ready()
 	{
 		$this->sendPayRequest();

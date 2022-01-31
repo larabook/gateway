@@ -46,6 +46,13 @@ abstract class PortAbstract
 	protected $refId;
 
 	/**
+	 * wallet id
+	 *
+	 * @var string
+	 */
+	protected $walletId;
+
+	/**
 	 * Amount in Rial
 	 *
 	 * @var int
@@ -228,6 +235,11 @@ abstract class PortAbstract
 		return $this->set($price);
 	}
 
+	function wallet($id)
+	{
+		return $this->setWallet($id);
+	}
+
 	/**
 	 * get price
 	 */
@@ -250,6 +262,7 @@ abstract class PortAbstract
 	{
 		$this->transaction = $transaction;
 		$this->transactionId = $transaction->id;
+		$this->walletId = $transaction->walletId;
 		$this->amount = intval($transaction->price);
 		$this->refId = $transaction->ref_id;
 	}
@@ -276,6 +289,7 @@ abstract class PortAbstract
 
 		$this->transactionId = $this->getTable()->insert([
 			'id' 			=> $uid,
+			'wallet_id' 	=> $this->walletId,
 			'port' 			=> $this->getPortName(),
 			'price' 		=> $this->amount,
 			'status' 		=> Enum::TRANSACTION_INIT,
