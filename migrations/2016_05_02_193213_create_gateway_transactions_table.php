@@ -24,6 +24,7 @@ class CreateGatewayTransactionsTable extends Migration
 		Schema::create($this->getTable(), function (Blueprint $table) {
 			$table->engine = "innoDB";
 			$table->unsignedBigInteger('id', true);
+			$table->unsignedBigInteger('wallet_id');
 			$table->enum('port', (array) Enum::getIPGs());
 			$table->decimal('price', 15, 2);
 			$table->string('ref_id', 100)->nullable();
@@ -35,6 +36,7 @@ class CreateGatewayTransactionsTable extends Migration
 				Enum::TRANSACTION_FAILED,
 			])->default(Enum::TRANSACTION_INIT);
 			$table->string('ip', 20)->nullable();
+			$table->text('description')->nullable();
 			$table->timestamp('payment_date')->nullable();
 			$table->nullableTimestamps();
 			$table->softDeletes();
