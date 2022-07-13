@@ -12,23 +12,41 @@ class Payir extends PortAbstract implements PortInterface
      *
      * @var string
      */
-    protected $serverUrl = 'https://pay.ir/payment/send';
+    protected $serverUrl = 'https://pay.ir/pg/send';
 
     /**
      * Address of CURL server for verify payment
      *
      * @var string
      */
-    protected $serverVerifyUrl = 'https://pay.ir/payment/verify';
+    protected $serverVerifyUrl = 'https://pay.ir/pg/verify';
     /**
      * Address of gate for redirect
      *
      * @var string
      */
-    protected $gateUrl = 'https://pay.ir/payment/gateway/';
+    protected $gateUrl = 'https://pay.ir/pg/';
 
-
+    /**
+     * factor number
+     *
+     * @var string
+     */
     protected $factorNumber;
+
+    /**
+     * mobile number
+     *
+     * @var string
+     */
+    protected $mobile;
+
+    /**
+     * description
+     *
+     * @var string
+     */
+    protected $description;
 
     /**
      * {@inheritdoc}
@@ -49,6 +67,32 @@ class Payir extends PortAbstract implements PortInterface
     public function setFactorNumber($factorNumber)
     {
         $this->factorNumber = $factorNumber;
+        return $this;
+    }
+
+    /**
+     * تعیین موبایل (اختیاری)
+     *
+     * @param $mobile
+     *
+     * @return $this
+     */
+    public function setMobile($mobile)
+    {
+        $this->mobile = $mobile;
+        return $this;
+    }
+
+    /**
+     * تعیین توضیحات (اختیاری)
+     *
+     * @param $description
+     *
+     * @return $this
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
         return $this;
     }
 
@@ -121,6 +165,12 @@ class Payir extends PortAbstract implements PortInterface
         if (isset($this->factorNumber))
             $fields['factorNumber'] = $this->factorNumber;
 
+        if (isset($this->mobile))
+            $fields['mobile'] = $this->mobile;
+
+        if (isset($this->description))
+            $fields['description'] = $this->description;
+
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverUrl);
         curl_setopt($ch, CURLOPT_POSTFIELDS, http_build_query($fields));
@@ -130,7 +180,7 @@ class Payir extends PortAbstract implements PortInterface
         $response = json_decode($response, true);
         curl_close($ch);
         if (is_numeric($response['status']) && $response['status'] > 0) {
-            $this->refId = $response['transId'];
+            $this->refId = $response['token'];
             $this->transactionSetRefId();
             return true;
         }
@@ -172,7 +222,7 @@ class Payir extends PortAbstract implements PortInterface
     {
         $fields = [
             'api'     => $this->config->get('gateway.payir.api'),
-            'transId' => $this->refId(),
+            'token' => $this->refId(),
         ];
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $this->serverVerifyUrl);
