@@ -13,9 +13,10 @@ Available Banks:
  5. PASARGAD
  6. ZARINPAL
  7. PAYPAL
- 8. ASAN PARDAKHT (update from new documents)
+ 8. ASAN PARDAKHT
  9. PAY.IR (to use : new \Payir())
- 10. YEKPAY (**New**)
+ 10. YEKPAY
+ 11. NOVIN (EGHTESADEH NOVIN) (**New**)
 ----------
 
 

@@ -45,6 +45,10 @@ return [
         'sessionID' => '',  // fill this or username and password
         'username' => '',
         'password' => '',
+        'signature' => true,
+        'certificate_password' => '',
+        'certificate_path' => storage_path('gateway/novin/PardakhtNovin.pem'),
+        'temp_files_dir' => storage_path('gateway/novin'),
         'callback-url' => '/'
     ],
 

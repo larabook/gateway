@@ -104,6 +104,9 @@ class Novin extends PortAbstract implements PortInterface
     public function ready()
     {
         $this->GenerateTransactionDataToSign();
+        if ($this->config->get('gateway.novin.signature')){
+            $this->getSignature();
+        }
         $this->GenerateSignedDataToken();
         return $this;
     }
@@ -112,7 +115,7 @@ class Novin extends PortAbstract implements PortInterface
     {
         $fields = array('param' => [
             'WSContext' => $this->WSContext,
-            'TransType' => 'EN_GOODS',
+            'TransType' => 'enGoods',
             'ReserveNum' => $this->reservenum,
             'Amount' => $this->amount,
             'RedirectUrl' => $this->getCallback(),
@@ -148,6 +151,35 @@ class Novin extends PortAbstract implements PortInterface
             $this->uniqueID = $response->return->UniqueId;
     }
 
+    private function getSignature()
+    {
+        $unsignedDataFilePath = rtrim($this->config->get('gateway.novin.temp_files_dir'), '/').'/unsigned.txt';
+        $signedDataFilePath = rtrim($this->config->get('gateway.novin.temp_files_dir'), '/').'/signed.txt';
+
+        $unsignedFile = fopen($unsignedDataFilePath, "w");
+        fwrite($unsignedFile, $this->signature);
+        fclose($unsignedFile);
+
+        $signedFile = fopen($signedDataFilePath, "w");
+        fwrite($signedFile, "");
+        fclose($signedFile);
+
+        openssl_pkcs7_sign(
+            $unsignedDataFilePath,
+            $signedDataFilePath,
+            'file://'.$this->config->get('gateway.novin.certificate_path'),
+            ['file://'.$this->config->get('gateway.novin.certificate_path'), $this->config->get('gateway.novin.certificate_password')],
+            [],
+            PKCS7_NOSIGS
+        );
+
+        $sigendData = file_get_contents($signedDataFilePath);
+        $sigendDataParts = explode("\n\n", $sigendData, 2);
+        $signedDataFirstPart = $sigendDataParts[1];
+
+        $this->signature = explode("\n\n", $signedDataFirstPart, 2)[0];
+    }
+
     protected function GenerateSignedDataToken()
     {
         $fields = array('param' => [
@@ -165,7 +197,6 @@ class Novin extends PortAbstract implements PortInterface
             $this->newLog('SoapFault', $e->getMessage());
             throw $e;
         }
-
 
         $code = $response->return->Result;
         if ($code != 'erSucceed') {
