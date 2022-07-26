@@ -120,6 +120,7 @@ class Novin extends PortAbstract implements PortInterface
 
     protected function GenerateTransactionDataToSign()
     {
+        $this->newTransaction();
 
         $fields = array('param' => [
             'WSContext' => $this->WSContext,
