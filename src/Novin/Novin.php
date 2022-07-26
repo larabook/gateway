@@ -55,6 +55,13 @@ class Novin extends PortAbstract implements PortInterface
      */
     protected $signature;
 
+    /**
+     * sessionID
+     *
+     * @var string
+     */
+    protected $sessionID;
+
 
     /**
      * uniqueID
@@ -66,7 +73,7 @@ class Novin extends PortAbstract implements PortInterface
     public function boot()
     {
         $this->setWSContext();
-//        $this->merchantLogin();
+        $this->merchantLogin();
     }
 
     /**
@@ -75,9 +82,9 @@ class Novin extends PortAbstract implements PortInterface
      */
     function setWSContext()
     {
-        if ($this->config->get('gateway.novin.sessionID')){
+        if ($this->sessionID){
             $this->WSContext = [
-                'SessionId' => $this->config->get('gateway.novin.sessionID')
+                'SessionId' => $this->sessionID
             ];
         } else {
             $this->WSContext = [
@@ -113,6 +120,7 @@ class Novin extends PortAbstract implements PortInterface
 
     protected function GenerateTransactionDataToSign()
     {
+
         $fields = array('param' => [
             'WSContext' => $this->WSContext,
             'TransType' => 'enGoods',
@@ -132,16 +140,14 @@ class Novin extends PortAbstract implements PortInterface
             $response = $soap->GenerateTransactionDataToSign($fields);
 
         } catch (\SoapFault $e) {
-            $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
             throw $e;
         }
 
         $code = $response->return->Result;
         if ($code != 'erSucceed') {
-            $this->transactionFailed();
             $this->newLog($code, NovinException::$errors[$code]);
-            throw new NovinException::$errors[$code];
+            throw new NovinException($code);
         }
 
         if (isset($response->return->DataToSign))
@@ -185,7 +191,7 @@ class Novin extends PortAbstract implements PortInterface
         $fields = array('param' => [
             'WSContext' => $this->WSContext,
             'Signature' => $this->signature,
-            'UniqueID' => $this->uniqueID,
+            'UniqueId' => $this->uniqueID,
         ]);
 
         try {
@@ -193,16 +199,14 @@ class Novin extends PortAbstract implements PortInterface
             $response = $soap->GenerateSignedDataToken($fields);
 
         } catch (\SoapFault $e) {
-            $this->transactionFailed();
             $this->newLog('SoapFault', $e->getMessage());
             throw $e;
         }
 
         $code = $response->return->Result;
         if ($code != 'erSucceed') {
-            $this->transactionFailed();
             $this->newLog($code, NovinException::$errors[$code]);
-            throw new NovinException::$errors[$code];
+            throw new NovinException($code);
         }
 
         if (isset($response->return->Token)){
@@ -305,7 +309,7 @@ class Novin extends PortAbstract implements PortInterface
         if ($code != 'erSucceed') {
             $this->transactionFailed();
             $this->newLog($code, NovinException::$errors[$code]);
-            throw new NovinException::$errors[$code];
+            throw new NovinException($code);
         }
 
         if (isset($response->return->Amount) && $response->return->Amount == $this->amount){
@@ -373,14 +377,17 @@ class Novin extends PortAbstract implements PortInterface
             throw $e;
         }
 
-        dd($response);
-        if (isset($response->return->SessionID)){
-            dd('you can add your sessionID to gateway config, your sessionId is:'.$response->return->SessionID);
-            return true;
+        $code = $response->return->Result;
+        if ($code != 'erSucceed') {
+            $this->newLog($code, NovinException::$errors[$code]);
+            throw new NovinException($code);
         }
 
-        $code = $response->return->Result;
-        $message = NovinException::$errors[$code];
-        throw new \Exception($message);
+        if (isset($response->return->SessionId)){
+            $this->sessionID = $response->return->SessionId;
+            $this->WSContext = [
+                'SessionId' => $response->return->SessionId
+            ];
+        }
     }
 }

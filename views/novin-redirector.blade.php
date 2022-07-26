@@ -8,7 +8,7 @@
             form.setAttribute("target", "_self");
             var hiddenField = document.createElement("input");
             hiddenField.setAttribute("name", "token");
-            hiddenField.setAttribute("value", {!! $token !!});
+            hiddenField.setAttribute("value", "{!! $token !!}");
             form.appendChild(hiddenField);
 
             var hiddenField2 = document.createElement("input");

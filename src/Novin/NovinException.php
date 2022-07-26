@@ -51,6 +51,6 @@ class NovinException extends BankException
     {
         $this->errorRef = $errorRef;
 
-        parent::__construct(@self::$errors[$this->errorRef].' ('.$this->errorRef.')', $this->errorRef);
+        parent::__construct(@self::$errors[$this->errorRef].' ('.$this->errorRef.')', intval($this->errorRef));
     }
 }

@@ -42,7 +42,6 @@ return [
     // Novin gateway
     //--------------------------------
     'novin' => [
-        'sessionID' => '',  // fill this or username and password
         'username' => '',
         'password' => '',
         'signature' => true,
