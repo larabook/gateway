@@ -2,21 +2,22 @@
 
 namespace Larabookir\Gateway;
 
-use Larabookir\Gateway\Irankish\Irankish;
-use Larabookir\Gateway\Parsian\Parsian;
-use Larabookir\Gateway\Paypal\Paypal;
-use Larabookir\Gateway\Sadad\Sadad;
-use Larabookir\Gateway\Mellat\Mellat;
-use Larabookir\Gateway\Pasargad\Pasargad;
-use Larabookir\Gateway\Saman\Saman;
-use Larabookir\Gateway\Asanpardakht\Asanpardakht;
-use Larabookir\Gateway\Zarinpal\Zarinpal;
+use Illuminate\Support\Facades\DB;
 use Larabookir\Gateway\Payir\Payir;
+use Larabookir\Gateway\Sadad\Sadad;
+use Larabookir\Gateway\Saman\Saman;
+use Larabookir\Gateway\Mellat\Mellat;
+use Larabookir\Gateway\Paypal\Paypal;
+use Larabookir\Gateway\Parsian\Parsian;
+use Larabookir\Gateway\Irankish\Irankish;
+use Larabookir\Gateway\Pasargad\Pasargad;
+use Larabookir\Gateway\Zarinpal\Zarinpal;
+use Larabookir\Gateway\Samankish\Samankish;
+use Larabookir\Gateway\Asanpardakht\Asanpardakht;
 use Larabookir\Gateway\Exceptions\RetryException;
 use Larabookir\Gateway\Exceptions\PortNotFoundException;
 use Larabookir\Gateway\Exceptions\InvalidRequestException;
 use Larabookir\Gateway\Exceptions\NotFoundTransactionException;
-use Illuminate\Support\Facades\DB;
 
 class GatewayResolver
 {
@@ -148,7 +149,9 @@ class GatewayResolver
             $name = Enum::PASARGAD;
         } elseif ($port InstanceOf Irankish) {
             $name = Enum::IRANKISH;
-        } elseif (in_array(strtoupper($port), $this->getSupportedPorts())) {
+        } elseif ($port instanceof Samankish) {
+			$name = Enum::SAMANKISH;
+		} elseif (in_array(strtoupper($port), $this->getSupportedPorts())) {
             $port = ucfirst(strtolower($port));
             $name = strtoupper($port);
             $class = __NAMESPACE__ . '\\' . $port . '\\' . $port;
