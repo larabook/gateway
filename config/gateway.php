@@ -123,6 +123,10 @@ return [
 
         ]
     ],
+    'samankish'    => [
+        'terminal_id'  => 'xxxxxxxx',
+        'callback_url' => '/'
+    ],
     //-------------------------------
     // Tables names
     //--------------------------------
