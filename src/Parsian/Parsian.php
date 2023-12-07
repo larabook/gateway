@@ -7,6 +7,8 @@ use Illuminate\Validation\Rules\In;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
+use Larabookir\Gateway\Models\Gateway;
+
 
 class Parsian extends PortAbstract implements PortInterface
 {
@@ -84,7 +86,7 @@ class Parsian extends PortAbstract implements PortInterface
 	function getCallback()
 	{
 		if (!$this->callbackUrl)
-			$this->callbackUrl = $this->config->get('gateway.parsian.callback-url');
+			$this->callbackUrl = Gateway::parsian()->callback_url;
 
 		return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 	}
@@ -102,7 +104,7 @@ class Parsian extends PortAbstract implements PortInterface
 		$this->newTransaction();
 
 		$params = array(
-            'LoginAccount'   => $this->config->get('gateway.parsian.pin'),
+            'LoginAccount'   => json_decode(Gateway::parsian()->connection_info)->pin,
             'Amount'         => $this->amount . "",
             'OrderId'        => $this->transactionId(),
             'CallBackUrl'    => $this->getCallback(),
@@ -172,7 +174,7 @@ class Parsian extends PortAbstract implements PortInterface
 			throw new ParsianErrorException('تراکنشی یافت نشد', -1);
 
 		$params = array(
-            'LoginAccount' => $this->config->get('gateway.parsian.pin'),
+            'LoginAccount' => json_decode(Gateway::parsian()->connection_info)->pin,
             'Token'        => $authority,
 		);
 

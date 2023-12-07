@@ -8,6 +8,8 @@ use Larabookir\Gateway\Enum;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
+use Larabookir\Gateway\Models\Gateway;
+
 
 class Irankish extends PortAbstract implements PortInterface
 {
@@ -51,7 +53,7 @@ class Irankish extends PortAbstract implements PortInterface
     {
         $gateUrl     = $this->gateUrl;
         $token      = $this->refId;
-        $merchantId = $this->config->get('gateway.irankish.merchantId');
+        $merchantId = json_decode(Gateway::irankish()->connection_info)->merchantId;
 
         return view('gateway::irankish-redirector')->with(compact('token', 'merchantId','gateUrl'));
     }
@@ -87,7 +89,7 @@ class Irankish extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl) {
-            $this->callbackUrl = $this->config->get('gateway.irankish.callback-url');
+            $this->callbackUrl = Gateway::irankish()->calback_url;
         }
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
@@ -108,7 +110,7 @@ class Irankish extends PortAbstract implements PortInterface
 
         $fields = [
             'amount'           => $this->amount,
-            'merchantId'       => $this->config->get('gateway.irankish.merchantId'),
+            'merchantId'       => json_decode(Gateway::irankish()->connection_info)->merchantId,
             'invoiceNo'        => $this->transactionId(),
             'paymentId'        => $this->getCustomInvoiceNo(),
             'revertURL'        => $this->getCallback(),
@@ -171,9 +173,9 @@ class Irankish extends PortAbstract implements PortInterface
     {
         $fields = [
             'token'       => $this->refId(),
-            'merchantId'  => $this->config->get('gateway.irankish.merchantId'),
+            'merchantId'  => json_decode(Gateway::irankish()->connection_info)->merchantId,
             'referenceNumber' => $this->trackingCode(),
-            'sha1key'         => $this->config->get('gateway.irankish.sha1key')
+            'sha1key'         => json_decode(Gateway::irankish()->connection_info)->sha1key
         ];
 
         try {

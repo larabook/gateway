@@ -19,6 +19,7 @@ use PayPal\Api\Transaction;
 use PayPal\Auth\OAuthTokenCredential;
 use PayPal\Exception\PayPalConnectionException;
 use PayPal\Rest\ApiContext;
+use Larabookir\Gateway\Models\Gateway;
 
 class Paypal extends PortAbstract implements PortInterface
 {
@@ -62,14 +63,14 @@ class Paypal extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.paypal.settings.call_back_url');
+            $this->callbackUrl = Gateway::paypal()->callback_url;
 
         return $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
     }
 
     public function setApiContext()
     {
-        $paypal_conf = $this->config->get('gateway.paypal');
+        $paypal_conf = json_decode(Gateway::paypal()->connection_info);
         $this->_api_context = new ApiContext(new OAuthTokenCredential($paypal_conf['client_id'], $paypal_conf['secret']));
         $this->_api_context->setConfig($paypal_conf['settings']);
     }
@@ -236,7 +237,7 @@ class Paypal extends PortAbstract implements PortInterface
 
     public function getProductName(){
         if(!$this->productName){
-            return $this->config->get('gateway.paypal.default_product_name');
+            return json_decode(Gateway::paypal()->connection_info)->default_product_name;
         }
 
         return $this->productName;
@@ -244,7 +245,7 @@ class Paypal extends PortAbstract implements PortInterface
 
     public function getShipmentPrice(){
         if(!$this->shipmentPrice){
-            return $this->config->get('gateway.paypal.default_shipment_price');
+            return json_decode(Gateway::paypal()->connection_info)->default_shipment_price;
         }
 
         return $this->shipmentPrice;
