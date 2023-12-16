@@ -2,6 +2,18 @@
 
 return [
 
+    /*
+    |--------------------------------------------------------------------------
+    | Default Gateway Configuration Source
+    |--------------------------------------------------------------------------
+    |
+    | Here you may specify the default source
+    | to obtain configuration from (file,db,...)
+    |
+    */
+
+    'default' => env('GATEWAY_CONFIG_SOURCE', 'file'),
+
     //-------------------------------
     // Timezone for insert dates in database
     // If you want Gateway not set timezone, just leave it empty
@@ -126,5 +138,6 @@ return [
     //-------------------------------
     // Tables names
     //--------------------------------
+    'config_table' => 'gateway_configurations',
     'table'    => 'gateway_transactions',
 ];
