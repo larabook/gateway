@@ -99,7 +99,12 @@ abstract class PortAbstract
 
 	function setConfig($config)
 	{
-		$this->config = $config;
+        // If $config is an array, simply use it. Otherwise, assume it's a Laravel config object.
+        if (is_array($config)) {
+            $this->config = new \Illuminate\Config\Repository($config);
+        } else {
+            $this->config = $config;
+        }
 	}
 
 	/**
