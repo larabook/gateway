@@ -160,7 +160,7 @@ class Novinnew extends PortAbstract implements PortInterface
             if ($response->status == 0) {
                 $this->trackingCode = $response->rrn;
                 $this->transactionSucceed();
-                $this->newLog($response->Status, Enum::TRANSACTION_SUCCEED_TEXT);
+                $this->newLog($response->status, Enum::TRANSACTION_SUCCEED_TEXT);
                 return true;
             }
         } catch (\Exception $e) {
@@ -170,8 +170,8 @@ class Novinnew extends PortAbstract implements PortInterface
         }
 
         $this->transactionFailed();
-        $this->newLog($response->Status, NovinnewException::$errors[$response->Status]);
-        throw new NovinnewException($response->Status);
+        $this->newLog($response->status, NovinnewException::$errors[$response->status]);
+        throw new NovinnewException($response->status);
     }
 
 
