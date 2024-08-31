@@ -158,8 +158,9 @@ class Novinnew extends PortAbstract implements PortInterface
         try {
             $response = $this->clientsPost($this->serverUrl . "confirm", 'POST', $objectRequest);
             if ($response->status == 0) {
-                $this->refId = $response->rrn;
-                $this->transactionSetRefId();
+                $this->trackingCode = $response->rrn;
+                $this->transactionSucceed();
+                $this->newLog($response->Status, Enum::TRANSACTION_SUCCEED_TEXT);
                 return true;
             }
         } catch (\Exception $e) {
@@ -167,9 +168,10 @@ class Novinnew extends PortAbstract implements PortInterface
             $this->newLog('httpResponse', $e->getMessage());
             throw $e;
         }
+
         $this->transactionFailed();
-        $this->newLog($response->status, NovinnewException::$errors[$response->status]);
-        throw new NovinnewException($response->status);
+        $this->newLog($response->Status, NovinnewException::$errors[$response->Status]);
+        throw new NovinnewException($response->Status);
     }
 
 
