@@ -158,7 +158,7 @@ class Novinnew extends PortAbstract implements PortInterface
         try {
             $response = $this->clientsPost($this->serverUrl . "confirm", 'POST', $objectRequest);
             if ($response->status == 0) {
-                $this->refId = $response->RRN;
+                $this->refId = $response->rrn;
                 $this->transactionSetRefId();
                 return true;
             }
