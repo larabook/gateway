@@ -18,6 +18,7 @@ class Enum
     const PAYIR = 'PAYIR';
     const YEKPAY = 'YEKPAY';
     const NOVIN = 'NOVIN';
+    const NOVINNEW = 'NOVINNEW';
 
     /**
      * Status code for status field in poolport_transactions table

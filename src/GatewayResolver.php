@@ -2,6 +2,7 @@
 
 namespace Hosseinizadeh\Gateway;
 
+use Hosseinizadeh\Gateway\Novinnew\Novinnew;
 use Hosseinizadeh\Gateway\Parsian\Parsian;
 use Hosseinizadeh\Gateway\Paypal\Paypal;
 use Hosseinizadeh\Gateway\Sadad\Sadad;
@@ -73,7 +74,8 @@ class GatewayResolver
             Enum::ASANPARDAKHT,
             Enum::PAYIR,
             Enum::YEKPAY,
-            Enum::NOVIN
+            Enum::NOVIN,
+            Enum::NOVINNEW
         ];
     }
 
@@ -169,6 +171,8 @@ class GatewayResolver
             $name = Enum::YEKPAY;
         } elseif ($port InstanceOf Novin) {
             $name = Enum::NOVIN;
+        } elseif ($port InstanceOf Novinnew) {
+            $name = Enum::NOVINNEW;
         }  elseif(in_array(strtoupper($port),$this->getSupportedPorts())){
             $port=ucfirst(strtolower($port));
             $name=strtoupper($port);

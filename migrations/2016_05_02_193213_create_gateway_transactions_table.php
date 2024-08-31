@@ -37,7 +37,8 @@ class CreateGatewayTransactionsTable extends Migration
 				Enum::PAYPAL,
 				Enum::PAYIR,
 				Enum::YEKPAY,
-                Enum::NOVIN
+                Enum::NOVIN,
+                Enum::NOVINNEW
 			]);
 			$table->decimal('price', 15, 2);
 			$table->string('ref_id', 100)->nullable();
