@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Request;
 use Larabookir\Gateway\Enum;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
+use Larabookir\Gateway\Models\Gateway;
 
 class Payir extends PortAbstract implements PortInterface
 {
@@ -100,7 +101,7 @@ class Payir extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.payir.callback-url');
+            $this->callbackUrl = Gateway::payir()->callback_url;
         return urlencode($this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]));
     }
 
@@ -115,7 +116,7 @@ class Payir extends PortAbstract implements PortInterface
     {
         $this->newTransaction();
         $fields = [
-            'api'      => $this->config->get('gateway.payir.api'),
+            'api'      => json_decode(Gateway::payir()->connection_info)->api,
             'amount'   => $this->amount,
             'redirect' => $this->getCallback(),
         ];
@@ -169,7 +170,7 @@ class Payir extends PortAbstract implements PortInterface
     protected function verifyPayment()
     {
         $fields = [
-            'api'     => $this->config->get('gateway.payir.api'),
+            'api'     => json_decode(Gateway::payir()->connection_info)->api,
             'token'   => $this->refId(),
         ];
         $ch = curl_init();

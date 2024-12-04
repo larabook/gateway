@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\Request;
 use SoapClient;
 use Larabookir\Gateway\PortAbstract;
 use Larabookir\Gateway\PortInterface;
+use Larabookir\Gateway\Models\Gateway;
 
 class Saman extends PortAbstract implements PortInterface
 {
@@ -70,7 +71,7 @@ class Saman extends PortAbstract implements PortInterface
     {
         $main_data = [
             'amount'        => $this->amount,
-            'merchant'      => $this->config->get('gateway.saman.merchant'),
+            'merchant'      => json_decode(Gateway::saman()->connection_info)->merchant,
             'resNum'        => $this->transactionId(),
             'callBackUrl'   => $this->getCallback()
         ];
@@ -110,7 +111,7 @@ class Saman extends PortAbstract implements PortInterface
     function getCallback()
     {
         if (!$this->callbackUrl)
-            $this->callbackUrl = $this->config->get('gateway.saman.callback-url');
+            $this->callbackUrl = Gateway::saman()->callback_url;
 
         $url = $this->makeCallback($this->callbackUrl, ['transaction_id' => $this->transactionId()]);
 
@@ -161,9 +162,9 @@ class Saman extends PortAbstract implements PortInterface
     protected function verifyPayment()
     {
         $fields = array(
-            "merchantID" => $this->config->get('gateway.saman.merchant'),
+            "merchantID" => json_decode(Gateway::saman()->connection_info)->merchant,
             "RefNum" => $this->refId,
-            "password" => $this->config->get('gateway.saman.password'),
+            "password" => json_decode(Gateway::saman()->connection_info)->password,
         );
 
         try {
